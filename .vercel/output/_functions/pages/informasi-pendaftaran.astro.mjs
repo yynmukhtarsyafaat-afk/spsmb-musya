@@ -1,6 +1,6 @@
 import { e as createComponent, k as renderComponent, r as renderTemplate, m as maybeRenderHead } from '../chunks/astro/server_B3-YyRDz.mjs';
 import 'piccolore';
-import { $ as $$MainLayout } from '../chunks/MainLayout_Ck-9ZYW9.mjs';
+import { $ as $$MainLayout } from '../chunks/MainLayout_BnJKYAEo.mjs';
 import { FileText, CheckCircle, GraduationCap, CreditCard, Users, BookOpen, MapPin, Phone, Mail, Zap, ShieldCheck } from 'lucide-react';
 export { renderers } from '../renderers.mjs';
 

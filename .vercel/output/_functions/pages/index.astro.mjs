@@ -1,7 +1,7 @@
 import { e as createComponent, k as renderComponent, r as renderTemplate, m as maybeRenderHead } from '../chunks/astro/server_B3-YyRDz.mjs';
 import 'piccolore';
-import { $ as $$MainLayout } from '../chunks/MainLayout_Ck-9ZYW9.mjs';
-import { Sparkles, GraduationCap, ArrowRight, BookOpen, ChevronRight, ShieldCheck, Users, MapPin, Phone, Mail, Zap } from 'lucide-react';
+import { $ as $$MainLayout } from '../chunks/MainLayout_BnJKYAEo.mjs';
+import { Sparkles, BookOpen, GraduationCap, ArrowRight, ShieldCheck, Users, MapPin, Phone, Mail, Zap } from 'lucide-react';
 export { renderers } from '../renderers.mjs';
 
 const $$Index = createComponent(($$result, $$props, $$slots) => {
@@ -20,36 +20,65 @@ Daftar Sekarang
 Informasi Lengkap
 </a> </div> </div> </div> </section>  <section id="unit" class="py-16 bg-white"> <div class="max-w-7xl mx-auto px-6 lg:px-12"> <div class="mb-10 text-center lg:text-left"> <span class="text-primary font-bold uppercase tracking-[0.2em] text-[12px] mb-2 block">Lembaga Kami</span> <h2 class="text-4xl lg:text-5xl font-serif text-foreground">
 Unit Pendidikan
-</h2> </div>  <div class="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-6 gap-4 auto-rows-[180px]">  <div class="md:col-span-4 md:row-span-2 bg-primary rounded-[2.5rem] p-8 lg:p-12 text-primary-foreground relative overflow-hidden group cursor-pointer shadow-xl shadow-primary/20 transition-all hover:shadow-2xl hover:shadow-primary/30"> <div class="relative z-10 flex flex-col h-full justify-between"> <div> <div class="w-16 h-16 bg-white/20 backdrop-blur-md rounded-2xl flex items-center justify-center mb-6"> ${renderComponent($$result2, "GraduationCap", GraduationCap, { "className": "h-8 w-8" })} </div> <h3 class="text-3xl lg:text-4xl font-serif mb-4">
+</h2> </div>  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">  <div class="bg-white rounded-[2rem] p-8 border border-border/50 shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-300 group"> <div class="w-14 h-14 bg-emerald-50 rounded-2xl flex items-center justify-center text-emerald-600 mb-6 group-hover:bg-emerald-500 group-hover:text-white transition-colors duration-300"> ${renderComponent($$result2, "BookOpen", BookOpen, { "className": "h-7 w-7" })} </div> <div class="mb-4"> <span class="inline-block px-3 py-1 rounded-full bg-emerald-100 text-emerald-700 text-[10px] font-bold uppercase tracking-widest mb-3">
+Putra
+</span> <h3 class="text-2xl font-serif text-emerald-950 mb-2">
+PP. M. Syafa'at 1
+</h3> <p class="text-muted-foreground text-sm leading-relaxed">
+Pondok pesantren putra dengan fokus pendalaman kitab
+                            kuning dan tahfidz.
+</p> </div> </div> <div class="bg-white rounded-[2rem] p-8 border border-border/50 shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-300 group"> <div class="w-14 h-14 bg-emerald-50 rounded-2xl flex items-center justify-center text-emerald-600 mb-6 group-hover:bg-emerald-500 group-hover:text-white transition-colors duration-300"> ${renderComponent($$result2, "BookOpen", BookOpen, { "className": "h-7 w-7" })} </div> <div class="mb-4"> <span class="inline-block px-3 py-1 rounded-full bg-emerald-100 text-emerald-700 text-[10px] font-bold uppercase tracking-widest mb-3">
+Putra
+</span> <h3 class="text-2xl font-serif text-emerald-900 mb-2">
+PP. M. Syafa'at 2
+</h3> <p class="text-muted-foreground text-sm leading-relaxed">
+Unit pendidikan pesantren putra dengan fasilitas
+                            asrama modern.
+</p> </div> </div> <div class="bg-white rounded-[2rem] p-8 border border-border/50 shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-300 group"> <div class="w-14 h-14 bg-pink-50 rounded-2xl flex items-center justify-center text-pink-500 mb-6 group-hover:bg-pink-500 group-hover:text-white transition-colors duration-300"> ${renderComponent($$result2, "BookOpen", BookOpen, { "className": "h-7 w-7" })} </div> <div class="mb-4"> <span class="inline-block px-3 py-1 rounded-full bg-pink-100 text-pink-700 text-[10px] font-bold uppercase tracking-widest mb-3">
+Putri
+</span> <h3 class="text-2xl font-serif text-emerald-900 mb-2">
+PP. M. Syafa'at 1
+</h3> <p class="text-muted-foreground text-sm leading-relaxed">
+Pondok pesantren putri dengan bimbingan intensif
+                            keagamaan.
+</p> </div> </div> <div class="bg-white rounded-[2rem] p-8 border border-border/50 shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-300 group"> <div class="w-14 h-14 bg-pink-50 rounded-2xl flex items-center justify-center text-pink-500 mb-6 group-hover:bg-pink-500 group-hover:text-white transition-colors duration-300"> ${renderComponent($$result2, "BookOpen", BookOpen, { "className": "h-7 w-7" })} </div> <div class="mb-4"> <span class="inline-block px-3 py-1 rounded-full bg-pink-100 text-pink-700 text-[10px] font-bold uppercase tracking-widest mb-3">
+Putri
+</span> <h3 class="text-2xl font-serif text-emerald-900 mb-2">
+PP. M. Syafa'at 2
+</h3> <p class="text-muted-foreground text-sm leading-relaxed">
+Unit pendidikan pesantren putri dengan lingkungan
+                            yang asri dan kondusif.
+</p> </div> </div>  <div class="bg-white rounded-[2rem] p-8 border border-border/50 shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-300 group relative overflow-hidden"> <div class="w-14 h-14 bg-emerald-50 rounded-2xl flex items-center justify-center text-emerald-600 mb-6 group-hover:bg-emerald-500 group-hover:text-white transition-colors duration-300 relative z-10"> ${renderComponent($$result2, "GraduationCap", GraduationCap, { "className": "h-7 w-7" })} </div> <div class="relative z-10"> <h3 class="text-2xl font-serif text-emerald-900 mb-2">
 MA Unggulan
-</h3> <p class="text-primary-foreground/80 max-w-md leading-relaxed">
+</h3> <p class="text-muted-foreground text-sm leading-relaxed mb-4">
 Madrasah Aliyah berprestasi dengan integrasi
-                                kurikulum pesantren dan nasional.
-</p> </div> <div class="flex items-center gap-2 font-bold text-sm bg-white/10 w-fit px-4 py-2 rounded-full hover:bg-white/20 transition-colors">
-Lihat Detail ${renderComponent($$result2, "ArrowRight", ArrowRight, { "className": "h-4 w-4" })} </div> </div> <div class="absolute -bottom-10 -right-10 w-64 h-64 bg-white/10 rounded-full blur-3xl group-hover:scale-110 transition-transform duration-700"></div> </div>  <div class="md:col-span-2 md:row-span-2 bg-foreground text-background rounded-[2.5rem] p-8 border border-border flex flex-col justify-between group hover:bg-foreground/90 transition-colors cursor-pointer relative overflow-hidden"> <div class="relative z-10"> <div class="w-12 h-12 bg-white/10 rounded-xl shadow-sm flex items-center justify-center text-emerald-400 mb-6 group-hover:scale-110 transition-transform"> ${renderComponent($$result2, "BookOpen", BookOpen, { "className": "h-6 w-6" })} </div> <h3 class="text-2xl font-serif mb-3">SMK Unggulan</h3> <p class="text-emerald-400/60 text-sm leading-relaxed">
-Sekolah Menengah Kejuruan siap kerja dan mandiri.
-</p> </div> <div class="absolute top-0 right-0 w-32 h-32 bg-primary/10 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-700"></div> <div class="relative z-10 text-emerald-400 font-bold text-xs uppercase tracking-widest flex items-center gap-2 mt-4">
-Jelajahi ${renderComponent($$result2, "ChevronRight", ChevronRight, { "className": "h-3.5 w-3.5" })} </div> </div>  <div class="md:col-span-2 bg-white rounded-[2.5rem] p-8 border border-border flex flex-col justify-center group hover:shadow-lg transition-all cursor-pointer hover:border-emerald-200"> <div class="flex items-center gap-4 mb-3"> <div class="w-10 h-10 bg-emerald-100 rounded-full flex items-center justify-center text-emerald-600"> ${renderComponent($$result2, "ShieldCheck", ShieldCheck, { "className": "h-5 w-5" })} </div> <h3 class="text-xl font-serif text-emerald-900">
+                            kurikulum pesantren dan nasional.
+</p> <span class="text-xs font-bold text-emerald-600 uppercase tracking-widest flex items-center gap-2 group-hover:gap-3 transition-all">
+Selengkapnya ${renderComponent($$result2, "ArrowRight", ArrowRight, { "className": "h-3.5 w-3.5" })} </span> </div> <div class="absolute -bottom-6 -right-6 w-32 h-32 bg-emerald-50 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-500 opacity-50"></div> </div> <div class="bg-white rounded-[2rem] p-8 border border-border/50 shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-300 group relative overflow-hidden"> <div class="w-14 h-14 bg-emerald-50 rounded-2xl flex items-center justify-center text-emerald-600 mb-6 group-hover:bg-emerald-500 group-hover:text-white transition-colors duration-300 relative z-10"> ${renderComponent($$result2, "BookOpen", BookOpen, { "className": "h-7 w-7" })} </div> <div class="relative z-10"> <h3 class="text-2xl font-serif text-emerald-900 mb-2">
+SMK Unggulan
+</h3> <p class="text-muted-foreground text-sm leading-relaxed mb-4">
+Sekolah Menengah Kejuruan siap kerja dengan
+                            kompetensi unggul dan mandiri.
+</p> <span class="text-xs font-bold text-emerald-600 uppercase tracking-widest flex items-center gap-2 group-hover:gap-3 transition-all">
+Selengkapnya ${renderComponent($$result2, "ArrowRight", ArrowRight, { "className": "h-3.5 w-3.5" })} </span> </div> <div class="absolute -bottom-6 -right-6 w-32 h-32 bg-emerald-50 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-500 opacity-50"></div> </div> <div class="bg-white rounded-[2rem] p-8 border border-border/50 shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-300 group relative overflow-hidden"> <div class="w-14 h-14 bg-emerald-50 rounded-2xl flex items-center justify-center text-emerald-600 mb-6 group-hover:bg-emerald-500 group-hover:text-white transition-colors duration-300 relative z-10"> ${renderComponent($$result2, "ShieldCheck", ShieldCheck, { "className": "h-7 w-7" })} </div> <div class="relative z-10"> <h3 class="text-2xl font-serif text-emerald-900 mb-2">
 MTs Unggulan
-</h3> </div> <p class="text-muted-foreground text-xs pl-14">
-Madrasah Tsanawiyah kurikulum terpadu.
-</p> </div>  <div class="md:col-span-2 bg-white rounded-[2.5rem] p-8 border border-border flex flex-col justify-center group hover:shadow-lg transition-all cursor-pointer hover:border-emerald-200"> <div class="flex items-center gap-4 mb-3"> <div class="w-10 h-10 bg-emerald-100 rounded-full flex items-center justify-center text-emerald-600"> ${renderComponent($$result2, "ShieldCheck", ShieldCheck, { "className": "h-5 w-5" })} </div> <h3 class="text-xl font-serif text-emerald-900">
+</h3> <p class="text-muted-foreground text-sm leading-relaxed mb-4">
+Madrasah Tsanawiyah dengan kurikulum terpadu untuk
+                            pembentukan karakter.
+</p> <span class="text-xs font-bold text-emerald-600 uppercase tracking-widest flex items-center gap-2 group-hover:gap-3 transition-all">
+Selengkapnya ${renderComponent($$result2, "ArrowRight", ArrowRight, { "className": "h-3.5 w-3.5" })} </span> </div> <div class="absolute -bottom-6 -right-6 w-32 h-32 bg-emerald-50 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-500 opacity-50"></div> </div> <div class="bg-white rounded-[2rem] p-8 border border-border/50 shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-300 group relative overflow-hidden"> <div class="w-14 h-14 bg-emerald-50 rounded-2xl flex items-center justify-center text-emerald-600 mb-6 group-hover:bg-emerald-500 group-hover:text-white transition-colors duration-300 relative z-10"> ${renderComponent($$result2, "ShieldCheck", ShieldCheck, { "className": "h-7 w-7" })} </div> <div class="relative z-10"> <h3 class="text-2xl font-serif text-emerald-900 mb-2">
 SMP Unggulan
-</h3> </div> <p class="text-muted-foreground text-xs pl-14">
-Sekolah Menengah Pertama berbasis pesantren.
-</p> </div>  <div class="md:col-span-2 bg-white rounded-[2.5rem] p-8 border border-border flex flex-col justify-center group hover:shadow-lg transition-all cursor-pointer hover:border-emerald-200"> <div class="flex items-center gap-4 mb-3"> <div class="w-10 h-10 bg-secondary rounded-full flex items-center justify-center text-primary"> ${renderComponent($$result2, "Users", Users, { "className": "h-5 w-5" })} </div> <h3 class="text-xl font-serif text-emerald-900">
+</h3> <p class="text-muted-foreground text-sm leading-relaxed mb-4">
+Sekolah Menengah Pertama berbasis pesantren dengan
+                            standar pendidikan berkualitas.
+</p> <span class="text-xs font-bold text-emerald-600 uppercase tracking-widest flex items-center gap-2 group-hover:gap-3 transition-all">
+Selengkapnya ${renderComponent($$result2, "ArrowRight", ArrowRight, { "className": "h-3.5 w-3.5" })} </span> </div> <div class="absolute -bottom-6 -right-6 w-32 h-32 bg-emerald-50 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-500 opacity-50"></div> </div> <div class="bg-white rounded-[2rem] p-8 border border-border/50 shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-300 group relative overflow-hidden"> <div class="w-14 h-14 bg-emerald-50 rounded-2xl flex items-center justify-center text-emerald-600 mb-6 group-hover:bg-emerald-500 group-hover:text-white transition-colors duration-300 relative z-10"> ${renderComponent($$result2, "Users", Users, { "className": "h-7 w-7" })} </div> <div class="relative z-10"> <h3 class="text-2xl font-serif text-emerald-900 mb-2">
 TK/PAUD/KB
-</h3> </div> <p class="text-muted-foreground text-xs pl-14">
-Pendidikan usia dini Mukhtar Syafa'at.
-</p> </div>  <div class="md:col-span-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mt-4"> <div class="p-6 bg-secondary rounded-[2rem] border border-border hover:bg-secondary/80 transition-colors"> <h4 class="font-serif text-foreground font-bold">
-PP. M. Syafa'at 1
-</h4> <span class="text-xs font-bold text-primary uppercase tracking-widest">Putra</span> </div> <div class="p-6 bg-secondary rounded-[2rem] border border-border hover:bg-secondary/80 transition-colors"> <h4 class="font-serif text-foreground font-bold">
-PP. M. Syafa'at 2
-</h4> <span class="text-xs font-bold text-primary uppercase tracking-widest">Putra</span> </div> <div class="p-6 bg-secondary rounded-[2rem] border border-border hover:bg-secondary/80 transition-colors"> <h4 class="font-serif text-foreground font-bold">
-PP. M. Syafa'at 1
-</h4> <span class="text-xs font-bold text-pink-500 uppercase tracking-widest">Putri</span> </div> <div class="p-6 bg-secondary rounded-[2rem] border border-border hover:bg-secondary/80 transition-colors"> <h4 class="font-serif text-foreground font-bold">
-PP. M. Syafa'at 2
-</h4> <span class="text-xs font-bold text-pink-500 uppercase tracking-widest">Putri</span> </div> </div> </div> </div> </section>  <section id="alur" class="py-16 bg-secondary/30"> <div class="max-w-7xl mx-auto px-6 lg:px-12"> <div class="text-center mb-10"> <h2 class="text-4xl font-serif text-emerald-950 mb-4">
+</h3> <p class="text-muted-foreground text-sm leading-relaxed mb-4">
+Pendidikan usia dini Mukhtar Syafa'at dengan
+                            pendekatan bermain dan belajar.
+</p> <span class="text-xs font-bold text-emerald-600 uppercase tracking-widest flex items-center gap-2 group-hover:gap-3 transition-all">
+Selengkapnya ${renderComponent($$result2, "ArrowRight", ArrowRight, { "className": "h-3.5 w-3.5" })} </span> </div> <div class="absolute -bottom-6 -right-6 w-32 h-32 bg-emerald-50 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-500 opacity-50"></div> </div> </div> </div> </section>  <section id="alur" class="py-16 bg-secondary/30"> <div class="max-w-7xl mx-auto px-6 lg:px-12"> <div class="text-center mb-10"> <h2 class="text-4xl font-serif text-emerald-950 mb-4">
 Prosedur Pendaftaran
 </h2> <p class="text-muted-foreground">
 Langkah mudah untuk menjadi bagian dari keluarga besar kami.
