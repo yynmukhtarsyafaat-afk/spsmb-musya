@@ -8,15 +8,13 @@ import {
     GraduationCap,
     ArrowRight,
     Sparkles,
-    Phone,
-    Mail,
     Calendar,
     CreditCard,
     ShieldCheck,
-    Zap,
     CheckCircle,
-    MapPin,
 } from "lucide-react";
+import Navbar from "../../components/layout/Navbar.astro";
+import Footer from "../../components/layout/Footer.astro";
 ---
 
 <MainLayout
@@ -24,61 +22,8 @@ import {
     description="Syarat, Jadwal, dan Alur Pendaftaran Santri Baru Yayasan Mukhtar Syafa'at."
 >
     <!-- Navbar -->
-    <nav
-        class="fixed top-0 left-0 right-0 z-50 bg-white/70 backdrop-blur-xl border-b border-border supports-[backdrop-filter]:bg-white/60"
-    >
-        <div class="max-w-7xl mx-auto px-6 lg:px-12">
-            <div class="flex justify-between h-20 items-center">
-                <div class="flex items-center gap-3">
-                    <img
-                        src="/logo.png"
-                        alt="Logo Yayasan Mukhtar Syafa'at"
-                        class="w-12 h-12 object-contain"
-                    />
-                    <div class="leading-none">
-                        <a
-                            href="/"
-                            class="block font-bold text-foreground tracking-tight text-lg"
-                        >
-                            MUKHTAR SYAFA'AT
-                        </a>
-                        <span
-                            class="block text-[10px] font-medium text-primary uppercase tracking-widest"
-                            >Yayasan Pendidikan</span
-                        >
-                    </div>
-                </div>
-                <div
-                    class="hidden md:flex gap-10 text-[12px] font-semibold text-muted-foreground"
-                >
-                    <a href="/" class="hover:text-primary transition-colors"
-                        >Beranda</a
-                    >
-                    <a
-                        href="/informasi-pendaftaran"
-                        class="text-primary font-bold transition-colors"
-                        >Informasi Pendaftaran</a
-                    >
-                    <a
-                        href="/cek-status"
-                        class="hover:text-primary transition-colors"
-                        >Cek Status</a
-                    >
-                    <a
-                        href="/#unit"
-                        class="hover:text-primary transition-colors"
-                        >Unit Pendidikan</a
-                    >
-                </div>
-                <a
-                    href="/daftar"
-                    class="bg-primary text-white px-6 py-2.5 rounded-full text-[12px] font-bold hover:bg-emerald-600 transition-all shadow-md shadow-emerald-100 active:scale-95"
-                >
-                    Daftar Sekarang
-                </a>
-            </div>
-        </div>
-    </nav>
+    <!-- Navbar -->
+    <Navbar />
 
     <!-- Header / Hero -->
     <section class="pt-32 pb-16 bg-secondary/50">
@@ -106,20 +51,19 @@ import {
                 <div
                     class="md:col-span-2 bg-secondary rounded-[2.5rem] p-8 lg:p-10 border border-border relative overflow-hidden group hover:shadow-xl transition-all duration-500"
                 >
-                    <div
-                        class="relative z-10 flex flex-col md:flex-row gap-8 items-start"
-                    >
-                        <div
-                            class="w-16 h-16 bg-white rounded-2xl flex items-center justify-center text-emerald-600 shadow-sm shrink-0"
-                        >
-                            <FileText className="h-8 w-8" />
-                        </div>
-                        <div class="flex-1">
-                            <h3
-                                class="text-2xl font-serif text-foreground mb-4"
+                    <div class="relative z-10">
+                        <div class="flex items-center gap-6 mb-6">
+                            <div
+                                class="w-16 h-16 bg-white rounded-2xl flex items-center justify-center text-emerald-600 shadow-sm shrink-0"
                             >
+                                <FileText className="h-8 w-8" />
+                            </div>
+                            <h3 class="text-2xl font-serif text-foreground">
                                 Berkas Umum
                             </h3>
+                        </div>
+
+                        <div class="flex-1">
                             <ul
                                 class="grid grid-cols-1 md:grid-cols-2 gap-4 text-muted-foreground text-sm"
                             >
@@ -161,14 +105,17 @@ import {
                 <div
                     class="bg-white rounded-[2.5rem] p-8 border border-border relative overflow-hidden group hover:shadow-xl hover:border-emerald-200 transition-all duration-500"
                 >
-                    <div
-                        class="w-12 h-12 bg-emerald-100 rounded-xl flex items-center justify-center text-emerald-600 mb-6 group-hover:scale-110 transition-transform"
-                    >
-                        <GraduationCap className="h-6 w-6" />
+                    <div class="flex items-center gap-6 mb-6">
+                        <div
+                            class="w-12 h-12 bg-emerald-100 rounded-xl flex items-center justify-center text-emerald-600 shrink-0 group-hover:scale-110 transition-transform"
+                        >
+                            <GraduationCap className="h-6 w-6" />
+                        </div>
+                        <h3 class="text-xl font-serif text-foreground">
+                            Berkas Pendidikan
+                        </h3>
                     </div>
-                    <h3 class="text-xl font-serif text-foreground mb-4">
-                        Berkas Pendidikan
-                    </h3>
+
                     <ul class="space-y-3 text-muted-foreground text-sm">
                         <li class="flex items-start gap-3">
                             <CheckCircle
@@ -277,15 +224,18 @@ import {
                 <div
                     class="md:col-span-2 md:row-span-2 bg-primary rounded-[2.5rem] p-8 border border-emerald-400/20 text-center flex flex-col items-center justify-center relative overflow-hidden group shadow-xl shadow-emerald-100"
                 >
-                    <div class="relative z-10">
-                        <div
-                            class="w-14 h-14 bg-white/20 backdrop-blur-md rounded-2xl flex items-center justify-center text-white mx-auto mb-6 shadow-inner"
-                        >
-                            <CreditCard className="h-7 w-7" />
+                    <div class="relative z-10 flex flex-col items-center">
+                        <div class="flex items-center gap-4 mb-4">
+                            <div
+                                class="w-14 h-14 bg-white/20 backdrop-blur-md rounded-2xl flex items-center justify-center text-white shadow-inner"
+                            >
+                                <CreditCard className="h-7 w-7" />
+                            </div>
+                            <h3 class="text-xl font-bold text-emerald-50">
+                                Biaya Formulir
+                            </h3>
                         </div>
-                        <h3 class="text-xl font-bold text-emerald-50 mb-2">
-                            Biaya Formulir
-                        </h3>
+
                         <p
                             class="text-5xl font-serif text-white font-bold mb-4 tracking-tight"
                         >
@@ -320,7 +270,7 @@ import {
                             Menyesuaikan
                         </p>
                         <p
-                            class="text-[10px] font-bold text-primary uppercase tracking-widest mt-1"
+                            class="text-xs font-bold text-primary uppercase tracking-widest mt-1"
                         >
                             Unit Pendidikan
                         </p>
@@ -331,8 +281,12 @@ import {
                 <div
                     class="md:col-span-1 bg-secondary rounded-[2.5rem] p-6 border border-border flex flex-col justify-center items-center text-center group hover:bg-emerald-100 transition-colors"
                 >
-                    <Users className="h-8 w-8 text-primary mb-3" />
-                    <h3 class="font-bold text-foreground text-sm">Seragam</h3>
+                    <div class="flex items-center gap-3 mb-2">
+                        <Users className="h-8 w-8 text-primary" />
+                        <h3 class="font-bold text-foreground text-sm">
+                            Seragam
+                        </h3>
+                    </div>
                     <p class="text-xs text-muted-foreground mt-1">
                         Info saat daftar ulang.
                     </p>
@@ -342,8 +296,10 @@ import {
                 <div
                     class="md:col-span-1 bg-secondary rounded-[2.5rem] p-6 border border-border flex flex-col justify-center items-center text-center group hover:bg-emerald-100 transition-colors"
                 >
-                    <BookOpen className="h-8 w-8 text-primary mb-3" />
-                    <h3 class="font-bold text-foreground text-sm">Kitab</h3>
+                    <div class="flex items-center gap-3 mb-2">
+                        <BookOpen className="h-8 w-8 text-primary" />
+                        <h3 class="font-bold text-foreground text-sm">Kitab</h3>
+                    </div>
                     <p class="text-xs text-muted-foreground mt-1">
                         Sesuai tingkatan kelas.
                     </p>
@@ -424,100 +380,6 @@ import {
     </section>
 
     <!-- Footer -->
-    <footer class="bg-white pt-16 pb-8 border-t border-border">
-        <div class="max-w-7xl mx-auto px-6 lg:px-12">
-            <div
-                class="flex flex-col md:flex-row justify-between items-start mb-10 gap-10"
-            >
-                <div class="max-w-sm">
-                    <div class="flex items-center gap-3 mb-8">
-                        <img
-                            src="/logo.png"
-                            alt="Logo Yayasan Mukhtar Syafa'at"
-                            class="w-12 h-12 object-contain"
-                        />
-                        <span
-                            class="font-bold text-foreground tracking-tight text-xl uppercase"
-                            >Mukhtar Syafa'at</span
-                        >
-                    </div>
-                    <p
-                        class="text-muted-foreground font-serif italic text-lg leading-relaxed"
-                    >
-                        Mencetak generasi yang unggul secara intelektual dan
-                        berakar pada nilai-nilai luhur pesantren.
-                    </p>
-                </div>
-                <div class="grid grid-cols-2 gap-16">
-                    <div class="space-y-6">
-                        <h4
-                            class="text-[11px] font-black text-foreground uppercase tracking-widest"
-                        >
-                            Informasi
-                        </h4>
-                        <div
-                            class="flex flex-col gap-4 text-muted-foreground text-sm"
-                        >
-                            <a href="#" class="hover:text-primary"
-                                >Tentang Yayasan</a
-                            >
-                            <a href="#" class="hover:text-primary"
-                                >Berita & Acara</a
-                            >
-                            <a href="#" class="hover:text-primary"
-                                >Kontak Media</a
-                            >
-                        </div>
-                    </div>
-                    <div class="space-y-6">
-                        <h4
-                            class="text-[11px] font-black text-foreground uppercase tracking-widest"
-                        >
-                            Kontak
-                        </h4>
-                        <div
-                            class="flex flex-col gap-4 text-muted-foreground text-sm"
-                        >
-                            <span class="flex items-start gap-2"
-                                ><MapPin
-                                    className="h-3.5 w-3.5 mt-1 shrink-0"
-                                />
-                                <span class="max-w-[200px]"
-                                    >JL. KH. Mukhtar Syafa'at, Kec. Tegalsari,
-                                    Kab. Banyuwangi, Jawa Timur</span
-                                ></span
-                            >
-                            <span class="flex items-center gap-2"
-                                ><Phone className="h-3.5 w-3.5" /> (0333) 4460475</span
-                            >
-                            <span class="flex items-center gap-2"
-                                ><Mail className="h-3.5 w-3.5" /> yynmukhtarsyafaat@gmail.com</span
-                            >
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div
-                class="pt-10 border-t border-border flex flex-col md:flex-row justify-between items-center gap-4"
-            >
-                <p
-                    class="text-muted-foreground text-[10px] font-bold uppercase tracking-[0.3em]"
-                >
-                    &copy; 2025 Yayasan Mukhtar Syafa'at Blokagung • Banyuwangi
-                </p>
-                <div class="flex gap-6">
-                    <div
-                        class="w-8 h-8 rounded-full bg-secondary flex items-center justify-center text-emerald-400 hover:text-emerald-600 cursor-pointer transition-colors"
-                    >
-                        <Zap className="h-3.5 w-3.5" />
-                    </div>
-                    <div
-                        class="w-8 h-8 rounded-full bg-secondary flex items-center justify-center text-emerald-400 hover:text-emerald-600 cursor-pointer transition-colors"
-                    >
-                        <ShieldCheck className="h-3.5 w-3.5" />
-                    </div>
-                </div>
-            </div>
-        </div>
-    </footer>
+    <!-- Footer -->
+    <Footer />
 </MainLayout>
