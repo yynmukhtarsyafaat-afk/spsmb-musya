@@ -1,0 +1,104 @@
+import { e as createComponent, k as renderComponent, r as renderTemplate, m as maybeRenderHead } from '../chunks/astro/server_B3-YyRDz.mjs';
+import 'piccolore';
+import { $ as $$MainLayout } from '../chunks/MainLayout_Ck-9ZYW9.mjs';
+import { FileText, CheckCircle, GraduationCap, CreditCard, Users, BookOpen, MapPin, Phone, Mail, Zap, ShieldCheck } from 'lucide-react';
+export { renderers } from '../renderers.mjs';
+
+const $$Index = createComponent(($$result, $$props, $$slots) => {
+  return renderTemplate`${renderComponent($$result, "MainLayout", $$MainLayout, { "title": "Informasi Pendaftaran", "description": "Syarat, Jadwal, dan Alur Pendaftaran Santri Baru Yayasan Mukhtar Syafa'at." }, { "default": ($$result2) => renderTemplate`  ${maybeRenderHead()}<nav class="fixed top-0 left-0 right-0 z-50 bg-white/70 backdrop-blur-xl border-b border-border supports-[backdrop-filter]:bg-white/60"> <div class="max-w-7xl mx-auto px-6 lg:px-12"> <div class="flex justify-between h-20 items-center"> <div class="flex items-center gap-3"> <img src="/logo.png" alt="Logo Yayasan Mukhtar Syafa'at" class="w-12 h-12 object-contain"> <div class="leading-none"> <a href="/" class="block font-bold text-foreground tracking-tight text-lg">
+MUKHTAR SYAFA'AT
+</a> <span class="block text-[10px] font-medium text-primary uppercase tracking-widest">Yayasan Pendidikan</span> </div> </div> <div class="hidden md:flex gap-10 text-[12px] font-semibold text-muted-foreground"> <a href="/" class="hover:text-primary transition-colors">Beranda</a> <a href="/informasi-pendaftaran" class="text-primary font-bold transition-colors">Informasi Pendaftaran</a> <a href="/cek-status" class="hover:text-primary transition-colors">Cek Status</a> <a href="/#unit" class="hover:text-primary transition-colors">Unit Pendidikan</a> </div> <a href="/daftar" class="bg-primary text-white px-6 py-2.5 rounded-full text-[12px] font-bold hover:bg-emerald-600 transition-all shadow-md shadow-emerald-100 active:scale-95">
+Daftar Sekarang
+</a> </div> </div> </nav>  <section class="pt-32 pb-16 bg-secondary/50"> <div class="max-w-7xl mx-auto px-6 lg:px-12 text-center"> <h1 class="text-4xl lg:text-5xl font-serif text-foreground mb-6">
+Informasi Pendaftaran
+</h1> <p class="text-muted-foreground text-lg max-w-2xl mx-auto">
+Panduan lengkap penerimaan santri dan murid baru Tahun Ajaran
+                2025/2026.
+</p> </div> </section>  <section class="py-16 bg-white"> <div class="max-w-7xl mx-auto px-6 lg:px-12"> <h2 class="text-3xl font-serif text-foreground mb-10 text-center">
+Syarat Pendaftaran
+</h2> <div class="grid grid-cols-1 md:grid-cols-3 gap-6 auto-rows-auto max-w-6xl mx-auto"> <!-- Berkas Umum - Large Card --> <div class="md:col-span-2 bg-secondary rounded-[2.5rem] p-8 lg:p-10 border border-border relative overflow-hidden group hover:shadow-xl transition-all duration-500"> <div class="relative z-10 flex flex-col md:flex-row gap-8 items-start"> <div class="w-16 h-16 bg-white rounded-2xl flex items-center justify-center text-emerald-600 shadow-sm shrink-0"> ${renderComponent($$result2, "FileText", FileText, { "className": "h-8 w-8" })} </div> <div class="flex-1"> <h3 class="text-2xl font-serif text-foreground mb-4">
+Berkas Umum
+</h3> <ul class="grid grid-cols-1 md:grid-cols-2 gap-4 text-muted-foreground text-sm"> <li class="flex items-start gap-3"> ${renderComponent($$result2, "CheckCircle", CheckCircle, { "className": "h-4 w-4 text-primary mt-0.5 shrink-0" })} <span>Scan Kartu Keluarga (KK) asli.</span> </li> <li class="flex items-start gap-3"> ${renderComponent($$result2, "CheckCircle", CheckCircle, { "className": "h-4 w-4 text-primary mt-0.5 shrink-0" })} <span>Scan Akta Kelahiran asli.</span> </li> <li class="flex items-start gap-3"> ${renderComponent($$result2, "CheckCircle", CheckCircle, { "className": "h-4 w-4 text-primary mt-0.5 shrink-0" })} <span>Pas foto berwarna terbaru (3x4).</span> </li> <li class="flex items-start gap-3"> ${renderComponent($$result2, "CheckCircle", CheckCircle, { "className": "h-4 w-4 text-primary mt-0.5 shrink-0" })} <span>NIK Calon Santri & Orang Tua.</span> </li> </ul> </div> </div> <div class="absolute -bottom-10 -right-10 w-48 h-48 bg-primary/5 rounded-full blur-3xl group-hover:scale-150 transition-transform duration-700"></div> </div> <!-- Berkas Pendidikan - Vertical Card --> <div class="bg-white rounded-[2.5rem] p-8 border border-border relative overflow-hidden group hover:shadow-xl hover:border-emerald-200 transition-all duration-500"> <div class="w-12 h-12 bg-emerald-100 rounded-xl flex items-center justify-center text-emerald-600 mb-6 group-hover:scale-110 transition-transform"> ${renderComponent($$result2, "GraduationCap", GraduationCap, { "className": "h-6 w-6" })} </div> <h3 class="text-xl font-serif text-foreground mb-4">
+Berkas Pendidikan
+</h3> <ul class="space-y-3 text-muted-foreground text-sm"> <li class="flex items-start gap-3"> ${renderComponent($$result2, "CheckCircle", CheckCircle, { "className": "h-4 w-4 text-primary mt-0.5 shrink-0" })} <span>Ijazah / SKL.</span> </li> <li class="flex items-start gap-3"> ${renderComponent($$result2, "CheckCircle", CheckCircle, { "className": "h-4 w-4 text-primary mt-0.5 shrink-0" })} <span>NISN.</span> </li> <li class="flex items-start gap-3"> ${renderComponent($$result2, "CheckCircle", CheckCircle, { "className": "h-4 w-4 text-primary mt-0.5 shrink-0" })} <span>Raport (Lanjutan).</span> </li> <li class="flex items-start gap-3"> ${renderComponent($$result2, "CheckCircle", CheckCircle, { "className": "h-4 w-4 text-primary mt-0.5 shrink-0" })} <span>KIP (Jika ada).</span> </li> </ul> </div> </div> </div> </section>  <section class="py-16 bg-secondary/30"> <div class="max-w-7xl mx-auto px-6 lg:px-12"> <h2 class="text-3xl font-serif text-foreground mb-10 text-center">
+Jadwal Penerimaan
+</h2> <div class="max-w-3xl mx-auto space-y-4"> <div class="bg-white p-6 rounded-2xl border border-border flex flex-col md:flex-row items-center gap-6 shadow-sm"> <div class="bg-primary text-white w-full md:w-32 py-4 rounded-xl flex flex-col items-center justify-center shrink-0"> <span class="text-xs uppercase font-bold tracking-widest opacity-80">Gelombang</span> <span class="text-3xl font-serif font-bold">1</span> </div> <div class="flex-1 text-center md:text-left"> <h3 class="text-lg font-bold text-foreground mb-1">
+Pendaftaran Awal
+</h3> <p class="text-muted-foreground text-sm">
+Januari - Maret 2025
+</p> </div> <div class="px-4 py-1.5 bg-emerald-100 text-emerald-700 text-xs font-bold uppercase tracking-wider rounded-full">
+Dibuka
+</div> </div> <div class="bg-white p-6 rounded-2xl border border-border flex flex-col md:flex-row items-center gap-6 shadow-sm opacity-70"> <div class="bg-emerald-100 text-emerald-400 w-full md:w-32 py-4 rounded-xl flex flex-col items-center justify-center shrink-0"> <span class="text-xs uppercase font-bold tracking-widest opacity-80">Gelombang</span> <span class="text-3xl font-serif font-bold">2</span> </div> <div class="flex-1 text-center md:text-left"> <h3 class="text-lg font-bold text-foreground mb-1">
+Pendaftaran Reguler
+</h3> <p class="text-muted-foreground text-sm">
+April - Juni 2025
+</p> </div> <div class="px-4 py-1.5 bg-gray-100 text-gray-500 text-xs font-bold uppercase tracking-wider rounded-full">
+Segera
+</div> </div> </div> </div> </section>  <section class="py-16 bg-white"> <div class="max-w-7xl mx-auto px-6 lg:px-12"> <h2 class="text-3xl font-serif text-foreground mb-10 text-center">
+Biaya & Administrasi
+</h2> <div class="grid grid-cols-1 md:grid-cols-4 gap-4 max-w-6xl mx-auto auto-rows-[160px]"> <!-- Formulir Gratis - Featured Card --> <div class="md:col-span-2 md:row-span-2 bg-primary rounded-[2.5rem] p-8 border border-emerald-400/20 text-center flex flex-col items-center justify-center relative overflow-hidden group shadow-xl shadow-emerald-100"> <div class="relative z-10"> <div class="w-14 h-14 bg-white/20 backdrop-blur-md rounded-2xl flex items-center justify-center text-white mx-auto mb-6 shadow-inner"> ${renderComponent($$result2, "CreditCard", CreditCard, { "className": "h-7 w-7" })} </div> <h3 class="text-xl font-bold text-emerald-50 mb-2">
+Biaya Formulir
+</h3> <p class="text-5xl font-serif text-white font-bold mb-4 tracking-tight">
+Gratis
+</p> <p class="text-emerald-100/80 text-sm max-w-xs mx-auto">
+Yayasan menanggung penuh biaya pendaftaran online.
+</p> </div> <div class="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl group-hover:scale-150 transition-transform duration-700"></div> </div> <!-- Daftar Ulang --> <div class="md:col-span-2 bg-white rounded-[2.5rem] p-8 border border-border flex items-center gap-6 group hover:shadow-lg transition-all justify-between"> <div class="text-left"> <h3 class="font-bold text-foreground mb-1">
+Daftar Ulang
+</h3> <p class="text-xs text-muted-foreground max-w-[150px]">
+Dilakukan setelah dinyatakan diterima.
+</p> </div> <div class="text-right"> <p class="text-2xl font-serif text-foreground font-bold">
+Menyesuaikan
+</p> <p class="text-[10px] font-bold text-primary uppercase tracking-widest mt-1">
+Unit Pendidikan
+</p> </div> </div> <!-- Seragam --> <div class="md:col-span-1 bg-secondary rounded-[2.5rem] p-6 border border-border flex flex-col justify-center items-center text-center group hover:bg-emerald-100 transition-colors"> ${renderComponent($$result2, "Users", Users, { "className": "h-8 w-8 text-primary mb-3" })} <h3 class="font-bold text-foreground text-sm">Seragam</h3> <p class="text-xs text-muted-foreground mt-1">
+Info saat daftar ulang.
+</p> </div> <!-- Kitab --> <div class="md:col-span-1 bg-secondary rounded-[2.5rem] p-6 border border-border flex flex-col justify-center items-center text-center group hover:bg-emerald-100 transition-colors"> ${renderComponent($$result2, "BookOpen", BookOpen, { "className": "h-8 w-8 text-primary mb-3" })} <h3 class="font-bold text-foreground text-sm">Kitab</h3> <p class="text-xs text-muted-foreground mt-1">
+Sesuai tingkatan kelas.
+</p> </div> </div> </div> </section>  <section class="py-16 bg-white"> <div class="max-w-7xl mx-auto px-6 lg:px-12"> <h2 class="text-3xl font-serif text-foreground mb-10 text-center">
+Alur Pendaftaran
+</h2> <div class="grid grid-cols-1 md:grid-cols-4 gap-4"> <!-- Step 1 --> <div class="p-6 rounded-2xl bg-secondary border border-border text-center"> <div class="w-10 h-10 bg-white rounded-full flex items-center justify-center text-emerald-600 font-serif font-bold mx-auto mb-4 shadow-sm">
+1
+</div> <h3 class="font-bold text-foreground mb-2">Buat Akun</h3> <p class="text-xs text-muted-foreground">
+Akses menu pendaftaran dan isi data awal.
+</p> </div> <!-- Step 2 --> <div class="p-6 rounded-2xl bg-secondary border border-border text-center"> <div class="w-10 h-10 bg-white rounded-full flex items-center justify-center text-emerald-600 font-serif font-bold mx-auto mb-4 shadow-sm">
+2
+</div> <h3 class="font-bold text-foreground mb-2">
+Lengkapi Data
+</h3> <p class="text-xs text-muted-foreground">
+Isi biodata diri, orang tua, dan sekolah asal.
+</p> </div> <!-- Step 3 --> <div class="p-6 rounded-2xl bg-secondary border border-border text-center"> <div class="w-10 h-10 bg-white rounded-full flex items-center justify-center text-emerald-600 font-serif font-bold mx-auto mb-4 shadow-sm">
+3
+</div> <h3 class="font-bold text-foreground mb-2">
+Upload Berkas
+</h3> <p class="text-xs text-muted-foreground">
+Unggah dokumen persyaratan yang dibutuhkan.
+</p> </div> <!-- Step 4 --> <div class="p-6 rounded-2xl bg-secondary border border-border text-center"> <div class="w-10 h-10 bg-white rounded-full flex items-center justify-center text-emerald-600 font-serif font-bold mx-auto mb-4 shadow-sm">
+4
+</div> <h3 class="font-bold text-foreground mb-2">Verifikasi</h3> <p class="text-xs text-muted-foreground">
+Panitia memverifikasi data dan cetak bukti.
+</p> </div> </div> </div> </section>  <footer class="bg-white pt-16 pb-8 border-t border-border"> <div class="max-w-7xl mx-auto px-6 lg:px-12"> <div class="flex flex-col md:flex-row justify-between items-start mb-10 gap-10"> <div class="max-w-sm"> <div class="flex items-center gap-3 mb-8"> <img src="/logo.png" alt="Logo Yayasan Mukhtar Syafa'at" class="w-12 h-12 object-contain"> <span class="font-bold text-foreground tracking-tight text-xl uppercase">Mukhtar Syafa'at</span> </div> <p class="text-muted-foreground font-serif italic text-lg leading-relaxed">
+Mencetak generasi yang unggul secara intelektual dan
+                        berakar pada nilai-nilai luhur pesantren.
+</p> </div> <div class="grid grid-cols-2 gap-16"> <div class="space-y-6"> <h4 class="text-[11px] font-black text-foreground uppercase tracking-widest">
+Informasi
+</h4> <div class="flex flex-col gap-4 text-muted-foreground text-sm"> <a href="#" class="hover:text-primary">Tentang Yayasan</a> <a href="#" class="hover:text-primary">Berita & Acara</a> <a href="#" class="hover:text-primary">Kontak Media</a> </div> </div> <div class="space-y-6"> <h4 class="text-[11px] font-black text-foreground uppercase tracking-widest">
+Kontak
+</h4> <div class="flex flex-col gap-4 text-muted-foreground text-sm"> <span class="flex items-start gap-2">${renderComponent($$result2, "MapPin", MapPin, { "className": "h-3.5 w-3.5 mt-1 shrink-0" })} <span class="max-w-[200px]">JL. KH. Mukhtar Syafa'at, Kec. Tegalsari,
+                                    Kab. Banyuwangi, Jawa Timur</span></span> <span class="flex items-center gap-2">${renderComponent($$result2, "Phone", Phone, { "className": "h-3.5 w-3.5" })} (0333) 4460475</span> <span class="flex items-center gap-2">${renderComponent($$result2, "Mail", Mail, { "className": "h-3.5 w-3.5" })} yynmukhtarsyafaat@gmail.com</span> </div> </div> </div> </div> <div class="pt-10 border-t border-border flex flex-col md:flex-row justify-between items-center gap-4"> <p class="text-muted-foreground text-[10px] font-bold uppercase tracking-[0.3em]">
+&copy; 2025 Yayasan Mukhtar Syafa'at Blokagung • Banyuwangi
+</p> <div class="flex gap-6"> <div class="w-8 h-8 rounded-full bg-secondary flex items-center justify-center text-emerald-400 hover:text-emerald-600 cursor-pointer transition-colors"> ${renderComponent($$result2, "Zap", Zap, { "className": "h-3.5 w-3.5" })} </div> <div class="w-8 h-8 rounded-full bg-secondary flex items-center justify-center text-emerald-400 hover:text-emerald-600 cursor-pointer transition-colors"> ${renderComponent($$result2, "ShieldCheck", ShieldCheck, { "className": "h-3.5 w-3.5" })} </div> </div> </div> </div> </footer> ` })}`;
+}, "C:/SPSMB/spsmb-astro/src/pages/informasi-pendaftaran/index.astro", void 0);
+
+const $$file = "C:/SPSMB/spsmb-astro/src/pages/informasi-pendaftaran/index.astro";
+const $$url = "/informasi-pendaftaran";
+
+const _page = /*#__PURE__*/Object.freeze(/*#__PURE__*/Object.defineProperty({
+    __proto__: null,
+    default: $$Index,
+    file: $$file,
+    url: $$url
+}, Symbol.toStringTag, { value: 'Module' }));
+
+const page = () => _page;
+
+export { page };

@@ -1,0 +1,29 @@
+---
+import { cn } from "@/lib/utils";
+
+interface Props {
+    className?: string;
+    title?: string;
+    description?: string;
+    href?: string;
+}
+
+const { className, title, description, href } = Astro.props;
+
+const Element = href ? "a" : "div";
+---
+
+<Element
+    href={href}
+    class={cn(
+        "group relative flex flex-col justify-between overflow-hidden rounded-xl bg-card border text-card-foreground p-6 shadow-sm transition-all hover:shadow-md",
+        href && "hover:bg-accent/50 cursor-pointer",
+        className,
+    )}
+>
+    <div>
+        {title && <h3 class="font-bold text-xl mb-2">{title}</h3>}
+        {description && <p class="text-muted-foreground">{description}</p>}
+    </div>
+    <slot />
+</Element>
