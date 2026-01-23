@@ -14,6 +14,7 @@ export default function AdminSidebar() {
             import.meta.env.PUBLIC_SUPABASE_ANON_KEY
         );
         await supabase.auth.signOut();
+        localStorage.removeItem('admin_bypass');
         window.location.href = '/admin/login';
     };
 
