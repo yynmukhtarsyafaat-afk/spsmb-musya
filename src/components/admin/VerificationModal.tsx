@@ -10,7 +10,7 @@ import {
 import { Button } from '../ui/button';
 import { ScrollArea } from "../ui/scroll-area";
 import { Badge } from '../ui/badge';
-import { createClient } from '@supabase/supabase-js';
+import { getSupabase } from '../../lib/supabase';
 import { Loader2, Check, X, FileText } from 'lucide-react';
 import { toast } from 'sonner';
 
@@ -29,10 +29,7 @@ export default function VerificationModal({ isOpen, onClose, data, onStatusUpdat
     const handleUpdateStatus = async (newStatus: 'verified' | 'rejected') => {
         setLoading(true);
         try {
-            const supabase = createClient(
-                import.meta.env.PUBLIC_SUPABASE_URL,
-                import.meta.env.PUBLIC_SUPABASE_ANON_KEY
-            );
+            const supabase = getSupabase();
 
             const { error } = await supabase
                 .from('registrations')
@@ -124,8 +121,6 @@ export default function VerificationModal({ isOpen, onClose, data, onStatusUpdat
                                     <div className="flex-1 overflow-hidden">
                                         <p className="text-sm font-medium truncate text-slate-700 capitalize">{key.replace(/_/g, ' ')}</p>
                                     </div>
-                                    {/* Assuming path is a full URL or we construct it. For MVP rely on path from DB. 
-                        In real app, we need to signUrl if private bucket. Assuming public or handled. */}
                                     <a
                                         href={path as string}
                                         target="_blank"

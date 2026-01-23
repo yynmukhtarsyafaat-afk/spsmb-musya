@@ -9,6 +9,7 @@ import Step2Education from './Step2Education';
 import Step3ParentData from './Step3ParentData';
 import Step4AddressHealth from './Step4AddressHealth';
 import Step5Others from './Step5Others';
+import { getSupabase } from '@/lib/supabase';
 
 const steps = [
     { id: 1, title: 'Data Santri', description: 'Identitas Calon Peserta Didik' },
@@ -64,23 +65,130 @@ export default function RegistrationForm() {
         }
     }, [currentStep, isSubmitted]);
 
-    const onSubmit = (data: RegistrationFormData) => {
+
+
+    const onSubmit = async (data: RegistrationFormData) => {
         console.log('Form Submitted:', data);
+        setIsSubmitted(true); // Show loading state or similar if needed, currently reusing success state logic later? 
+        // Actually we should probably show a loading indicator. For now let's just do the logic.
 
-        // Generate Registration Number: REG-YYYYMMDD-UnknownRandomID
-        const date = new Date();
-        const yyyy = date.getFullYear();
-        const mm = String(date.getMonth() + 1).padStart(2, '0');
-        const dd = String(date.getDate()).padStart(2, '0');
-        const random = Math.floor(1000 + Math.random() * 9000); // 4 digit random
-        const newRegNumber = `REG-${yyyy}${mm}${dd}-${random}`;
+        try {
+            const supabase = getSupabase();
 
-        setRegNumber(newRegNumber);
-        setIsSubmitted(true);
+            // Generate Registration Number
+            const date = new Date();
+            const yyyy = date.getFullYear();
+            const mm = String(date.getMonth() + 1).padStart(2, '0');
+            const dd = String(date.getDate()).padStart(2, '0');
+            const random = Math.floor(1000 + Math.random() * 9000);
+            const newRegNumber = `REG-${yyyy}${mm}${dd}-${random}`;
 
-        // Clear local storage on successful submit
-        localStorage.removeItem('spsmb_registration_form');
-        localStorage.removeItem('spsmb_registration_step');
+            // Upload Files
+            let kkUrl = '';
+            let akteUrl = '';
+
+            const uploadFile = async (file: File, path: string) => {
+                const { data: uploadData, error } = await supabase.storage
+                    .from('documents')
+                    .upload(path, file);
+
+                if (error) throw error;
+
+                // Get public URL (assuming bucket is public or we store the path)
+                // For private buckets we usually store the path. 
+                // The DB schema comments say "Link dokumen di storage", usually path or public URL.
+                // init.sql says public=false for bucket, so it's private.
+                // Admin can view using authenticated view policy.
+                // We will store the path.
+                return uploadData.path;
+            };
+
+            if (data.file_kk && data.file_kk.length > 0) {
+                const file = data.file_kk[0];
+                const ext = file.name.split('.').pop();
+                const path = `${newRegNumber}/kk.${ext}`;
+                kkUrl = await uploadFile(file, path);
+            }
+
+            if (data.file_akte && data.file_akte.length > 0) {
+                const file = data.file_akte[0];
+                const ext = file.name.split('.').pop();
+                const path = `${newRegNumber}/akte.${ext}`;
+                akteUrl = await uploadFile(file, path);
+            }
+
+            // Map Data to DB Schema
+            const studentData = {
+                status_santri: data.status_santri,
+                nama_lengkap: data.nama_lengkap,
+                nik: data.nik,
+                tempat_lahir: data.tempat_lahir,
+                tanggal_lahir: data.tanggal_lahir,
+                jenis_kelamin: data.jenis_kelamin,
+                unit_sekolah: data.unit_sekolah,
+                unit_pesantren: data.unit_pesantren,
+                jurusan: data.jurusan,
+                boarding: data.boarding,
+                // Others
+                riwayat_penyakit: data.riwayat_penyakit,
+                penyakit_sejak: data.penyakit_sejak,
+                penyakit_kondisi: data.penyakit_kondisi,
+                ukuran_seragam: data.ukuran_seragam,
+                sumber_informasi: data.sumber_informasi,
+                jenis_prestasi: data.jenis_prestasi,
+                tingkat_prestasi: data.tingkat_prestasi,
+            };
+
+            const educationData = {
+                sekolah_asal: data.sekolah_asal,
+                alamat_sekolah: data.alamat_sekolah,
+                npsn: data.npsn,
+                nisn: data.nisn,
+            };
+
+            const parentData = {
+                nama_ayah: data.nama_ayah,
+                nik_ayah: data.nik_ayah,
+                pekerjaan_ayah: data.pekerjaan_ayah,
+                penghasilan_ayah: data.penghasilan_ayah,
+                nama_ibu: data.nama_ibu,
+                nik_ibu: data.nik_ibu,
+                pekerjaan_ibu: data.pekerjaan_ibu,
+                penghasilan_ibu: data.penghasilan_ibu,
+                no_wa: data.no_wa,
+            };
+
+            const filePaths = {
+                kk_path: kkUrl,
+                akte_path: akteUrl
+            };
+
+            // Insert into Supabase
+            const { error: insertError } = await supabase
+                .from('registrations')
+                .insert({
+                    reg_number: newRegNumber,
+                    student_data: studentData,
+                    education_data: educationData,
+                    parent_data: parentData,
+                    file_paths: filePaths,
+                    status: 'pending'
+                });
+
+            if (insertError) throw insertError;
+
+            setRegNumber(newRegNumber);
+            setIsSubmitted(true);
+
+            // Clear local storage
+            localStorage.removeItem('spsmb_registration_form');
+            localStorage.removeItem('spsmb_registration_step');
+
+        } catch (error: any) {
+            console.error("Registration failed:", error);
+            alert(`Pendaftaran gagal: ${error.message || "Terjadi kesalahan sistem"}`);
+            setIsSubmitted(false); // Reset submitted state on error
+        }
     };
 
     const nextStep = async () => {

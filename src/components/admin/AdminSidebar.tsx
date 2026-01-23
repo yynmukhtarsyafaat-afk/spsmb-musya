@@ -1,5 +1,6 @@
 import React from 'react';
 import { LayoutDashboard, Users, FileText, Settings, LogOut } from 'lucide-react';
+import { getSupabase } from '../../lib/supabase';
 
 export default function AdminSidebar() {
     const menuItems = [
@@ -8,14 +9,16 @@ export default function AdminSidebar() {
     ];
 
     const handleLogout = async () => {
-        const { createClient } = await import('@supabase/supabase-js');
-        const supabase = createClient(
-            import.meta.env.PUBLIC_SUPABASE_URL,
-            import.meta.env.PUBLIC_SUPABASE_ANON_KEY
-        );
-        await supabase.auth.signOut();
-        localStorage.removeItem('admin_bypass');
-        window.location.href = '/admin/login';
+        try {
+            const supabase = getSupabase();
+            await supabase.auth.signOut();
+            localStorage.removeItem('admin_bypass');
+            window.location.href = '/admin/login';
+        } catch (error) {
+            console.error("Logout failed:", error);
+            // Force redirect anyway
+            window.location.href = '/admin/login';
+        }
     };
 
     return (

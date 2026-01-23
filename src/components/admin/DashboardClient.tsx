@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import DashboardStats from './DashboardStats';
-import { createClient } from '@supabase/supabase-js';
+import { getSupabase } from '../../lib/supabase';
 import { Loader2, AlertCircle } from 'lucide-react';
 
 export default function DashboardClient() {
@@ -17,10 +17,7 @@ export default function DashboardClient() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const supabase = createClient(
-                    import.meta.env.PUBLIC_SUPABASE_URL,
-                    import.meta.env.PUBLIC_SUPABASE_ANON_KEY
-                );
+                const supabase = getSupabase();
 
                 // Fetch counts - we wrap in try/catch individual parts to better diagnose?
                 // For now, let's keep it simple: one fail = all fail display

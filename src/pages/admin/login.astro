@@ -63,12 +63,7 @@ import "../../styles/global.css";
         </div>
 
         <script>
-            import { createClient } from "@supabase/supabase-js";
-
-            const supabase = createClient(
-                import.meta.env.PUBLIC_SUPABASE_URL,
-                import.meta.env.PUBLIC_SUPABASE_ANON_KEY,
-            );
+            import { getSupabase } from "../../lib/supabase";
 
             const form = document.getElementById(
                 "login-form",
@@ -87,6 +82,9 @@ import "../../styles/global.css";
                 const password = formData.get("password") as string;
 
                 try {
+                    // Initialize here to catch environment errors
+                    const supabase = getSupabase();
+
                     const { data, error } =
                         await supabase.auth.signInWithPassword({
                             email,
@@ -95,12 +93,6 @@ import "../../styles/global.css";
 
                     if (error) throw error;
 
-                    // Set session cookie usually handled by auth helpers or just client-side redirect
-                    // Ideally we'd set a cookie here for SSR, but for now we rely on client-side state
-                    // and the layout check will pick it up after reload or we can use a redirect
-
-                    // For a proper SSR auth flow with Astro + Supabase, we usually need to set cookies.
-                    // However, since we are doing a simple client-side login first:
                     window.location.href = "/admin";
                 } catch (err: any) {
                     errorMsg.textContent = err.message || "Gagal login";

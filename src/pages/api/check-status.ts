@@ -1,5 +1,5 @@
 import type { APIRoute } from "astro";
-import { getSupabase } from "@/lib/supabase";
+import { getSupabaseAdmin } from "@/lib/supabase";
 import { z } from "zod";
 
 export const POST: APIRoute = async ({ request }) => {
@@ -27,8 +27,8 @@ export const POST: APIRoute = async ({ request }) => {
 
         const { reg_number, birth_date } = parseResult.data;
 
-        // 2. Query Supabase
-        const supabase = getSupabase();
+        // 2. Query Supabase (using Admin client to bypass RLS)
+        const supabase = getSupabaseAdmin();
 
         // Note: We are querying the 'registrations' table. 
         // We assume 'student_data' is a JSONB column containing 'birth_date'.
@@ -52,9 +52,9 @@ export const POST: APIRoute = async ({ request }) => {
 
         // 3. Verify Birth Date manually if it's inside JSONB (safer than complex JSONB query syntax sometimes)
         // Adjust key access based on actual JSON structure. 
-        // Assuming student_data = { birth_date: "YYYY-MM-DD", ... }
-        const storedBirthDate = data.student_data?.birth_date;
-        const storedNama = data.student_data?.full_name || "Calon Peserta Didik"; // Fallback name
+        // Data disimpan dengan kunci Indonesia: tanggal_lahir, nama_lengkap
+        const storedBirthDate = data.student_data?.tanggal_lahir;
+        const storedNama = data.student_data?.nama_lengkap || "Calon Peserta Didik"; // Fallback name
 
         if (storedBirthDate !== birth_date) {
             return new Response(
