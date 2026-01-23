@@ -1,0 +1,114 @@
+---
+import AdminSidebar from "../components/admin/AdminSidebar";
+import "../styles/global.css";
+
+const { title = "SPSMB Admin" } = Astro.props;
+---
+
+<!doctype html>
+<html lang="id">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+        <title>{title}</title>
+    </head>
+    <body class="bg-slate-50">
+        <div class="flex min-h-screen">
+            <AdminSidebar client:only="react" />
+            <main class="flex-1 p-8 overflow-auto">
+                <div
+                    id="auth-loading"
+                    class="flex items-center justify-center h-full"
+                >
+                    <div
+                        class="animate-spin rounded-full h-8 w-8 border-b-2 border-emerald-600"
+                    >
+                    </div>
+                </div>
+
+                <div
+                    id="auth-error"
+                    class="hidden h-full flex flex-col items-center justify-center text-red-600"
+                >
+                    <div
+                        class="bg-red-50 p-6 rounded-lg border border-red-200 text-center max-w-md"
+                    >
+                        <h3 class="font-bold text-lg mb-2">
+                            Gagal Memuat Halaman
+                        </h3>
+                        <p class="mb-4 text-sm text-red-700">
+                            Terjadi kesalahan saat memeriksa status login.
+                        </p>
+                        <p
+                            id="error-detail"
+                            class="text-xs font-mono bg-white p-2 rounded border border-red-100 mb-4 text-left overflow-auto max-h-32"
+                        >
+                        </p>
+                        <a
+                            href="/admin/login"
+                            class="inline-block bg-white text-red-600 border border-red-600 px-4 py-2 rounded hover:bg-red-50 font-medium"
+                            >Kembali ke Login</a
+                        >
+                    </div>
+                </div>
+
+                <div id="admin-content" class="hidden">
+                    <slot />
+                </div>
+            </main>
+        </div>
+
+        <script>
+            import { createClient } from "@supabase/supabase-js";
+
+            const supabase = createClient(
+                import.meta.env.PUBLIC_SUPABASE_URL,
+                import.meta.env.PUBLIC_SUPABASE_ANON_KEY,
+            );
+
+            async function checkAuth() {
+                const loader = document.getElementById("auth-loading");
+                const content = document.getElementById("admin-content");
+                const errorDiv = document.getElementById("auth-error");
+                const errorDetail = document.getElementById("error-detail");
+
+                try {
+                    // Timeout promise prevents infinite loading
+                    const timeout = new Promise((_, reject) =>
+                        setTimeout(
+                            () => reject(new Error("Timeout checking session")),
+                            10000,
+                        ),
+                    );
+
+                    const sessionPromise = supabase.auth.getSession();
+
+                    const {
+                        data: { session },
+                        error,
+                    } = (await Promise.race([sessionPromise, timeout])) as any;
+
+                    if (error) throw error;
+
+                    if (!session) {
+                        window.location.href = "/admin/login";
+                        return;
+                    }
+
+                    if (loader) loader.classList.add("hidden");
+                    if (content) content.classList.remove("hidden");
+                } catch (err: any) {
+                    console.error("Auth Check Error:", err);
+                    if (loader) loader.classList.add("hidden");
+                    if (errorDiv) errorDiv.classList.remove("hidden");
+                    if (errorDetail)
+                        errorDetail.textContent =
+                            err.message || JSON.stringify(err);
+                }
+            }
+
+            checkAuth();
+        </script>
+    </body>
+</html>
