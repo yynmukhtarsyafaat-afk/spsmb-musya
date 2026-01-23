@@ -12,7 +12,7 @@ import { Button } from '../ui/button';
 import { Badge } from '../ui/badge';
 import { Search, Filter, Eye, Download, Loader2 } from 'lucide-react';
 import VerificationModal from './VerificationModal';
-import { createClient } from '@supabase/supabase-js';
+import { supabase } from '../../lib/supabase';
 
 export default function RegistrationTable() {
     const [data, setData] = useState<any[]>([]);
@@ -34,10 +34,9 @@ export default function RegistrationTable() {
             if (!url) {
                 throw new Error("PUBLIC_SUPABASE_URL hilang di variabel environment");
             }
-            const supabase = createClient(
-                import.meta.env.PUBLIC_SUPABASE_URL,
-                import.meta.env.PUBLIC_SUPABASE_ANON_KEY
-            );
+
+            // Client is now imported from lib/supabase
+
 
             const { data: registrations, error: fetchError } = await supabase
                 .from('registrations')

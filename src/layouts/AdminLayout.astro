@@ -60,7 +60,7 @@ const { title = "SPSMB Admin" } = Astro.props;
         </div>
 
         <script>
-            import { createClient } from "@supabase/supabase-js";
+            import { supabase } from "../lib/supabase";
 
             const supabaseUrl = import.meta.env.PUBLIC_SUPABASE_URL;
             const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
@@ -71,10 +71,7 @@ const { title = "SPSMB Admin" } = Astro.props;
                 // or just letting checkAuth fail gracefully if we can't init supabase.
             }
 
-            const supabase =
-                supabaseUrl && supabaseKey
-                    ? createClient(supabaseUrl, supabaseKey)
-                    : null;
+            // supabase is now imported from ../lib/supabase
 
             async function checkAuth() {
                 const loader = document.getElementById("auth-loading");
