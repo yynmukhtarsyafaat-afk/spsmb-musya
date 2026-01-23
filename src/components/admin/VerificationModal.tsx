@@ -25,6 +25,7 @@ export default function VerificationModal({ isOpen, onClose, data, onStatusUpdat
     const [loading, setLoading] = useState(false);
 
     if (!data) return null;
+    console.log("VerificationModal Data:", data);
 
     const handleUpdateStatus = async (newStatus: 'verified' | 'rejected') => {
         setLoading(true);
@@ -88,28 +89,62 @@ export default function VerificationModal({ isOpen, onClose, data, onStatusUpdat
                 <ScrollArea className="flex-1 p-6 pt-2">
                     {/* Data Diri */}
                     <DetailSection title="Data Calon Peserta Didik">
-                        <DetailItem label="Nama Lengkap" value={data.student_data?.full_name} />
-                        <DetailItem label="NIK" value={data.student_data?.nik} />
-                        <DetailItem label="Tempat, Tanggal Lahir" value={`${data.student_data?.birth_place}, ${data.student_data?.birth_date}`} />
-                        <DetailItem label="Jenis Kelamin" value={data.student_data?.gender === 'L' ? 'Laki-laki' : 'Perempuan'} />
-                        <DetailItem label="Unit Pilihan" value={data.education_data?.unit} />
-                        <DetailItem label="Program/Jurusan" value={data.education_data?.program} />
+                        <DetailItem label="Nama Lengkap" value={data.full_name || data.student_data?.full_name || data.student_data?.nama_lengkap} />
+                        <DetailItem label="NIK" value={data.nik || data.student_data?.nik} />
+                        <DetailItem label="Tempat Lahir" value={data.birth_place || data.student_data?.birth_place || data.student_data?.tempat_lahir} />
+                        <DetailItem label="Tanggal Lahir" value={data.birth_date || data.student_data?.birth_date || data.student_data?.tanggal_lahir} />
+                        <DetailItem label="Jenis Kelamin" value={data.gender || data.student_data?.gender || data.student_data?.jenis_kelamin} />
+                        <DetailItem label="Unit Pilihan" value={data.school_unit || data.education_data?.unit || data.student_data?.unit_sekolah} />
+                        <DetailItem label="Unit Pesantren" value={data.pesantren_unit || data.student_data?.unit_pesantren} />
+                        <DetailItem label="Program/Jurusan" value={data.major || data.education_data?.program || data.student_data?.jurusan} />
+                        <DetailItem label="Ukuran Seragam" value={data.uniform_size || data.student_data?.ukuran_seragam} />
+                        <DetailItem label="Boarding" value={data.boarding || data.student_data?.boarding} />
+                    </DetailSection>
+
+                    {/* Informasi Tambahan */}
+                    <DetailSection title="Informasi Tambahan">
+                        <DetailItem label="Riwayat Penyakit" value={data.medical_history || data.student_data?.riwayat_penyakit} />
+                        <DetailItem label="Sumber Informasi" value={data.info_source || data.student_data?.sumber_informasi} />
+                    </DetailSection>
+
+                    {/* Data Alamat (NEW) */}
+                    <DetailSection title="Data Tempat Tinggal">
+                        <DetailItem label="Alamat Lengkap" value={data.address} />
+                        <DetailItem label="Desa/Kelurahan" value={data.village} />
+                        <DetailItem label="Kecamatan" value={data.district} />
+                        <DetailItem label="Kabupaten/Kota" value={data.city} />
+                        <DetailItem label="Provinsi" value={data.province} />
                     </DetailSection>
 
                     {/* Riwayat Pendidikan */}
                     <DetailSection title="Riwayat Pendidikan">
-                        <DetailItem label="Sekolah Asal" value={data.education_data?.prev_school_name} />
-                        <DetailItem label="NPSN" value={data.education_data?.npsn} />
-                        <DetailItem label="NISN" value={data.education_data?.nisn} />
+                        <DetailItem label="Sekolah Asal" value={data.origin_school || data.education_data?.prev_school_name || data.education_data?.sekolah_asal} />
+                        <DetailItem label="NPSN" value={data.npsn || data.education_data?.npsn} />
+                        <DetailItem label="NISN" value={data.nisn || data.education_data?.nisn} />
+                        <DetailItem label="Alamat Sekolah" value={data.school_address || data.education_data?.alamat_sekolah} />
                     </DetailSection>
 
                     {/* Data Orang Tua */}
                     <DetailSection title="Data Orang Tua">
-                        <DetailItem label="Nama Ayah" value={data.parent_data?.father_name} />
-                        <DetailItem label="NIK Ayah" value={data.parent_data?.father_nik} />
-                        <DetailItem label="Nama Ibu" value={data.parent_data?.mother_name} />
-                        <DetailItem label="NIK Ibu" value={data.parent_data?.mother_nik} />
-                        <DetailItem label="No. Telepon" value={data.parent_data?.phone} />
+                        <div className="md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div className="space-y-2 p-3 bg-slate-50/50 rounded border border-slate-100">
+                                <p className="font-semibold text-sm text-slate-700 mb-2">Ayah</p>
+                                <DetailItem label="Nama" value={data.father_name || data.parent_data?.father_name || data.parent_data?.nama_ayah} />
+                                <DetailItem label="NIK" value={data.father_nik || data.parent_data?.father_nik || data.parent_data?.nik_ayah} />
+                                <DetailItem label="Pekerjaan" value={data.father_job || data.parent_data?.pekerjaan_ayah} />
+                                <DetailItem label="Penghasilan" value={data.father_income || data.parent_data?.penghasilan_ayah} />
+                            </div>
+                            <div className="space-y-2 p-3 bg-slate-50/50 rounded border border-slate-100">
+                                <p className="font-semibold text-sm text-slate-700 mb-2">Ibu</p>
+                                <DetailItem label="Nama" value={data.mother_name || data.parent_data?.mother_name || data.parent_data?.nama_ibu} />
+                                <DetailItem label="NIK" value={data.mother_nik || data.parent_data?.mother_nik || data.parent_data?.nik_ibu} />
+                                <DetailItem label="Pekerjaan" value={data.mother_job || data.parent_data?.pekerjaan_ibu} />
+                                <DetailItem label="Penghasilan" value={data.mother_income || data.parent_data?.penghasilan_ibu} />
+                            </div>
+                        </div>
+                        <div className="md:col-span-2 mt-2">
+                            <DetailItem label="No. WhatsApp" value={data.phone || data.parent_data?.phone || data.parent_data?.no_wa} />
+                        </div>
                     </DetailSection>
 
                     {/* Berkas - Simplified for MVP */}

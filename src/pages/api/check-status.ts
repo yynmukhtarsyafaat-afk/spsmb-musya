@@ -34,12 +34,10 @@ export const POST: APIRoute = async ({ request, locals }) => {
 
         const supabase = getSupabaseAdmin(serviceKey);
 
-        // Note: We are querying the 'registrations' table. 
-        // We assume 'student_data' is a JSONB column containing 'birth_date'.
-        // We strictly match reg_number and birth_date for security/privacy.
+        // Query the 'registrations' table with normalized columns
         const { data, error } = await supabase
             .from("registrations")
-            .select("status, student_data, reg_number")
+            .select("status, full_name, birth_date, reg_number")
             .eq("reg_number", reg_number)
             .single();
 
@@ -54,11 +52,10 @@ export const POST: APIRoute = async ({ request, locals }) => {
             );
         }
 
-        // 3. Verify Birth Date manually if it's inside JSONB (safer than complex JSONB query syntax sometimes)
-        // Adjust key access based on actual JSON structure. 
-        // Data disimpan dengan kunci Indonesia: tanggal_lahir, nama_lengkap
-        const storedBirthDate = data.student_data?.tanggal_lahir;
-        const storedNama = data.student_data?.nama_lengkap || "Calon Peserta Didik"; // Fallback name
+        // Verify Birth Date using normalized column
+        // birth_date is stored as DATE type (YYYY-MM-DD format)
+        const storedBirthDate = data.birth_date;
+        const storedNama = data.full_name || "Calon Peserta Didik";
 
         if (storedBirthDate !== birth_date) {
             return new Response(

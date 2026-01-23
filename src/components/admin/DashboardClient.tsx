@@ -19,6 +19,10 @@ export default function DashboardClient() {
             try {
                 const supabase = getSupabase();
 
+                // Auth check is now handled by AdminLayout (localStorage)
+                // We skip supabase.auth.getUser() here to prevent auto-logout
+
+
                 // Fetch counts - we wrap in try/catch individual parts to better diagnose?
                 // For now, let's keep it simple: one fail = all fail display
 
@@ -55,7 +59,7 @@ export default function DashboardClient() {
                 // Fetch recent
                 const { data: recent, error: errRecent } = await supabase
                     .from('registrations')
-                    .select('id, reg_number, student_data, status, created_at')
+                    .select('id, reg_number, full_name, status, created_at')
                     .order('created_at', { ascending: false })
                     .limit(5);
 
@@ -87,12 +91,12 @@ export default function DashboardClient() {
                 <AlertCircle className="w-10 h-10 text-red-600 mb-3" />
                 <h3 className="font-bold text-lg">Gagal Memuat Data</h3>
                 <p className="text-sm mt-1 mb-4 max-w-md">{error}</p>
-                <div className="text-xs bg-white p-3 rounded border border-red-100 font-mono text-left w-full max-w-lg">
-                    Possible Causes:
-                    <ul className="list-disc ml-5 mt-1 space-y-1">
-                        <li>Row Level Security (RLS) policies are blocking access.</li>
-                        <li>Network connection issues to Supabase.</li>
-                        <li>Invalid database schema or column names.</li>
+                <div className="text-xs bg-white p-3 rounded border border-red-100 font-mono text-left w-full max-w-lg overflow-auto">
+                    <p className="font-semibold mb-1">Diagnostic Info:</p>
+                    <ul className="list-disc ml-5 space-y-1">
+                        <li>Supabase URL: {import.meta.env.PUBLIC_SUPABASE_URL ? 'Configured' : 'MISSING'}</li>
+                        <li>RLS Config: Ensure 'anon' or 'authenticated' role has SELECT permission on 'registrations' (schema: api).</li>
+                        <li>Table: Ensure 'registrations' table exists in 'api' schema.</li>
                     </ul>
                 </div>
             </div>
@@ -122,7 +126,7 @@ export default function DashboardClient() {
                             {recentRegistrations.map((reg) => (
                                 <tr key={reg.id} className="hover:bg-slate-50 transition-colors">
                                     <td className="px-6 py-4 font-mono text-slate-600">{reg.reg_number}</td>
-                                    <td className="px-6 py-4 font-medium text-slate-800">{(reg.student_data as any)?.full_name || '-'}</td>
+                                    <td className="px-6 py-4 font-medium text-slate-800">{reg.full_name || '-'}</td>
                                     <td className="px-6 py-4 text-slate-500">{new Date(reg.created_at).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}</td>
                                     <td className="px-6 py-4">
                                         <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium capitalize

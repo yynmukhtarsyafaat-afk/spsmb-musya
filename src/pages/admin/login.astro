@@ -9,14 +9,65 @@ import "../../styles/global.css";
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Login Admin - SPSMB</title>
     </head>
-    <body class="bg-slate-100 flex items-center justify-center min-h-screen">
-        <div class="bg-white p-8 rounded-xl shadow-lg w-full max-w-md">
+    <style>
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+        @keyframes slideUp {
+            from {
+                transform: translateY(20px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        .animate-fade-in {
+            animation: fadeIn 0.8s ease-out forwards;
+        }
+        .animate-slide-up {
+            animation: slideUp 0.6s ease-out 0.2s forwards;
+            opacity: 0; /* meaningful initial state */
+        }
+        .animate-slide-up-delay {
+            animation: slideUp 0.6s ease-out 0.4s forwards;
+            opacity: 0;
+        }
+    </style>
+    <body
+        class="bg-gradient-to-br from-emerald-50 to-slate-100 flex items-center justify-center min-h-screen p-4"
+    >
+        <div
+            class="bg-white/80 backdrop-blur-sm p-8 rounded-2xl shadow-xl w-full max-w-md border border-white/50 animate-slide-up"
+        >
             <div class="text-center mb-8">
-                <h1 class="text-2xl font-bold text-emerald-800">Admin Login</h1>
+                <div
+                    class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-emerald-100 mb-4 animate-fade-in"
+                >
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="w-6 h-6 text-emerald-600"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        ><rect width="18" height="11" x="3" y="11" rx="2" ry="2"
+                        ></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg
+                    >
+                </div>
+                <h1 class="text-2xl font-bold text-slate-800">Admin Login</h1>
                 <p class="text-slate-500">SPSMB Yayasan Mukhtar Syafa'at</p>
             </div>
 
-            <form id="login-form" class="space-y-4">
+            <form id="login-form" class="space-y-5 animate-slide-up-delay">
                 <div>
                     <label
                         for="email"
@@ -28,7 +79,9 @@ import "../../styles/global.css";
                         id="email"
                         name="email"
                         required
-                        class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none"
+                        autocomplete="email"
+                        class="w-full px-4 py-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 outline-none transition-all placeholder:text-slate-400"
+                        placeholder="nama@email.com"
                     />
                 </div>
 
@@ -43,60 +96,125 @@ import "../../styles/global.css";
                         id="password"
                         name="password"
                         required
-                        class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none"
+                        autocomplete="current-password"
+                        class="w-full px-4 py-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 outline-none transition-all placeholder:text-slate-400"
+                        placeholder="••••••••"
                     />
                 </div>
 
                 <div
                     id="error-message"
-                    class="hidden text-red-600 text-sm bg-red-50 p-2 rounded"
+                    class="hidden text-red-600 text-sm bg-red-50 p-3 rounded-lg border border-red-100 flex items-center gap-2"
                 >
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="w-4 h-4 shrink-0"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        ><circle cx="12" cy="12" r="10"></circle><line
+                            x1="12"
+                            x2="12"
+                            y1="8"
+                            y2="12"></line><line
+                            x1="12"
+                            x2="12.01"
+                            y1="16"
+                            y2="16"></line></svg
+                    >
+                    <span id="error-text"></span>
                 </div>
 
                 <button
                     type="submit"
-                    class="w-full bg-emerald-600 text-white font-medium py-2.5 rounded-lg hover:bg-emerald-700 transition-colors focus:ring-4 focus:ring-emerald-100"
+                    class="w-full bg-emerald-600 text-white font-semibold py-3 rounded-lg hover:bg-emerald-700 transition-all transform active:scale-[0.98] shadow-lg shadow-emerald-600/20"
                 >
-                    Masuk
+                    Masuk Dashboard
                 </button>
             </form>
         </div>
 
         <script>
-            import { getSupabase } from "../../lib/supabase";
+            import { supabase } from "../../lib/supabase";
 
             const form = document.getElementById(
                 "login-form",
             ) as HTMLFormElement;
             const errorMsg = document.getElementById("error-message");
+            const errorText = document.getElementById("error-text");
+
+            // Clear previous sessions to ensure clean state
+            // localStorage.removeItem("sb-access-token"); // if any
+            // supabase.auth.signOut();
 
             form?.addEventListener("submit", async (e) => {
                 e.preventDefault();
-                if (!errorMsg) return;
+                if (!errorMsg || !errorText) return;
 
                 errorMsg.classList.add("hidden");
-                errorMsg.textContent = "";
+                errorText.textContent = "";
 
                 const formData = new FormData(form);
                 const email = formData.get("email") as string;
                 const password = formData.get("password") as string;
+                const submitBtn = form.querySelector(
+                    'button[type="submit"]',
+                ) as HTMLButtonElement;
 
                 try {
-                    // Initialize here to catch environment errors
-                    const supabase = getSupabase();
+                    if (submitBtn) {
+                        submitBtn.disabled = true;
+                        submitBtn.textContent = "Memproses...";
+                    }
+
+                    console.log("Attempting login with:", email);
 
                     const { data, error } =
                         await supabase.auth.signInWithPassword({
-                            email,
-                            password,
+                            email: email,
+                            password: password,
                         });
 
-                    if (error) throw error;
+                    if (error) {
+                        console.error("Supabase login error:", error);
+                        throw error;
+                    }
 
+                    console.log("Login success:", data);
+
+                    // Set local flag for UI/AdminLayout checks
+                    localStorage.setItem("admin_logged_in", "true");
+
+                    // Show success state briefly
+                    if (submitBtn) {
+                        submitBtn.textContent = "Berhasil!";
+                        submitBtn.classList.add("bg-emerald-700");
+                    }
+
+                    // Redirect
                     window.location.href = "/admin";
                 } catch (err: any) {
-                    errorMsg.textContent = err.message || "Gagal login";
+                    console.error("Login catch:", err);
+                    errorText.textContent =
+                        err.message || "Email atau password salah!";
                     errorMsg.classList.remove("hidden");
+
+                    // Add shake animation
+                    errorMsg.classList.add("animate-pulse");
+                    setTimeout(
+                        () => errorMsg.classList.remove("animate-pulse"),
+                        500,
+                    );
+                } finally {
+                    if (submitBtn) {
+                        submitBtn.disabled = false;
+                        if (submitBtn.textContent !== "Berhasil!") {
+                            submitBtn.textContent = "Masuk Dashboard";
+                        }
+                    }
                 }
             });
         </script>

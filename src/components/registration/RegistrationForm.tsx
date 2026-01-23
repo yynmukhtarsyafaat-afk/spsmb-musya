@@ -27,6 +27,7 @@ export default function RegistrationForm() {
     const methods = useForm<RegistrationFormData>({
         resolver: zodResolver(registrationSchema),
         mode: 'onChange',
+        shouldUnregister: false, // Critical for multi-step to retain values of unmounted steps
     });
 
     // Load saved data and step from local storage on mount
@@ -68,9 +69,18 @@ export default function RegistrationForm() {
 
 
     const onSubmit = async (data: RegistrationFormData) => {
-        console.log('Form Submitted:', data);
-        setIsSubmitted(true); // Show loading state or similar if needed, currently reusing success state logic later? 
-        // Actually we should probably show a loading indicator. For now let's just do the logic.
+        console.log('=============== FORM SUBMISSION DEBUG ===============');
+        console.log('Raw Form Data:', data);
+        console.log('Address Fields:', {
+            alamat: data.alamat_lengkap,
+            desa: data.desa,
+            kec: data.kecamatan,
+            kab: data.kabupaten,
+            prov: data.provinsi
+        });
+
+        // setIsSubmitted(true); // Moved to end of success block
+        // actually we should probably show a loading indicator. For now let's just do the logic.
 
         try {
             const supabase = getSupabase();
@@ -93,13 +103,6 @@ export default function RegistrationForm() {
                     .upload(path, file);
 
                 if (error) throw error;
-
-                // Get public URL (assuming bucket is public or we store the path)
-                // For private buckets we usually store the path. 
-                // The DB schema comments say "Link dokumen di storage", usually path or public URL.
-                // init.sql says public=false for bucket, so it's private.
-                // Admin can view using authenticated view policy.
-                // We will store the path.
                 return uploadData.path;
             };
 
@@ -117,63 +120,59 @@ export default function RegistrationForm() {
                 akteUrl = await uploadFile(file, path);
             }
 
-            // Map Data to DB Schema
-            const studentData = {
-                status_santri: data.status_santri,
-                nama_lengkap: data.nama_lengkap,
-                nik: data.nik,
-                tempat_lahir: data.tempat_lahir,
-                tanggal_lahir: data.tanggal_lahir,
-                jenis_kelamin: data.jenis_kelamin,
-                unit_sekolah: data.unit_sekolah,
-                unit_pesantren: data.unit_pesantren,
-                jurusan: data.jurusan,
-                boarding: data.boarding,
-                // Others
-                riwayat_penyakit: data.riwayat_penyakit,
-                penyakit_sejak: data.penyakit_sejak,
-                penyakit_kondisi: data.penyakit_kondisi,
-                ukuran_seragam: data.ukuran_seragam,
-                sumber_informasi: data.sumber_informasi,
-                jenis_prestasi: data.jenis_prestasi,
-                tingkat_prestasi: data.tingkat_prestasi,
-            };
+            const filePaths = { kk: kkUrl, akte: akteUrl };
 
-            const educationData = {
-                sekolah_asal: data.sekolah_asal,
-                alamat_sekolah: data.alamat_sekolah,
+            // Map Data to DB Schema (Normalized)
+            const registrationPayload = {
+                reg_number: newRegNumber,
+                status: 'pending',
+
+                // Student Data
+                full_name: data.nama_lengkap,
+                nik: data.nik,
+                birth_place: data.tempat_lahir,
+                birth_date: data.tanggal_lahir,
+                gender: data.jenis_kelamin,
+                school_unit: data.unit_sekolah,
+                pesantren_unit: data.unit_pesantren,
+                major: data.jurusan,
+                boarding: data.boarding,
+                uniform_size: data.ukuran_seragam,
+                medical_history: data.riwayat_penyakit,
+                info_source: data.sumber_informasi,
+
+                // Address Data (FIXED: Now included)
+                address: data.alamat_lengkap,
+                village: data.desa,
+                district: data.kecamatan,
+                city: data.kabupaten,
+                province: data.provinsi,
+
+                // Education Data (Origin)
+                origin_school: data.sekolah_asal,
+                school_address: data.alamat_sekolah,
                 npsn: data.npsn,
                 nisn: data.nisn,
-            };
 
-            const parentData = {
-                nama_ayah: data.nama_ayah,
-                nik_ayah: data.nik_ayah,
-                pekerjaan_ayah: data.pekerjaan_ayah,
-                penghasilan_ayah: data.penghasilan_ayah,
-                nama_ibu: data.nama_ibu,
-                nik_ibu: data.nik_ibu,
-                pekerjaan_ibu: data.pekerjaan_ibu,
-                penghasilan_ibu: data.penghasilan_ibu,
-                no_wa: data.no_wa,
-            };
+                // Parent Data
+                father_name: data.nama_ayah,
+                father_nik: data.nik_ayah,
+                father_job: data.pekerjaan_ayah,
+                father_income: data.penghasilan_ayah,
+                mother_name: data.nama_ibu,
+                mother_nik: data.nik_ibu,
+                mother_job: data.pekerjaan_ibu,
+                mother_income: data.penghasilan_ibu,
+                phone: data.no_wa,
 
-            const filePaths = {
-                kk_path: kkUrl,
-                akte_path: akteUrl
+                // File Paths
+                file_paths: filePaths
             };
 
             // Insert into Supabase
             const { error: insertError } = await supabase
                 .from('registrations')
-                .insert({
-                    reg_number: newRegNumber,
-                    student_data: studentData,
-                    education_data: educationData,
-                    parent_data: parentData,
-                    file_paths: filePaths,
-                    status: 'pending'
-                });
+                .insert(registrationPayload);
 
             if (insertError) throw insertError;
 

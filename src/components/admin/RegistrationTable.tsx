@@ -12,7 +12,7 @@ import { Button } from '../ui/button';
 import { Badge } from '../ui/badge';
 import { Search, Filter, Eye, Download, Loader2 } from 'lucide-react';
 import VerificationModal from './VerificationModal';
-import { supabase } from '../../lib/supabase';
+import { getSupabase } from '../../lib/supabase';
 
 export default function RegistrationTable() {
     const [data, setData] = useState<any[]>([]);
@@ -38,6 +38,8 @@ export default function RegistrationTable() {
             // Client is now imported from lib/supabase
 
 
+
+            const supabase = getSupabase();
             const { data: registrations, error: fetchError } = await supabase
                 .from('registrations')
                 .select('*')
@@ -54,6 +56,18 @@ export default function RegistrationTable() {
     };
 
     useEffect(() => {
+        const checkSession = async () => {
+            const supabase = getSupabase();
+            const { data: { session } } = await supabase.auth.getSession();
+            console.log("Current Supabase Session:", session);
+            if (session) {
+                setDebugInfo(prev => prev + ` | User: ${session.user.email} (${session.user.role})`);
+            } else {
+                setDebugInfo(prev => prev + " | No Active Session (User is null)");
+            }
+        };
+
+        checkSession();
         fetchData();
     }, []);
 
@@ -77,13 +91,13 @@ export default function RegistrationTable() {
             ...data.map(reg => {
                 const row = [
                     escape(reg.reg_number),
-                    escape(reg.student_data?.full_name),
-                    escape("'" + (reg.student_data?.nik || '')), // Force text format for NIK by prepending '
-                    escape(reg.education_data?.unit),
-                    escape(reg.education_data?.program),
-                    escape(reg.parent_data?.father_name),
-                    escape(reg.parent_data?.mother_name),
-                    escape("'" + (reg.parent_data?.phone || '')),
+                    escape(reg.full_name || reg.student_data?.full_name), // Fallback for backward compat if needed
+                    escape("'" + (reg.nik || reg.student_data?.nik || '')),
+                    escape(reg.school_unit || reg.education_data?.unit),
+                    escape(reg.major || reg.education_data?.program),
+                    escape(reg.father_name || reg.parent_data?.father_name),
+                    escape(reg.mother_name || reg.parent_data?.mother_name),
+                    escape("'" + (reg.phone || reg.parent_data?.phone || '')),
                     escape(reg.status),
                     escape(new Date(reg.created_at).toLocaleDateString('id-ID'))
                 ];
@@ -103,8 +117,8 @@ export default function RegistrationTable() {
 
     const filteredData = data.filter((item) => {
         const searchLower = search.toLowerCase();
-        const name = item.student_data?.full_name?.toLowerCase() || '';
-        const regNum = item.reg_number?.toLowerCase() || '';
+        const name = (item.full_name || item.student_data?.full_name || '').toLowerCase();
+        const regNum = (item.reg_number || '').toLowerCase();
         return name.includes(searchLower) || regNum.includes(searchLower);
     });
 
@@ -136,6 +150,11 @@ export default function RegistrationTable() {
                 </Button>
             </div>
 
+            {/* Debug Info */}
+            <div className="text-xs text-slate-400 font-mono px-1">
+                {debugInfo}
+            </div>
+
             <div className="bg-white rounded-lg shadow-sm border border-slate-100 overflow-hidden">
                 <Table>
                     <TableHeader className="bg-slate-50">
@@ -159,9 +178,21 @@ export default function RegistrationTable() {
                         ) : error ? (
                             <TableRow>
                                 <TableCell colSpan={5} className="h-24 text-center text-red-600">
-                                    <div className="flex flex-col items-center gap-2">
-                                        <p>Gagal memuat data: {error}</p>
-                                        <p className="text-xs text-slate-400 font-mono">{debugInfo}</p>
+                                    <div className="flex flex-col items-center gap-2 max-w-lg mx-auto">
+                                        <div className="flex items-center text-red-600 font-semibold">
+                                            <span className="mr-2">⚠️</span> Gagal memuat data
+                                        </div>
+                                        <p className="text-sm text-slate-600 mb-2">{error}</p>
+
+                                        <div className="text-xs bg-slate-50 p-3 rounded border border-slate-200 font-mono text-left w-full overflow-auto">
+                                            <p className="font-semibold mb-1 text-slate-700">Diagnostic Info:</p>
+                                            <ul className="list-disc ml-5 space-y-1 text-slate-500">
+                                                <li>Supabase URL: {import.meta.env.PUBLIC_SUPABASE_URL ? 'Configured' : 'MISSING'}</li>
+                                                <li>Error Details: {debugInfo || 'None'}</li>
+                                                <li>Check RLS policies for 'registrations' table in 'api' schema.</li>
+                                            </ul>
+                                        </div>
+
                                         <Button variant="outline" size="sm" onClick={fetchData} className="mt-2">
                                             Coba Lagi
                                         </Button>
@@ -172,8 +203,8 @@ export default function RegistrationTable() {
                             filteredData.map((reg) => (
                                 <TableRow key={reg.id} className="hover:bg-slate-50 transition-colors">
                                     <TableCell className="font-mono">{reg.reg_number}</TableCell>
-                                    <TableCell className="font-medium">{reg.student_data?.full_name}</TableCell>
-                                    <TableCell>{reg.education_data?.unit}</TableCell>
+                                    <TableCell className="font-medium">{reg.full_name || reg.student_data?.full_name}</TableCell>
+                                    <TableCell>{reg.school_unit || reg.education_data?.unit}</TableCell>
                                     <TableCell>
                                         <Badge variant={
                                             reg.status === 'verified' ? 'default' :

@@ -77,68 +77,21 @@ const { title = "SPSMB Admin" } = Astro.props;
                 const loader = document.getElementById("auth-loading");
                 const content = document.getElementById("admin-content");
                 const errorDiv = document.getElementById("auth-error");
-                const errorDetail = document.getElementById("error-detail");
 
-                // Bypass Logic
-                const urlParams = new URLSearchParams(window.location.search);
-                if (urlParams.get("bypass") === "true") {
-                    localStorage.setItem("admin_bypass", "true");
-                    // Clean URL
-                    window.history.replaceState(
-                        {},
-                        "",
-                        window.location.pathname,
-                    );
-                }
-
+                // Simple Auth Check
+                const isLoggedIn =
+                    localStorage.getItem("admin_logged_in") === "true";
                 const isBypass =
                     localStorage.getItem("admin_bypass") === "true";
 
-                if (isBypass) {
+                if (isLoggedIn || isBypass) {
                     if (loader) loader.classList.add("hidden");
                     if (content) content.classList.remove("hidden");
                     return;
                 }
 
-                try {
-                    if (!supabase) {
-                        throw new Error(
-                            "Konfigurasi Supabase hilang (PUBLIC_SUPABASE_URL atau PUBLIC_SUPABASE_ANON_KEY). Periksa file .env Anda.",
-                        );
-                    }
-
-                    // Timeout promise prevents infinite loading
-                    const timeout = new Promise((_, reject) =>
-                        setTimeout(
-                            () => reject(new Error("Timeout checking session")),
-                            10000,
-                        ),
-                    );
-
-                    const sessionPromise = supabase.auth.getSession();
-
-                    const {
-                        data: { session },
-                        error,
-                    } = (await Promise.race([sessionPromise, timeout])) as any;
-
-                    if (error) throw error;
-
-                    if (!session) {
-                        window.location.href = "/admin/login";
-                        return;
-                    }
-
-                    if (loader) loader.classList.add("hidden");
-                    if (content) content.classList.remove("hidden");
-                } catch (err: any) {
-                    console.error("Auth Check Error:", err);
-                    if (loader) loader.classList.add("hidden");
-                    if (errorDiv) errorDiv.classList.remove("hidden");
-                    if (errorDetail)
-                        errorDetail.textContent =
-                            err.message || JSON.stringify(err);
-                }
+                // If not logged in, redirect to login
+                window.location.href = "/admin/login";
             }
 
             checkAuth();

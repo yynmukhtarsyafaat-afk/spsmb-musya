@@ -8,17 +8,13 @@ export default function AdminSidebar() {
         { href: '/admin/verifikasi', label: 'Verifikasi Data', icon: Users },
     ];
 
-    const handleLogout = async () => {
-        try {
-            const supabase = getSupabase();
-            await supabase.auth.signOut();
-            localStorage.removeItem('admin_bypass');
-            window.location.href = '/admin/login';
-        } catch (error) {
-            console.error("Logout failed:", error);
-            // Force redirect anyway
-            window.location.href = '/admin/login';
-        }
+    const handleLogout = () => {
+        // Clear all auth flags
+        localStorage.removeItem('admin_logged_in');
+        localStorage.removeItem('admin_bypass');
+
+        // Redirect to login
+        window.location.href = '/admin/login';
     };
 
     return (
