@@ -8,12 +8,14 @@ import Step1StudentData from './Step1StudentData';
 import Step2Education from './Step2Education';
 import Step3ParentData from './Step3ParentData';
 import Step4AddressHealth from './Step4AddressHealth';
+import Step5Others from './Step5Others';
 
 const steps = [
     { id: 1, title: 'Data Santri', description: 'Identitas Calon Peserta Didik' },
     { id: 2, title: 'Pendidikan', description: 'Riwayat Pendidikan Sebelumnya' },
     { id: 3, title: 'Orang Tua', description: 'Data Ayah dan Ibu' },
-    { id: 4, title: 'Alamat', description: 'Alamat Lengkap dan Kesehatan' },
+    { id: 4, title: 'Alamat', description: 'Alamat Lengkap' },
+    { id: 5, title: 'Lain-lain', description: 'Kesehatan & Info Tambahan' },
 ];
 
 export default function RegistrationForm() {
@@ -23,10 +25,46 @@ export default function RegistrationForm() {
         mode: 'onChange',
     });
 
+    // Load saved data and step from local storage on mount
+    React.useEffect(() => {
+        const savedData = localStorage.getItem('spsmb_registration_form');
+        const savedStep = localStorage.getItem('spsmb_registration_step');
+
+        if (savedData) {
+            try {
+                const parsedData = JSON.parse(savedData);
+                methods.reset(parsedData);
+            } catch (error) {
+                console.error("Failed to parse saved form data", error);
+            }
+        }
+
+        if (savedStep) {
+            setCurrentStep(parseInt(savedStep, 10));
+        }
+    }, [methods]);
+
+    // Save form data to local storage on change
+    React.useEffect(() => {
+        const subscription = methods.watch((value) => {
+            localStorage.setItem('spsmb_registration_form', JSON.stringify(value));
+        });
+        return () => subscription.unsubscribe();
+    }, [methods]);
+
+    // Save step to local storage when it changes
+    React.useEffect(() => {
+        localStorage.setItem('spsmb_registration_step', currentStep.toString());
+    }, [currentStep]);
+
     const onSubmit = (data: RegistrationFormData) => {
         console.log('Form Submitted:', data);
         // Implementasi submit ke backend/Supabase di sini
         alert("Pendaftaran berhasil disubmit! (Simulasi)");
+
+        // Clear local storage on successful submit
+        localStorage.removeItem('spsmb_registration_form');
+        localStorage.removeItem('spsmb_registration_step');
     };
 
     const nextStep = async () => {
@@ -34,11 +72,13 @@ export default function RegistrationForm() {
         // Validasi per langkah bisa ditambahkan di sini dengan trigger()
         // Contoh sederhana trigger validasi parsial
         if (currentStep === 1) {
-            isValid = await methods.trigger(['nama_lengkap', 'nik', 'tempat_lahir', 'tanggal_lahir', 'jenis_kelamin', 'unit_sekolah', 'boarding']);
+            isValid = await methods.trigger(['status_santri', 'nama_lengkap', 'nik', 'tempat_lahir', 'tanggal_lahir', 'jenis_kelamin', 'unit_sekolah', 'boarding']);
         } else if (currentStep === 2) {
-            isValid = await methods.trigger(['sekolah_asal', 'alamat_sekolah']);
+            isValid = await methods.trigger(['sekolah_asal', 'alamat_sekolah', 'nisn']);
         } else if (currentStep === 3) {
-            isValid = await methods.trigger(['nama_ayah', 'pekerjaan_ayah', 'nama_ibu', 'no_wa']);
+            isValid = await methods.trigger(['nama_ayah', 'nik_ayah', 'pekerjaan_ayah', 'penghasilan_ayah', 'nama_ibu', 'nik_ibu', 'pekerjaan_ibu', 'penghasilan_ibu', 'no_wa']);
+        } else if (currentStep === 4) {
+            isValid = await methods.trigger(['alamat_lengkap', 'desa', 'kecamatan', 'kabupaten', 'provinsi']);
         } else {
             isValid = true;
         }
@@ -78,6 +118,7 @@ export default function RegistrationForm() {
                             {currentStep === 2 && <Step2Education />}
                             {currentStep === 3 && <Step3ParentData />}
                             {currentStep === 4 && <Step4AddressHealth />}
+                            {currentStep === 5 && <Step5Others />}
                         </form>
                     </FormProvider>
                 </CardContent>
