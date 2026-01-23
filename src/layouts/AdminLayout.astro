@@ -97,6 +97,12 @@ const { title = "SPSMB Admin" } = Astro.props;
                 const isBypass =
                     localStorage.getItem("admin_bypass") === "true";
 
+                if (isBypass) {
+                    if (loader) loader.classList.add("hidden");
+                    if (content) content.classList.remove("hidden");
+                    return;
+                }
+
                 try {
                     if (!supabase) {
                         throw new Error(
@@ -121,7 +127,7 @@ const { title = "SPSMB Admin" } = Astro.props;
 
                     if (error) throw error;
 
-                    if (!session && !isBypass) {
+                    if (!session) {
                         window.location.href = "/admin/login";
                         return;
                     }
