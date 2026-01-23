@@ -32,9 +32,9 @@ export function getSupabase(): SupabaseClient<any, 'api', any> {
  * Get Supabase Admin client instance (bypasses RLS)
  * ONLY usage in server-side API routes. NEVER expose to client.
  */
-export function getSupabaseAdmin(): SupabaseClient<any, 'api', any> {
+export function getSupabaseAdmin(serviceKey?: string): SupabaseClient<any, 'api', any> {
     const supabaseUrl = import.meta.env.PUBLIC_SUPABASE_URL;
-    const supabaseServiceKey = import.meta.env.SUPABASE_SERVICE_ROLE_KEY;
+    const supabaseServiceKey = serviceKey || import.meta.env.SUPABASE_SERVICE_ROLE_KEY;
 
     if (!supabaseUrl || !supabaseServiceKey) {
         throw new Error(

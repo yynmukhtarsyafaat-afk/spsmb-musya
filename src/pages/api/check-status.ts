@@ -2,7 +2,7 @@ import type { APIRoute } from "astro";
 import { getSupabaseAdmin } from "@/lib/supabase";
 import { z } from "zod";
 
-export const POST: APIRoute = async ({ request }) => {
+export const POST: APIRoute = async ({ request, locals }) => {
     try {
         const formData = await request.json();
 
@@ -28,7 +28,11 @@ export const POST: APIRoute = async ({ request }) => {
         const { reg_number, birth_date } = parseResult.data;
 
         // 2. Query Supabase (using Admin client to bypass RLS)
-        const supabase = getSupabaseAdmin();
+        // Cloudflare Pages: Env vars are in locals.runtime.env
+        const runtime = (locals as any).runtime;
+        const serviceKey = runtime?.env?.SUPABASE_SERVICE_ROLE_KEY;
+
+        const supabase = getSupabaseAdmin(serviceKey);
 
         // Note: We are querying the 'registrations' table. 
         // We assume 'student_data' is a JSONB column containing 'birth_date'.
@@ -84,7 +88,7 @@ export const POST: APIRoute = async ({ request }) => {
         return new Response(
             JSON.stringify({
                 success: false,
-                message: "Terjadi kesalahan pada server. Silakan coba lagi nanti.",
+                message: `Terjadi kesalahan pada server: ${error instanceof Error ? error.message : String(error)}`,
             }),
             { status: 500 }
         );
