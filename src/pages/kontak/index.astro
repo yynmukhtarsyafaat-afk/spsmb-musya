@@ -10,6 +10,7 @@ import {
     Instagram,
     Youtube,
     Facebook,
+    ArrowRight,
 } from "lucide-react";
 import Navbar from "../../components/layout/Navbar.astro";
 import Footer from "../../components/layout/Footer.astro";
@@ -23,7 +24,7 @@ import Footer from "../../components/layout/Footer.astro";
     <Navbar />
 
     <!-- Header / Hero -->
-    <section class="pt-32 pb-16 bg-secondary/50">
+    <section class="pt-32 pb-10 bg-secondary/50">
         <div class="max-w-7xl mx-auto px-6 lg:px-12 text-center">
             <h1 class="text-4xl lg:text-5xl font-serif text-foreground mb-6">
                 Hubungi Kami
@@ -35,212 +36,219 @@ import Footer from "../../components/layout/Footer.astro";
         </div>
     </section>
 
-    <!-- Contact Info Cards -->
-    <section class="py-16 bg-white">
+    <!-- Bento Grid Section -->
+    <section class="pt-8 pb-16 bg-white">
         <div class="max-w-7xl mx-auto px-6 lg:px-12">
             <div
-                class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto"
+                class="grid grid-cols-1 md:grid-cols-4 gap-4 auto-rows-auto md:auto-rows-[200px]"
             >
-                <!-- Alamat -->
+                <!-- 1. Peta Lokasi (2x2) -->
                 <div
-                    class="bg-secondary rounded-[2rem] p-8 border border-border text-center group hover:shadow-xl hover:border-emerald-200 transition-all duration-500"
+                    class="md:col-span-2 md:row-span-2 relative overflow-hidden rounded-[2rem] border border-border shadow-md group h-[400px] md:h-full"
+                >
+                    <iframe
+                        src="https://maps.google.com/maps?q=H432%2BW78+Kaligesing+Karangmulyo+Tegalsari+Banyuwangi+Jawa+Timur+68485&t=&z=15&ie=UTF8&iwloc=&output=embed"
+                        width="100%"
+                        height="100%"
+                        style="border:0;"
+                        allowfullscreen=""
+                        loading="lazy"
+                        referrerpolicy="no-referrer-when-downgrade"
+                        title="Lokasi Yayasan Mukhtar Syafa'at"
+                        class="absolute inset-0 w-full h-full grayscale-[20%] group-hover:grayscale-0 transition-all duration-700"
+                    ></iframe>
+                    <div
+                        class="absolute bottom-4 left-4 bg-white/90 backdrop-blur-sm px-4 py-2 rounded-xl text-xs font-bold text-foreground shadow-sm"
+                    >
+                        Lokasi Pesantren
+                    </div>
+                </div>
+
+                <!-- 2. Alamat (1x1) -->
+                <div
+                    class="md:col-span-1 md:row-span-1 bg-secondary rounded-[2rem] p-6 border border-border flex flex-col justify-between group hover:border-emerald-200 transition-colors"
                 >
                     <div
-                        class="w-16 h-16 bg-white rounded-2xl flex items-center justify-center text-emerald-600 shadow-sm mx-auto mb-6 group-hover:scale-110 transition-transform"
+                        class="w-10 h-10 bg-white rounded-xl flex items-center justify-center text-emerald-600 shadow-sm"
                     >
-                        <MapPin className="h-8 w-8" />
+                        <MapPin className="h-5 w-5" />
                     </div>
-                    <h3 class="text-xl font-serif text-foreground mb-3">
-                        Alamat
-                    </h3>
-                    <p class="text-muted-foreground text-sm leading-relaxed">
-                        JL. KH. Mukhtar Syafa'at,<br />
-                        Kec. Tegalsari, Kab. Banyuwangi,<br />
-                        Jawa Timur
-                    </p>
-                </div>
-
-                <!-- Telepon -->
-                <div
-                    class="bg-secondary rounded-[2rem] p-8 border border-border text-center group hover:shadow-xl hover:border-emerald-200 transition-all duration-500"
-                >
-                    <div
-                        class="w-16 h-16 bg-white rounded-2xl flex items-center justify-center text-emerald-600 shadow-sm mx-auto mb-6 group-hover:scale-110 transition-transform"
-                    >
-                        <Phone className="h-8 w-8" />
-                    </div>
-                    <h3 class="text-xl font-serif text-foreground mb-3">
-                        Telepon
-                    </h3>
-                    <p class="text-muted-foreground text-sm mb-2">
-                        (0333) 4460475
-                    </p>
-                    <a
-                        href="https://wa.me/6281234567890"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        class="inline-flex items-center gap-2 text-primary hover:text-emerald-700 text-sm font-medium transition-colors"
-                    >
-                        <MessageCircle className="h-4 w-4" />
-                        Chat WhatsApp
-                    </a>
-                </div>
-
-                <!-- Email -->
-                <div
-                    class="bg-secondary rounded-[2rem] p-8 border border-border text-center group hover:shadow-xl hover:border-emerald-200 transition-all duration-500"
-                >
-                    <div
-                        class="w-16 h-16 bg-white rounded-2xl flex items-center justify-center text-emerald-600 shadow-sm mx-auto mb-6 group-hover:scale-110 transition-transform"
-                    >
-                        <Mail className="h-8 w-8" />
-                    </div>
-                    <h3 class="text-xl font-serif text-foreground mb-3">
-                        Email
-                    </h3>
-                    <a
-                        href="mailto:yynmukhtarsyafaat@gmail.com"
-                        class="text-muted-foreground text-sm hover:text-primary transition-colors break-all"
-                    >
-                        yynmukhtarsyafaat@gmail.com
-                    </a>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Jam Operasional & Social Media -->
-    <section class="py-16 bg-secondary/30">
-        <div class="max-w-7xl mx-auto px-6 lg:px-12">
-            <div
-                class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto"
-            >
-                <!-- Jam Operasional -->
-                <div
-                    class="bg-white rounded-[2.5rem] p-8 lg:p-10 border border-border"
-                >
-                    <div class="flex items-center gap-4 mb-6">
-                        <div
-                            class="w-12 h-12 bg-emerald-100 rounded-xl flex items-center justify-center text-emerald-600"
+                    <div>
+                        <h3 class="font-bold text-foreground mb-1">Alamat</h3>
+                        <p
+                            class="text-xs text-muted-foreground leading-relaxed"
                         >
-                            <Clock className="h-6 w-6" />
-                        </div>
-                        <h3 class="text-xl font-serif text-foreground">
-                            Jam Operasional
-                        </h3>
-                    </div>
-                    <div class="space-y-4">
-                        <div
-                            class="flex justify-between items-center py-3 border-b border-border"
-                        >
-                            <span class="text-muted-foreground text-sm"
-                                >Senin - Jumat</span
-                            >
-                            <span class="text-foreground font-medium text-sm"
-                                >08:00 - 16:00 WIB</span
-                            >
-                        </div>
-                        <div
-                            class="flex justify-between items-center py-3 border-b border-border"
-                        >
-                            <span class="text-muted-foreground text-sm"
-                                >Sabtu</span
-                            >
-                            <span class="text-foreground font-medium text-sm"
-                                >08:00 - 12:00 WIB</span
-                            >
-                        </div>
-                        <div class="flex justify-between items-center py-3">
-                            <span class="text-muted-foreground text-sm"
-                                >Minggu & Hari Libur</span
-                            >
-                            <span class="text-red-500 font-medium text-sm"
-                                >Tutup</span
-                            >
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Follow Us -->
-                <div
-                    class="bg-primary rounded-[2.5rem] p-8 lg:p-10 text-center flex flex-col justify-center relative overflow-hidden"
-                >
-                    <div class="relative z-10">
-                        <h3 class="text-xl font-serif text-white mb-4">
-                            Ikuti Kami
-                        </h3>
-                        <p class="text-emerald-100/80 text-sm mb-8">
-                            Dapatkan informasi terbaru seputar kegiatan yayasan.
+                            JL. KH. Mukhtar Syafa'at, Tegalsari, Banyuwangi
                         </p>
-                        <div class="flex justify-center gap-4">
-                            <a
-                                href="#"
-                                class="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-xl flex items-center justify-center text-white hover:bg-white hover:text-primary transition-all duration-300"
+                    </div>
+                </div>
+
+                <!-- 3. Jam Operasional (1x2) - Vertical -->
+                <div
+                    class="md:col-span-1 md:row-span-2 bg-white rounded-[2rem] p-6 border border-border flex flex-col relative overflow-hidden group"
+                >
+                    <div class="flex items-center gap-3 mb-6 relative z-10">
+                        <div
+                            class="w-10 h-10 bg-emerald-100 rounded-xl flex items-center justify-center text-emerald-600"
+                        >
+                            <Clock className="h-5 w-5" />
+                        </div>
+                        <h3 class="font-bold text-foreground">Jam Buka</h3>
+                    </div>
+
+                    <div class="space-y-4 flex-1 relative z-10">
+                        <div class="pb-3 border-b border-dashed border-border">
+                            <span
+                                class="block text-xs text-muted-foreground mb-1"
+                                >Senin - Kamis</span
                             >
-                                <Instagram className="h-5 w-5" />
-                            </a>
-                            <a
-                                href="#"
-                                class="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-xl flex items-center justify-center text-white hover:bg-white hover:text-primary transition-all duration-300"
+                            <span
+                                class="block text-sm font-bold text-foreground"
+                                >08:00 - 14:00</span
                             >
-                                <Youtube className="h-5 w-5" />
-                            </a>
-                            <a
-                                href="#"
-                                class="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-xl flex items-center justify-center text-white hover:bg-white hover:text-primary transition-all duration-300"
+                        </div>
+                        <div class="pb-3 border-b border-dashed border-border">
+                            <span
+                                class="block text-xs text-muted-foreground mb-1"
+                                >Jumat - Sabtu</span
                             >
-                                <Facebook className="h-5 w-5" />
-                            </a>
+                            <span
+                                class="block text-sm font-bold text-foreground"
+                                >08:00 - 11:00</span
+                            >
+                        </div>
+                        <div>
+                            <span
+                                class="block text-xs text-muted-foreground mb-1"
+                                >Minggu</span
+                            >
+                            <span class="block text-sm font-bold text-red-500"
+                                >Libur</span
+                            >
                         </div>
                     </div>
+
+                    <div class="mt-4 pt-4 border-t border-border relative z-10">
+                        <p class="text-[10px] text-muted-foreground italic">
+                            *Jam dapat berubah sewaktu-waktu saat hari besar.
+                        </p>
+                    </div>
+
                     <div
-                        class="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl"
+                        class="absolute -bottom-10 -right-10 w-32 h-32 bg-emerald-50 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-700 pointer-events-none"
+                    >
+                    </div>
+                </div>
+
+                <!-- 4. Telepon (1x1) -->
+                <div
+                    class="md:col-span-1 md:row-span-1 bg-secondary rounded-[2rem] p-6 border border-border flex flex-col justify-between group hover:border-emerald-200 transition-colors"
+                >
+                    <div class="flex justify-between items-start">
+                        <div
+                            class="w-10 h-10 bg-white rounded-xl flex items-center justify-center text-emerald-600 shadow-sm"
+                        >
+                            <Phone className="h-5 w-5" />
+                        </div>
+                        <a
+                            href="https://wa.me/6283192931314"
+                            target="_blank"
+                            class="p-2 bg-white rounded-full hover:bg-emerald-100 text-emerald-600 transition-colors"
+                            title="Chat WhatsApp"
+                        >
+                            <MessageCircle className="h-4 w-4" />
+                        </a>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-foreground mb-1">Telepon</h3>
+                        <p class="text-xs text-muted-foreground">
+                            0831-9293-1314
+                        </p>
+                    </div>
+                </div>
+
+                <!-- 5. Email (1x1) -->
+                <div
+                    class="md:col-span-1 md:row-span-1 bg-secondary rounded-[2rem] p-6 border border-border flex flex-col justify-between group hover:border-emerald-200 transition-colors"
+                >
+                    <div
+                        class="w-10 h-10 bg-white rounded-xl flex items-center justify-center text-emerald-600 shadow-sm"
+                    >
+                        <Mail className="h-5 w-5" />
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-foreground mb-1">Email</h3>
+                        <a
+                            href="mailto:yynmukhtarsyafaat@gmail.com"
+                            class="text-xs text-muted-foreground hover:text-primary transition-colors block truncate"
+                        >
+                            yynmukhtarsyafaat@gmail.com
+                        </a>
+                    </div>
+                </div>
+
+                <!-- 6. Social Media (1x1) -->
+                <div
+                    class="md:col-span-1 md:row-span-1 bg-primary text-primary-foreground rounded-[2rem] p-6 border border-emerald-400/20 flex flex-col justify-between group relative overflow-hidden"
+                >
+                    <h3 class="font-bold relative z-10">Sosial Media</h3>
+                    <div class="flex gap-2 relative z-10">
+                        <a
+                            href="#"
+                            class="w-8 h-8 bg-white/20 backdrop-blur-sm rounded-lg flex items-center justify-center hover:bg-white hover:text-primary transition-colors"
+                        >
+                            <Instagram className="h-4 w-4" />
+                        </a>
+                        <a
+                            href="#"
+                            class="w-8 h-8 bg-white/20 backdrop-blur-sm rounded-lg flex items-center justify-center hover:bg-white hover:text-primary transition-colors"
+                        >
+                            <Youtube className="h-4 w-4" />
+                        </a>
+                        <a
+                            href="#"
+                            class="w-8 h-8 bg-white/20 backdrop-blur-sm rounded-lg flex items-center justify-center hover:bg-white hover:text-primary transition-colors"
+                        >
+                            <Facebook className="h-4 w-4" />
+                        </a>
+                    </div>
+                    <div
+                        class="absolute top-0 right-0 w-24 h-24 bg-white/10 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-700 pointer-events-none"
+                    >
+                    </div>
+                </div>
+
+                <!-- 7. CTA (2x1) -->
+                <div
+                    class="md:col-span-2 md:row-span-1 bg-emerald-900 rounded-[2rem] p-6 lg:p-8 flex flex-col md:flex-row items-center justify-between gap-6 relative overflow-hidden group"
+                >
+                    <div class="relative z-10 text-center md:text-left">
+                        <h3 class="text-xl font-serif text-white mb-2">
+                            Siap Mendaftar?
+                        </h3>
+                        <p class="text-emerald-200 text-xs md:text-sm">
+                            Bergabunglah bersama kami sekarang.
+                        </p>
+                    </div>
+                    <a
+                        href="/daftar"
+                        class="relative z-10 inline-flex items-center gap-2 bg-white text-emerald-900 px-6 py-3 rounded-full font-bold text-sm hover:bg-emerald-50 transition-colors shadow-lg"
+                    >
+                        <span>Daftar Sekarang</span>
+                        <ArrowRight className="h-4 w-4" />
+                    </a>
+
+                    <!-- Background decorations -->
+                    <div
+                        class="absolute inset-0 bg-[url('/noise.png')] opacity-20 mix-blend-overlay"
+                    >
+                    </div>
+                    <div
+                        class="absolute -left-10 -bottom-10 w-40 h-40 bg-emerald-600/30 rounded-full blur-3xl group-hover:scale-150 transition-transform duration-700"
                     >
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
-
-    <!-- Google Maps Embed -->
-    <section class="py-16 bg-white">
-        <div class="max-w-7xl mx-auto px-6 lg:px-12">
-            <h2 class="text-3xl font-serif text-foreground mb-10 text-center">
-                Lokasi Kami
-            </h2>
-            <div
-                class="rounded-[2rem] overflow-hidden border border-border shadow-lg max-w-5xl mx-auto"
-            >
-                <iframe
-                    src="https://maps.google.com/maps?q=H432%2BW78+Kaligesing+Karangmulyo+Tegalsari+Banyuwangi+Jawa+Timur+68485&t=&z=15&ie=UTF8&iwloc=&output=embed"
-                    width="100%"
-                    height="400"
-                    style="border:0;"
-                    allowfullscreen=""
-                    loading="lazy"
-                    referrerpolicy="no-referrer-when-downgrade"
-                    title="Lokasi Yayasan Mukhtar Syafa'at"></iframe>
-            </div>
-        </div>
-    </section>
-
-    <!-- CTA Section -->
-    <section class="py-16 bg-secondary/50">
-        <div class="max-w-7xl mx-auto px-6 lg:px-12 text-center">
-            <h2 class="text-3xl font-serif text-foreground mb-4">
-                Siap Untuk Bergabung?
-            </h2>
-            <p class="text-muted-foreground text-lg mb-8 max-w-xl mx-auto">
-                Daftarkan putra-putri Anda sekarang dan jadilah bagian dari
-                keluarga besar Yayasan Mukhtar Syafa'at.
-            </p>
-            <a
-                href="/daftar"
-                class="inline-flex items-center gap-2 bg-primary text-white px-8 py-4 rounded-full font-bold hover:bg-emerald-700 transition-colors shadow-lg shadow-emerald-200"
-            >
-                <Send className="h-5 w-5" />
-                Daftar Sekarang
-            </a>
         </div>
     </section>
 
