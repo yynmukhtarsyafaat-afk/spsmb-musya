@@ -7,6 +7,7 @@
 >
     <div class="max-w-7xl mx-auto px-6 lg:px-12">
         <div class="flex justify-between h-20 items-center">
+            <!-- Logo -->
             <div class="flex items-center gap-3">
                 <img
                     src="/logo.png"
@@ -24,6 +25,8 @@
                     >
                 </div>
             </div>
+
+            <!-- Desktop Navigation -->
             <div
                 class="hidden md:flex gap-10 text-sm font-semibold text-muted-foreground"
             >
@@ -42,12 +45,272 @@
                     class="hover:text-primary transition-colors">Cek Status</a
                 >
             </div>
+
+            <!-- Desktop CTA Button -->
             <a
                 href="/daftar"
-                class="bg-primary text-primary-foreground px-6 py-2.5 rounded-full text-sm font-bold hover:bg-primary/90 transition-all shadow-md shadow-primary/20 active:scale-95"
+                class="hidden md:inline-flex bg-primary text-primary-foreground px-6 py-2.5 rounded-full text-sm font-bold hover:bg-primary/90 transition-all shadow-md shadow-primary/20 active:scale-95"
             >
+                Daftar Sekarang
+            </a>
+
+            <!-- Mobile Hamburger Button -->
+            <button
+                id="mobile-menu-button"
+                class="md:hidden flex flex-col justify-center items-center w-10 h-10 rounded-lg hover:bg-muted transition-colors"
+                aria-label="Buka menu navigasi"
+                aria-expanded="false"
+            >
+                <span
+                    class="hamburger-line w-6 h-0.5 bg-foreground transition-all duration-300 ease-in-out"
+                ></span>
+                <span
+                    class="hamburger-line w-6 h-0.5 bg-foreground transition-all duration-300 ease-in-out mt-1.5"
+                ></span>
+                <span
+                    class="hamburger-line w-6 h-0.5 bg-foreground transition-all duration-300 ease-in-out mt-1.5"
+                ></span>
+            </button>
+        </div>
+    </div>
+</nav>
+
+<!-- Mobile Sidebar Overlay -->
+<div
+    id="mobile-sidebar-overlay"
+    class="fixed inset-0 z-[100] bg-black/50 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300 md:hidden"
+>
+</div>
+
+<!-- Mobile Sidebar -->
+<aside
+    id="mobile-sidebar"
+    class="fixed top-0 right-0 z-[101] h-full w-80 max-w-[85vw] bg-white shadow-2xl transition-all duration-300 ease-out md:hidden"
+    style="translate: 100% 0;"
+>
+    <div class="flex flex-col h-full">
+        <!-- Sidebar Header -->
+        <div
+            class="flex items-center justify-between p-6 border-b border-border"
+        >
+            <div class="flex items-center gap-3">
+                <img
+                    src="/logo.png"
+                    alt="Logo Yayasan Mukhtar Syafa'at"
+                    class="w-10 h-10 object-contain"
+                />
+                <div class="leading-none">
+                    <span
+                        class="block font-bold text-foreground tracking-tight text-sm"
+                        >YAYASAN MUKHTAR SYAFA'AT</span
+                    >
+                    <span
+                        class="block text-[10px] font-medium text-primary uppercase tracking-widest"
+                        >BLOKAGUNG</span
+                    >
+                </div>
+            </div>
+            <button
+                id="close-sidebar-button"
+                class="flex items-center justify-center w-10 h-10 rounded-lg hover:bg-muted transition-colors"
+                aria-label="Tutup menu"
+            >
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="w-6 h-6 text-foreground"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    stroke-width="2"
+                >
+                    <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+            </button>
+        </div>
+
+        <!-- Sidebar Navigation -->
+        <nav class="flex-1 overflow-y-auto p-6">
+            <ul class="space-y-2">
+                <li>
+                    <a
+                        href="/"
+                        class="flex items-center gap-4 px-4 py-3 rounded-xl text-foreground font-semibold hover:bg-accent hover:text-accent-foreground transition-colors"
+                    >
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            class="w-5 h-5"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                            stroke-width="2"
+                        >
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
+                            ></path>
+                        </svg>
+                        Beranda
+                    </a>
+                </li>
+                <li>
+                    <a
+                        href="/informasi-pendaftaran"
+                        class="flex items-center gap-4 px-4 py-3 rounded-xl text-foreground font-semibold hover:bg-accent hover:text-accent-foreground transition-colors"
+                    >
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            class="w-5 h-5"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                            stroke-width="2"
+                        >
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                            ></path>
+                        </svg>
+                        SPSMB
+                    </a>
+                </li>
+                <li>
+                    <a
+                        href="/daftar"
+                        class="flex items-center gap-4 px-4 py-3 rounded-xl text-foreground font-semibold hover:bg-accent hover:text-accent-foreground transition-colors"
+                    >
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            class="w-5 h-5"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                            stroke-width="2"
+                        >
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                            ></path>
+                        </svg>
+                        Formulir
+                    </a>
+                </li>
+                <li>
+                    <a
+                        href="/cek-status"
+                        class="flex items-center gap-4 px-4 py-3 rounded-xl text-foreground font-semibold hover:bg-accent hover:text-accent-foreground transition-colors"
+                    >
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            class="w-5 h-5"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                            stroke-width="2"
+                        >
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"
+                            ></path>
+                        </svg>
+                        Cek Status
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+        <!-- Sidebar Footer with CTA -->
+        <div class="p-6 border-t border-border">
+            <a
+                href="/daftar"
+                class="flex items-center justify-center gap-2 w-full bg-primary text-primary-foreground px-6 py-3.5 rounded-xl text-sm font-bold hover:bg-primary/90 transition-all shadow-lg shadow-primary/25 active:scale-[0.98]"
+            >
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="w-5 h-5"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    stroke-width="2"
+                >
+                    <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+                    ></path>
+                </svg>
                 Daftar Sekarang
             </a>
         </div>
     </div>
-</nav>
+</aside>
+
+<style is:global>
+    /* Hamburger Animation */
+    body.menu-open #mobile-menu-button .hamburger-line:nth-child(1) {
+        transform: translateY(8px) rotate(45deg);
+    }
+    body.menu-open #mobile-menu-button .hamburger-line:nth-child(2) {
+        opacity: 0;
+        transform: scaleX(0);
+    }
+    body.menu-open #mobile-menu-button .hamburger-line:nth-child(3) {
+        transform: translateY(-8px) rotate(-45deg);
+    }
+
+    /* Sidebar Open State */
+    body.sidebar-open #mobile-sidebar-overlay {
+        opacity: 1;
+        pointer-events: auto;
+    }
+    body.sidebar-open #mobile-sidebar {
+        translate: 0 0 !important;
+    }
+
+    /* Prevent body scroll when sidebar is open */
+    body.sidebar-open {
+        overflow: hidden;
+    }
+</style>
+
+<script>
+    const menuButton = document.getElementById("mobile-menu-button");
+    const closeButton = document.getElementById("close-sidebar-button");
+    const overlay = document.getElementById("mobile-sidebar-overlay");
+
+    function openSidebar() {
+        document.body.classList.add("sidebar-open", "menu-open");
+        menuButton?.setAttribute("aria-expanded", "true");
+    }
+
+    function closeSidebar() {
+        document.body.classList.remove("sidebar-open", "menu-open");
+        menuButton?.setAttribute("aria-expanded", "false");
+    }
+
+    menuButton?.addEventListener("click", openSidebar);
+    closeButton?.addEventListener("click", closeSidebar);
+    overlay?.addEventListener("click", closeSidebar);
+
+    // Close sidebar on escape key
+    document.addEventListener("keydown", (e) => {
+        if (
+            e.key === "Escape" &&
+            document.body.classList.contains("sidebar-open")
+        ) {
+            closeSidebar();
+        }
+    });
+
+    // Close sidebar when clicking on a navigation link
+    const sidebarLinks = document.querySelectorAll("#mobile-sidebar a");
+    sidebarLinks.forEach((link) => {
+        link.addEventListener("click", closeSidebar);
+    });
+</script>
