@@ -74,42 +74,128 @@ export default function RegistrationTable() {
     const handleExportCSV = () => {
         if (!data.length) return;
 
-        const headers = ['No. Registrasi', 'Nama Lengkap', 'NIK', 'Unit', 'Jurusan', 'Nama Ayah', 'Nama Ibu', 'No HP', 'Status', 'Tanggal Daftar'];
+        // Define headers for all available data
+        const headers = [
+            'No. Registrasi',
+            'Status',
+            'Tanggal Daftar',
+            // Data Santri
+            'Nama Lengkap',
+            'NIK',
+            'Jenis Kelamin',
+            'Tempat Lahir',
+            'Tanggal Lahir',
+            'Unit Sekolah',
+            'Unit Pesantren',
+            'Jurusan',
+            'Boarding',
+            'Ukuran Seragam',
+            'Riwayat Penyakit',
+            'Sumber Info',
+            // Alamat
+            'Alamat Lengkap',
+            'Desa',
+            'Kecamatan',
+            'Kabupaten',
+            'Provinsi',
+            // Pendidikan
+            'Sekolah Asal',
+            'Alamat Sekolah Asal',
+            'NPSN',
+            'NISN',
+            // Orang Tua
+            'Nama Ayah',
+            'NIK Ayah',
+            'Pekerjaan Ayah',
+            'Penghasilan Ayah',
+            'Nama Ibu',
+            'NIK Ibu',
+            'Pekerjaan Ibu',
+            'Penghasilan Ibu',
+            'No HP/WA',
+            // Kolom Tambahan untuk Input Manual (Sesuai Request)
+            'Catatan Admin',
+            'Validasi Dokumen',
+            'Paraf'
+        ];
 
         // Helper to escape CSV fields
         const escape = (val: any) => {
             if (val === null || val === undefined) return '';
             const str = String(val);
-            if (str.includes(',') || str.includes('"') || str.includes('\n')) {
+            // Escape quotes, newlines, and the delimiter (semicolon)
+            if (str.includes(';') || str.includes('"') || str.includes('\n')) {
                 return `"${str.replace(/"/g, '""')}"`;
             }
             return str;
         };
 
         const csvContent = [
-            headers.join(','),
+            headers.join(';'), // Use semicolon for Excel in ID/EU regions
             ...data.map(reg => {
+                // Helper to safely get data from either flat column or JSON fallback (legacy data)
+                // Priority: Flat Column -> JSON Field -> Empty String
+                const get = (key: string, jsonField?: string, subKey?: string) => {
+                    if (reg[key] !== undefined && reg[key] !== null) return reg[key];
+                    if (jsonField && subKey && reg[jsonField]) return reg[jsonField][subKey];
+                    return '';
+                };
+
                 const row = [
                     escape(reg.reg_number),
-                    escape(reg.full_name || reg.student_data?.full_name), // Fallback for backward compat if needed
-                    escape("'" + (reg.nik || reg.student_data?.nik || '')),
-                    escape(reg.school_unit || reg.education_data?.unit),
-                    escape(reg.major || reg.education_data?.program),
-                    escape(reg.father_name || reg.parent_data?.father_name),
-                    escape(reg.mother_name || reg.parent_data?.mother_name),
-                    escape("'" + (reg.phone || reg.parent_data?.phone || '')),
                     escape(reg.status),
-                    escape(new Date(reg.created_at).toLocaleDateString('id-ID'))
+                    escape(new Date(reg.created_at).toLocaleDateString('id-ID')),
+
+                    // Data Santri
+                    escape(get('full_name', 'student_data', 'full_name')),
+                    escape("'" + get('nik', 'student_data', 'nik')), // Force string for Excel
+                    escape(get('gender', 'student_data', 'gender')),
+                    escape(get('birth_place', 'student_data', 'birth_place')),
+                    escape(get('birth_date', 'student_data', 'birth_date')),
+                    escape(get('school_unit', 'education_data', 'unit')), // Note: mapped to education_data.unit in legacy
+                    escape(get('pesantren_unit', 'education_data', 'pesantren_unit')),
+                    escape(get('major', 'education_data', 'program')),
+                    escape(get('boarding', 'education_data', 'boarding')),
+                    escape(get('uniform_size', 'student_data', 'uniform_size')),
+                    escape(get('medical_history', 'student_data', 'medical_history')),
+                    escape(get('info_source', 'student_data', 'info_source')),
+
+                    // Alamat
+                    escape(get('address', 'address_data', 'address')),
+                    escape(get('village', 'address_data', 'village')),
+                    escape(get('district', 'address_data', 'district')),
+                    escape(get('city', 'address_data', 'city')),
+                    escape(get('province', 'address_data', 'province')),
+
+                    // Pendidikan
+                    escape(get('origin_school', 'education_data', 'origin_school')),
+                    escape(get('school_address', 'education_data', 'school_address')),
+                    escape(get('npsn', 'education_data', 'npsn')),
+                    escape(get('nisn', 'education_data', 'nisn')),
+
+                    // Orang Tua
+                    escape(get('father_name', 'parent_data', 'father_name')),
+                    escape("'" + get('father_nik', 'parent_data', 'father_nik')),
+                    escape(get('father_job', 'parent_data', 'father_job')),
+                    escape(get('father_income', 'parent_data', 'father_income')),
+                    escape(get('mother_name', 'parent_data', 'mother_name')),
+                    escape("'" + get('mother_nik', 'parent_data', 'mother_nik')),
+                    escape(get('mother_job', 'parent_data', 'mother_job')),
+                    escape(get('mother_income', 'parent_data', 'mother_income')),
+                    escape("'" + get('phone', 'parent_data', 'phone')),
+                    // Empty columns for manual input
+                    '', '', ''
                 ];
-                return row.join(',');
+                return row.join(';');
             })
         ].join('\n');
 
-        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+        // Add BOM for Excel UTF-8 recognition
+        const blob = new Blob(["\uFEFF" + csvContent], { type: 'text/csv;charset=utf-8;' });
         const url = URL.createObjectURL(blob);
         const link = document.createElement('a');
         link.href = url;
-        link.setAttribute('download', `data_pendaftar_${new Date().toISOString().split('T')[0]}.csv`);
+        link.setAttribute('download', `data_pendaftar_lengkap_${new Date().toISOString().split('T')[0]}.csv`);
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
