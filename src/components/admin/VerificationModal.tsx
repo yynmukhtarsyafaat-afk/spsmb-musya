@@ -149,6 +149,18 @@ export default function VerificationModal({ isOpen, onClose, data, onStatusUpdat
 
                     {/* Berkas - Simplified for MVP */}
                     <DetailSection title="Berkas Upload">
+                        {data.file_paths?.foto && (
+                            <div className="mb-4">
+                                <p className="text-sm font-medium text-slate-700 mb-2">Pas Foto 3x4</p>
+                                <div className="w-32 h-40 bg-slate-100 rounded-lg overflow-hidden border border-slate-200">
+                                    <img
+                                        src={data.file_paths.foto}
+                                        alt="Pas Foto"
+                                        className="w-full h-full object-cover"
+                                    />
+                                </div>
+                            </div>
+                        )}
                         {data.file_paths ? (
                             Object.entries(data.file_paths).map(([key, path]) => (
                                 <div key={key} className="flex items-center gap-2 p-3 bg-slate-50 rounded-lg border border-slate-200">

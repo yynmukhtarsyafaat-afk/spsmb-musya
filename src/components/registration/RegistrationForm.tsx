@@ -96,6 +96,7 @@ export default function RegistrationForm() {
             // Upload Files
             let kkUrl = '';
             let akteUrl = '';
+            let fotoUrl = '';
 
             const uploadFile = async (file: File, path: string) => {
                 const { data: uploadData, error } = await supabase.storage
@@ -103,7 +104,12 @@ export default function RegistrationForm() {
                     .upload(path, file);
 
                 if (error) throw error;
-                return uploadData.path;
+
+                const { data: publicUrlData } = supabase.storage
+                    .from('documents')
+                    .getPublicUrl(uploadData.path);
+
+                return publicUrlData.publicUrl;
             };
 
             if (data.file_kk && data.file_kk.length > 0) {
@@ -120,7 +126,14 @@ export default function RegistrationForm() {
                 akteUrl = await uploadFile(file, path);
             }
 
-            const filePaths = { kk: kkUrl, akte: akteUrl };
+            if (data.file_foto && data.file_foto.length > 0) {
+                const file = data.file_foto[0];
+                const ext = file.name.split('.').pop();
+                const path = `${newRegNumber}/foto.${ext}`;
+                fotoUrl = await uploadFile(file, path);
+            }
+
+            const filePaths = { kk: kkUrl, akte: akteUrl, foto: fotoUrl };
 
             // Map Data to DB Schema (Normalized)
             const registrationPayload = {
@@ -174,7 +187,10 @@ export default function RegistrationForm() {
                 .from('registrations')
                 .insert(registrationPayload);
 
-            if (insertError) throw insertError;
+            if (insertError) {
+                console.error("Insert Error Detailed:", JSON.stringify(insertError, null, 2));
+                throw insertError;
+            }
 
             setRegNumber(newRegNumber);
             setIsSubmitted(true);

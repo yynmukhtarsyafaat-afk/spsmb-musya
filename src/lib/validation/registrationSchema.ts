@@ -50,6 +50,7 @@ export const otherSchema = z.object({
     tingkat_prestasi: z.string().optional(),
     file_kk: z.any().refine((files) => files?.length > 0, "Scan KK wajib diunggah"),
     file_akte: z.any().refine((files) => files?.length > 0, "Scan Akte Kelahiran wajib diunggah"),
+    file_foto: z.any().refine((files) => files?.length > 0, "Pas Foto 3x4 wajib diunggah"),
 });
 
 // Schema gabungan untuk form lengkap

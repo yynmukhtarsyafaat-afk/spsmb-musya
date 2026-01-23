@@ -101,6 +101,12 @@ export default function Step5Others() {
                     <h3 className="font-semibold text-lg text-teal-950 border-b pb-2 mb-4">Upload Dokumen</h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div className="space-y-2">
+                            <Label htmlFor="file_foto">Pas Foto 3x4</Label>
+                            <Input id="file_foto" type="file" accept="image/*" {...register('file_foto')} />
+                            <p className="text-xs text-muted-foreground">Latar belakang merah/biru. Format: JPG/PNG.</p>
+                            {errors.file_foto && <p className="text-sm text-red-500">{errors.file_foto.message as string}</p>}
+                        </div>
+                        <div className="space-y-2">
                             <Label htmlFor="file_kk">Kartu Keluarga (KK)</Label>
                             <Input id="file_kk" type="file" accept="image/*,.pdf" {...register('file_kk')} />
                             <p className="text-xs text-muted-foreground">Format: JPG, PNG, atau PDF.</p>
