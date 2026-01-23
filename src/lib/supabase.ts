@@ -1,12 +1,12 @@
 import { createClient, type SupabaseClient } from '@supabase/supabase-js';
 
-let supabaseInstance: SupabaseClient | null = null;
+let supabaseInstance: SupabaseClient<any, 'api', any> | null = null;
 
 /**
  * Get Supabase client instance (lazy initialization)
  * This prevents crashes during SSR/build if env vars are not yet available
  */
-export function getSupabase(): SupabaseClient {
+export function getSupabase(): SupabaseClient<any, 'api', any> {
     if (supabaseInstance) {
         return supabaseInstance;
     }
@@ -20,7 +20,11 @@ export function getSupabase(): SupabaseClient {
         );
     }
 
-    supabaseInstance = createClient(supabaseUrl, supabaseAnonKey);
+    supabaseInstance = createClient(supabaseUrl, supabaseAnonKey, {
+        db: {
+            schema: 'api',
+        },
+    });
     return supabaseInstance;
 }
 
@@ -28,7 +32,7 @@ export function getSupabase(): SupabaseClient {
  * Get Supabase Admin client instance (bypasses RLS)
  * ONLY usage in server-side API routes. NEVER expose to client.
  */
-export function getSupabaseAdmin(): SupabaseClient {
+export function getSupabaseAdmin(): SupabaseClient<any, 'api', any> {
     const supabaseUrl = import.meta.env.PUBLIC_SUPABASE_URL;
     const supabaseServiceKey = import.meta.env.SUPABASE_SERVICE_ROLE_KEY;
 
@@ -38,7 +42,11 @@ export function getSupabaseAdmin(): SupabaseClient {
         );
     }
 
-    return createClient(supabaseUrl, supabaseServiceKey);
+    return createClient(supabaseUrl, supabaseServiceKey, {
+        db: {
+            schema: 'api',
+        },
+    });
 }
 
 // For backward compatibility - but prefer using getSupabase() instead
@@ -48,7 +56,7 @@ export const supabase = typeof window !== 'undefined' || import.meta.env.PUBLIC_
             return getSupabase();
         } catch {
             // Return a dummy object during build if env vars are missing
-            return null as unknown as SupabaseClient;
+            return null as unknown as SupabaseClient<any, 'api', any>;
         }
     })()
-    : null as unknown as SupabaseClient;
+    : null as unknown as SupabaseClient<any, 'api', any>;
