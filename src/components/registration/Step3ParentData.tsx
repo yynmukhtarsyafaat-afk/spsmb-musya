@@ -37,7 +37,7 @@ export default function Step3ParentData() {
                     <div className="space-y-2">
                         <Label htmlFor="pekerjaan_ayah">Pekerjaan Ayah</Label>
                         <Select onValueChange={(val) => setValue('pekerjaan_ayah', val)} defaultValue={pekerjaanAyah}>
-                            <SelectTrigger>
+                            <SelectTrigger id="pekerjaan_ayah">
                                 <SelectValue placeholder="Pilih Pekerjaan" />
                             </SelectTrigger>
                             <SelectContent>
@@ -55,7 +55,7 @@ export default function Step3ParentData() {
                     <div className="space-y-2">
                         <Label htmlFor="penghasilan_ayah">Penghasilan Ayah (per bulan)</Label>
                         <Select onValueChange={(val) => setValue('penghasilan_ayah', val)} defaultValue={penghasilanAyah}>
-                            <SelectTrigger>
+                            <SelectTrigger id="penghasilan_ayah">
                                 <SelectValue placeholder="Pilih Kisaran Penghasilan" />
                             </SelectTrigger>
                             <SelectContent>
@@ -92,7 +92,7 @@ export default function Step3ParentData() {
                     <div className="space-y-2">
                         <Label htmlFor="pekerjaan_ibu">Pekerjaan Ibu</Label>
                         <Select onValueChange={(val) => setValue('pekerjaan_ibu', val)} defaultValue={pekerjaanIbu}>
-                            <SelectTrigger>
+                            <SelectTrigger id="pekerjaan_ibu">
                                 <SelectValue placeholder="Pilih Pekerjaan" />
                             </SelectTrigger>
                             <SelectContent>
@@ -111,7 +111,7 @@ export default function Step3ParentData() {
                     <div className="space-y-2">
                         <Label htmlFor="penghasilan_ibu">Penghasilan Ibu (per bulan)</Label>
                         <Select onValueChange={(val) => setValue('penghasilan_ibu', val)} defaultValue={penghasilanIbu}>
-                            <SelectTrigger>
+                            <SelectTrigger id="penghasilan_ibu">
                                 <SelectValue placeholder="Pilih Kisaran Penghasilan" />
                             </SelectTrigger>
                             <SelectContent>

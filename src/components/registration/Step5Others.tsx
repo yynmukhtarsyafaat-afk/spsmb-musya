@@ -39,7 +39,7 @@ export default function Step5Others() {
                         <div className="space-y-2">
                             <Label htmlFor="ukuran_seragam">Ukuran Seragam</Label>
                             <Select onValueChange={(val) => setValue('ukuran_seragam', val)} defaultValue={ukuranSeragam}>
-                                <SelectTrigger>
+                                <SelectTrigger id="ukuran_seragam">
                                     <SelectValue placeholder="Pilih Ukuran" />
                                 </SelectTrigger>
                                 <SelectContent>
@@ -57,7 +57,7 @@ export default function Step5Others() {
                         <div className="space-y-2">
                             <Label htmlFor="sumber_informasi">Dari mana mengetahui PSMB ini?</Label>
                             <Select onValueChange={(val) => setValue('sumber_informasi', val)} defaultValue={sumberInformasi}>
-                                <SelectTrigger>
+                                <SelectTrigger id="sumber_informasi">
                                     <SelectValue placeholder="Pilih Sumber Informasi" />
                                 </SelectTrigger>
                                 <SelectContent>
@@ -81,7 +81,7 @@ export default function Step5Others() {
                         <div className="space-y-2">
                             <Label htmlFor="tingkat_prestasi">Tingkat Prestasi (Opsional)</Label>
                             <Select onValueChange={(val) => setValue('tingkat_prestasi', val)} defaultValue={watch('tingkat_prestasi')}>
-                                <SelectTrigger>
+                                <SelectTrigger id="tingkat_prestasi">
                                     <SelectValue placeholder="Pilih Tingkat" />
                                 </SelectTrigger>
                                 <SelectContent>

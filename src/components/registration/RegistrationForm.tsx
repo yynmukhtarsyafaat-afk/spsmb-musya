@@ -20,6 +20,9 @@ const steps = [
 
 export default function RegistrationForm() {
     const [currentStep, setCurrentStep] = useState(1);
+    const [isSubmitted, setIsSubmitted] = useState(false);
+    const [regNumber, setRegNumber] = useState("");
+
     const methods = useForm<RegistrationFormData>({
         resolver: zodResolver(registrationSchema),
         mode: 'onChange',
@@ -46,21 +49,34 @@ export default function RegistrationForm() {
 
     // Save form data to local storage on change
     React.useEffect(() => {
-        const subscription = methods.watch((value) => {
-            localStorage.setItem('spsmb_registration_form', JSON.stringify(value));
-        });
-        return () => subscription.unsubscribe();
-    }, [methods]);
+        if (!isSubmitted) {
+            const subscription = methods.watch((value) => {
+                localStorage.setItem('spsmb_registration_form', JSON.stringify(value));
+            });
+            return () => subscription.unsubscribe();
+        }
+    }, [methods, isSubmitted]);
 
     // Save step to local storage when it changes
     React.useEffect(() => {
-        localStorage.setItem('spsmb_registration_step', currentStep.toString());
-    }, [currentStep]);
+        if (!isSubmitted) {
+            localStorage.setItem('spsmb_registration_step', currentStep.toString());
+        }
+    }, [currentStep, isSubmitted]);
 
     const onSubmit = (data: RegistrationFormData) => {
         console.log('Form Submitted:', data);
-        // Implementasi submit ke backend/Supabase di sini
-        alert("Pendaftaran berhasil disubmit! (Simulasi)");
+
+        // Generate Registration Number: REG-YYYYMMDD-UnknownRandomID
+        const date = new Date();
+        const yyyy = date.getFullYear();
+        const mm = String(date.getMonth() + 1).padStart(2, '0');
+        const dd = String(date.getDate()).padStart(2, '0');
+        const random = Math.floor(1000 + Math.random() * 9000); // 4 digit random
+        const newRegNumber = `REG-${yyyy}${mm}${dd}-${random}`;
+
+        setRegNumber(newRegNumber);
+        setIsSubmitted(true);
 
         // Clear local storage on successful submit
         localStorage.removeItem('spsmb_registration_form');
@@ -91,6 +107,32 @@ export default function RegistrationForm() {
     const prevStep = () => {
         setCurrentStep((prev) => Math.max(prev - 1, 1));
     };
+
+    if (isSubmitted) {
+        return (
+            <div className="w-full max-w-2xl mx-auto p-4">
+                <Card className="text-center py-10">
+                    <CardHeader>
+                        <CardTitle className="text-3xl text-green-600 mb-2">Pendaftaran Berhasil!</CardTitle>
+                        <CardDescription>Data Anda telah kami terima.</CardDescription>
+                    </CardHeader>
+                    <CardContent className="space-y-6">
+                        <div className="bg-slate-100 p-6 rounded-lg inline-block">
+                            <p className="text-sm text-gray-500 mb-1">Nomor Registrasi Anda</p>
+                            <p className="text-2xl font-bold tracking-wider text-slate-800" aria-label="Registration Number">{regNumber}</p>
+                        </div>
+                        <p className="text-muted-foreground max-w-md mx-auto">
+                            Simpan nomor registrasi ini untuk melakukan pengecekan status penerimaan secara berkala.
+                        </p>
+                    </CardContent>
+                    <CardFooter className="flex justify-center gap-4">
+                        <Button variant="outline" onClick={() => window.print()}>Cetak Bukti</Button>
+                        <Button onClick={() => window.location.href = '/'}>Kembali ke Beranda</Button>
+                    </CardFooter>
+                </Card>
+            </div>
+        );
+    }
 
     return (
         <div className="w-full max-w-4xl mx-auto p-4">

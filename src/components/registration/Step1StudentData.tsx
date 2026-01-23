@@ -66,10 +66,10 @@ export default function Step1StudentData() {
                 <h3 className="font-semibold text-lg text-teal-950 border-b pb-2 mb-4">Identitas Diri</h3>
 
                 <div className="space-y-2">
-                    <Label>Status Santri</Label>
+                    <p className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">Status Santri</p>
                     <RadioGroup
-                        onValueChange={(val) => setValue('status_santri', val as "Santri Baru" | "Naik Jenjang")}
-                        defaultValue={statusSantri}
+                        onValueChange={(val) => setValue('status_santri', val as "Santri Baru" | "Naik Jenjang", { shouldValidate: true })}
+                        value={statusSantri}
                         className="flex space-x-4"
                     >
                         <div className="flex items-center space-x-2">
@@ -113,10 +113,10 @@ export default function Step1StudentData() {
                 </div>
 
                 <div className="space-y-2">
-                    <Label>Jenis Kelamin</Label>
+                    <p className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">Jenis Kelamin</p>
                     <RadioGroup
-                        onValueChange={(val) => setValue('jenis_kelamin', val as "Laki-laki" | "Perempuan")}
-                        defaultValue={jenisKelamin}
+                        onValueChange={(val) => setValue('jenis_kelamin', val as "Laki-laki" | "Perempuan", { shouldValidate: true })}
+                        value={jenisKelamin}
                         className="flex space-x-4"
                     >
                         <div className="flex items-center space-x-2">
@@ -137,8 +137,8 @@ export default function Step1StudentData() {
                 <h3 className="font-semibold text-lg text-teal-950 border-b pb-2 mb-4">Pilihan Lembaga</h3>
                 <div className="space-y-2">
                     <Label htmlFor="unit_sekolah">Pilihan Unit Sekolah (Formal)</Label>
-                    <Select onValueChange={(val) => setValue('unit_sekolah', val)} defaultValue={unitSekolah}>
-                        <SelectTrigger>
+                    <Select onValueChange={(val) => setValue('unit_sekolah', val, { shouldValidate: true })} value={unitSekolah}>
+                        <SelectTrigger id="unit_sekolah">
                             <SelectValue placeholder="Pilih Unit Sekolah" />
                         </SelectTrigger>
                         <SelectContent>
@@ -151,10 +151,10 @@ export default function Step1StudentData() {
                 </div>
 
                 <div className="space-y-2">
-                    <Label>Minat Tinggal di Pesantren (Boarding)</Label>
+                    <p className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">Minat Tinggal di Pesantren (Boarding)</p>
                     <RadioGroup
-                        onValueChange={(val) => setValue('boarding', val as "Ya" | "Tidak")}
-                        defaultValue={boarding}
+                        onValueChange={(val) => setValue('boarding', val as "Ya" | "Tidak", { shouldValidate: true })}
+                        value={boarding}
                         className="flex space-x-4"
                     >
                         <div className="flex items-center space-x-2">
@@ -176,8 +176,8 @@ export default function Step1StudentData() {
                         {!jenisKelamin ? (
                             <p className="text-sm text-muted-foreground italic">Mohon pilih jenis kelamin terlebih dahulu.</p>
                         ) : (
-                            <Select onValueChange={(val) => setValue('unit_pesantren', val)} defaultValue={unitPesantren}>
-                                <SelectTrigger>
+                            <Select onValueChange={(val) => setValue('unit_pesantren', val, { shouldValidate: true })} value={unitPesantren}>
+                                <SelectTrigger id="unit_pesantren">
                                     <SelectValue placeholder="Pilih Pesantren" />
                                 </SelectTrigger>
                                 <SelectContent>
