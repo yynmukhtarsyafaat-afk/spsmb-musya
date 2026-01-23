@@ -62,10 +62,19 @@ const { title = "SPSMB Admin" } = Astro.props;
         <script>
             import { createClient } from "@supabase/supabase-js";
 
-            const supabase = createClient(
-                import.meta.env.PUBLIC_SUPABASE_URL,
-                import.meta.env.PUBLIC_SUPABASE_ANON_KEY,
-            );
+            const supabaseUrl = import.meta.env.PUBLIC_SUPABASE_URL;
+            const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
+
+            if (!supabaseUrl || !supabaseKey) {
+                console.error("Supabase URL or Key missing in AdminLayout");
+                // We will handle this in checkAuth by checking if supabase is initialized,
+                // or just letting checkAuth fail gracefully if we can't init supabase.
+            }
+
+            const supabase =
+                supabaseUrl && supabaseKey
+                    ? createClient(supabaseUrl, supabaseKey)
+                    : null;
 
             async function checkAuth() {
                 const loader = document.getElementById("auth-loading");
@@ -74,6 +83,12 @@ const { title = "SPSMB Admin" } = Astro.props;
                 const errorDetail = document.getElementById("error-detail");
 
                 try {
+                    if (!supabase) {
+                        throw new Error(
+                            "Konfigurasi Supabase hilang (PUBLIC_SUPABASE_URL atau PUBLIC_SUPABASE_ANON_KEY). Periksa file .env Anda.",
+                        );
+                    }
+
                     // Timeout promise prevents infinite loading
                     const timeout = new Promise((_, reject) =>
                         setTimeout(

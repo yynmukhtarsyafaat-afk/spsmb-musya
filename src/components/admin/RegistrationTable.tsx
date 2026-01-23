@@ -20,24 +20,35 @@ export default function RegistrationTable() {
     const [search, setSearch] = useState('');
     const [selectedReg, setSelectedReg] = useState<any>(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [error, setError] = useState<string | null>(null);
+    const [debugInfo, setDebugInfo] = useState<string>('');
 
     const fetchData = async () => {
         try {
             setLoading(true);
+            setError(null);
+
+            const url = import.meta.env.PUBLIC_SUPABASE_URL;
+            setDebugInfo(url ? `URL Supabase terkonfigurasi: ${url.substring(0, 10)}...` : 'URL Supabase HILANG');
+
+            if (!url) {
+                throw new Error("PUBLIC_SUPABASE_URL hilang di variabel environment");
+            }
             const supabase = createClient(
                 import.meta.env.PUBLIC_SUPABASE_URL,
                 import.meta.env.PUBLIC_SUPABASE_ANON_KEY
             );
 
-            const { data: registrations, error } = await supabase
+            const { data: registrations, error: fetchError } = await supabase
                 .from('registrations')
                 .select('*')
                 .order('created_at', { ascending: false });
 
-            if (error) throw error;
+            if (fetchError) throw fetchError;
             setData(registrations || []);
-        } catch (err) {
+        } catch (err: any) {
             console.error('Error fetching data:', err);
+            setError(err.message || 'Terjadi kesalahan yang tidak diketahui');
         } finally {
             setLoading(false);
         }
@@ -143,6 +154,18 @@ export default function RegistrationTable() {
                                 <TableCell colSpan={5} className="h-24 text-center">
                                     <div className="flex justify-center items-center">
                                         <Loader2 className="w-6 h-6 animate-spin text-emerald-600" />
+                                    </div>
+                                </TableCell>
+                            </TableRow>
+                        ) : error ? (
+                            <TableRow>
+                                <TableCell colSpan={5} className="h-24 text-center text-red-600">
+                                    <div className="flex flex-col items-center gap-2">
+                                        <p>Gagal memuat data: {error}</p>
+                                        <p className="text-xs text-slate-400 font-mono">{debugInfo}</p>
+                                        <Button variant="outline" size="sm" onClick={fetchData} className="mt-2">
+                                            Coba Lagi
+                                        </Button>
                                     </div>
                                 </TableCell>
                             </TableRow>
