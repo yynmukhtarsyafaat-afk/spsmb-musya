@@ -60,10 +60,10 @@ export default function Step2Education() {
                     <div className="space-y-2 animate-in fade-in slide-in-from-top-2">
                         <Label htmlFor="kelas_pindahan">Masuk Kelas</Label>
                         <Select onValueChange={(val) => setValue('kelas_pindahan', val)} value={kelasPindahan}>
-                            <SelectTrigger id="kelas_pindahan">
+                            <SelectTrigger id="kelas_pindahan" className="w-full">
                                 <SelectValue placeholder="Pilih Kelas" />
                             </SelectTrigger>
-                            <SelectContent>
+                            <SelectContent position="popper">
                                 {kelasOptions.map((opt) => (
                                     <SelectItem key={opt} value={opt}>{opt}</SelectItem>
                                 ))}

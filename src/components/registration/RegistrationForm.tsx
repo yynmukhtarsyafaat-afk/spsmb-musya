@@ -137,29 +137,30 @@ export default function RegistrationForm() {
                 }
             };
 
-            if (data.file_kk && data.file_kk.length > 0) {
-                let file = data.file_kk[0];
-                file = await compressImage(file);
-                const ext = file.name.split('.').pop();
-                const path = `${newRegNumber}/kk.${ext}`;
-                kkUrl = await uploadFile(file, path);
-            }
+            // Parallel Image Compression & Uploads
+            const uploadPromises: Promise<void>[] = [];
+            const results: { kk?: string, akte?: string, foto?: string } = {};
 
-            if (data.file_akte && data.file_akte.length > 0) {
-                let file = data.file_akte[0];
-                file = await compressImage(file);
-                const ext = file.name.split('.').pop();
-                const path = `${newRegNumber}/akte.${ext}`;
-                akteUrl = await uploadFile(file, path);
-            }
+            const processFile = async (fileList: FileList | undefined, type: 'kk' | 'akte' | 'foto') => {
+                if (!fileList || fileList.length === 0) return;
 
-            if (data.file_foto && data.file_foto.length > 0) {
-                let file = data.file_foto[0];
+                let file = fileList[0];
                 file = await compressImage(file);
                 const ext = file.name.split('.').pop();
-                const path = `${newRegNumber}/foto.${ext}`;
-                fotoUrl = await uploadFile(file, path);
-            }
+                const path = `${newRegNumber}/${type}.${ext}`;
+                const url = await uploadFile(file, path);
+                results[type] = url;
+            };
+
+            if (data.file_kk?.length) uploadPromises.push(processFile(data.file_kk, 'kk'));
+            if (data.file_akte?.length) uploadPromises.push(processFile(data.file_akte, 'akte'));
+            if (data.file_foto?.length) uploadPromises.push(processFile(data.file_foto, 'foto'));
+
+            await Promise.all(uploadPromises);
+
+            kkUrl = results.kk || '';
+            akteUrl = results.akte || '';
+            fotoUrl = results.foto || '';
 
             const filePaths = { kk: kkUrl, akte: akteUrl, foto: fotoUrl };
 

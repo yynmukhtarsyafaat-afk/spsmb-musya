@@ -26,45 +26,36 @@ export default function DashboardClient() {
                 // Fetch counts - we wrap in try/catch individual parts to better diagnose?
                 // For now, let's keep it simple: one fail = all fail display
 
-                const { count: totalCount, error: errTotal } = await supabase
-                    .from('registrations')
-                    .select('*', { count: 'exact', head: true });
-                if (errTotal) throw errTotal;
+                // Execute all queries in parallel for faster loading
+                const [
+                    totalRes,
+                    pendingRes,
+                    verifiedRes,
+                    rejectedRes,
+                    recentRes
+                ] = await Promise.all([
+                    supabase.from('registrations').select('*', { count: 'exact', head: true }),
+                    supabase.from('registrations').select('*', { count: 'exact', head: true }).eq('status', 'pending'),
+                    supabase.from('registrations').select('*', { count: 'exact', head: true }).eq('status', 'verified'),
+                    supabase.from('registrations').select('*', { count: 'exact', head: true }).eq('status', 'rejected'),
+                    supabase.from('registrations').select('id, reg_number, full_name, status, created_at').order('created_at', { ascending: false }).limit(5)
+                ]);
 
-                const { count: pendingCount, error: errPending } = await supabase
-                    .from('registrations')
-                    .select('*', { count: 'exact', head: true })
-                    .eq('status', 'pending');
-                if (errPending) throw errPending;
-
-                const { count: verifiedCount, error: errVerified } = await supabase
-                    .from('registrations')
-                    .select('*', { count: 'exact', head: true })
-                    .eq('status', 'verified');
-                if (errVerified) throw errVerified;
-
-                const { count: rejectedCount, error: errRejected } = await supabase
-                    .from('registrations')
-                    .select('*', { count: 'exact', head: true })
-                    .eq('status', 'rejected');
-                if (errRejected) throw errRejected;
+                // Check for errors
+                if (totalRes.error) throw totalRes.error;
+                if (pendingRes.error) throw pendingRes.error;
+                if (verifiedRes.error) throw verifiedRes.error;
+                if (rejectedRes.error) throw rejectedRes.error;
+                if (recentRes.error) throw recentRes.error;
 
                 setStats({
-                    total: totalCount || 0,
-                    pending: pendingCount || 0,
-                    verified: verifiedCount || 0,
-                    rejected: rejectedCount || 0,
+                    total: totalRes.count || 0,
+                    pending: pendingRes.count || 0,
+                    verified: verifiedRes.count || 0,
+                    rejected: rejectedRes.count || 0,
                 });
 
-                // Fetch recent
-                const { data: recent, error: errRecent } = await supabase
-                    .from('registrations')
-                    .select('id, reg_number, full_name, status, created_at')
-                    .order('created_at', { ascending: false })
-                    .limit(5);
-
-                if (errRecent) throw errRecent;
-                if (recent) setRecentRegistrations(recent);
+                if (recentRes.data) setRecentRegistrations(recentRes.data);
 
             } catch (err: any) {
                 console.error('Error fetching dashboard data:', err);
