@@ -84,6 +84,16 @@ CREATE TABLE api.registrations (
     city text, -- Kabupaten/Kota
     province text, -- Provinsi
 
+    -- Data Tambahan (Additional Info) - Sesuai Form Frontend
+    medical_history text, -- Riwayat Penyakit
+    disease_since text, -- Penyakit Sejak
+    disease_status text, -- Kondisi Penyakit Sekarang
+    uniform_size text, -- Ukuran Seragam
+    info_source text, -- Sumber Informasi
+    achievement_type text, -- Jenis Prestasi
+    achievement_level text, -- Tingkat Prestasi
+
+
     -- File Uploads (Disimpan sebagai JSON Object yang berisi URL)
     -- Contoh: {"foto": "url...", "kk": "url...", "akte": "url..."}
     file_paths jsonb DEFAULT '{}'::jsonb,
@@ -177,20 +187,21 @@ VALUES ('ppdb_uploads', 'ppdb_uploads', true)
 ON CONFLICT (id) DO NOTHING;
 
 -- Kebijakan Storage untuk PUBLIK (Upload)
--- Izinkan upload file gambar/pdf ke folder apapun
+DROP POLICY IF EXISTS "Allow public uploads" ON storage.objects;
 CREATE POLICY "Allow public uploads"
 ON storage.objects FOR INSERT
 TO anon
 WITH CHECK ( bucket_id = 'ppdb_uploads' );
 
 -- Kebijakan Storage untuk PUBLIK (Lihat File)
--- Izinkan melihat file
+DROP POLICY IF EXISTS "Allow public view" ON storage.objects;
 CREATE POLICY "Allow public view"
 ON storage.objects FOR SELECT
 TO anon
 USING ( bucket_id = 'ppdb_uploads' );
 
 -- Kebijakan Storage untuk ADMIN (Full Access)
+DROP POLICY IF EXISTS "Allow admin full access" ON storage.objects;
 CREATE POLICY "Allow admin full access"
 ON storage.objects FOR ALL
 TO authenticated

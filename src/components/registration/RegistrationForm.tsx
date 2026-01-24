@@ -11,6 +11,7 @@ import Step3ParentData from './Step3ParentData';
 import Step4AddressHealth from './Step4AddressHealth';
 import Step5Others from './Step5Others';
 import { getSupabase } from '@/lib/supabase';
+import { Loader2 } from 'lucide-react';
 
 const steps = [
     { id: 1, title: 'Data Santri', description: 'Identitas Calon Peserta Didik' },
@@ -23,10 +24,11 @@ const steps = [
 export default function RegistrationForm() {
     const [currentStep, setCurrentStep] = useState(1);
     const [isSubmitted, setIsSubmitted] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
     const [regNumber, setRegNumber] = useState("");
 
     const methods = useForm<RegistrationFormData>({
-        resolver: zodResolver(registrationSchema),
+        resolver: zodResolver(registrationSchema) as any,
         mode: 'onChange',
         shouldUnregister: false, // Critical for multi-step to retain values of unmounted steps
     });
@@ -82,6 +84,7 @@ export default function RegistrationForm() {
 
         // setIsSubmitted(true); // Moved to end of success block
         // actually we should probably show a loading indicator. For now let's just do the logic.
+        setIsLoading(true);
 
         try {
             const supabase = getSupabase();
@@ -101,13 +104,13 @@ export default function RegistrationForm() {
 
             const uploadFile = async (file: File, path: string) => {
                 const { data: uploadData, error } = await supabase.storage
-                    .from('documents')
+                    .from('ppdb_uploads')
                     .upload(path, file);
 
                 if (error) throw error;
 
                 const { data: publicUrlData } = supabase.storage
-                    .from('documents')
+                    .from('ppdb_uploads')
                     .getPublicUrl(uploadData.path);
 
                 return publicUrlData.publicUrl;
@@ -217,6 +220,13 @@ export default function RegistrationForm() {
                 mother_status: data.status_ibu,
                 mother_education: data.pendidikan_ibu,
 
+
+                // Data Tambahan (Mapped from previously lost fields)
+                disease_since: data.penyakit_sejak,
+                disease_status: data.penyakit_kondisi,
+                achievement_type: data.jenis_prestasi,
+                achievement_level: data.tingkat_prestasi,
+
                 // File Paths
                 file_paths: filePaths
             };
@@ -249,8 +259,17 @@ export default function RegistrationForm() {
             }
 
             alert(`Pendaftaran gagal: ${errorMessage}`);
+            alert(`Pendaftaran gagal: ${errorMessage}`);
             setIsSubmitted(false); // Reset submitted state on error
+        } finally {
+            setIsLoading(false);
         }
+    };
+
+    const onError = (errors: any) => {
+        console.error("Validation Errors:", errors);
+        const errorFields = Object.keys(errors).join(", ");
+        alert(`Mohon lengkapi data yang kurang: ${errorFields}`);
     };
 
     const nextStep = async () => {
@@ -341,10 +360,19 @@ export default function RegistrationForm() {
                     {currentStep < steps.length ? (
                         <Button onClick={nextStep}>Lanjut</Button>
                     ) : (
-                        <Button onClick={methods.handleSubmit(onSubmit)}>Kirim Pendaftaran</Button>
+                        <Button onClick={methods.handleSubmit(onSubmit, onError)} disabled={isLoading}>
+                            {isLoading ? (
+                                <>
+                                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                    Sedang Mengirim...
+                                </>
+                            ) : (
+                                "Kirim Pendaftaran"
+                            )}
+                        </Button>
                     )}
                 </CardFooter>
             </Card>
-        </div>
+        </div >
     );
 }
