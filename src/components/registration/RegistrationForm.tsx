@@ -203,6 +203,20 @@ export default function RegistrationForm() {
                 mother_income: data.penghasilan_ibu,
                 phone: data.no_wa,
 
+                // New Fields (Frontend Log Only / Partial Save)
+                family_status: data.status_keluarga,
+                child_order: data.anak_ke,
+                total_siblings: data.dari_bersaudara,
+                sibling_pp_mukhtar: data.saudara_pp_mukhtar,
+
+                education_status: data.status_pendidikan,
+                transfer_class: data.kelas_pindahan,
+
+                father_status: data.status_ayah,
+                father_education: data.pendidikan_ayah,
+                mother_status: data.status_ibu,
+                mother_education: data.pendidikan_ibu,
+
                 // File Paths
                 file_paths: filePaths
             };
@@ -246,9 +260,9 @@ export default function RegistrationForm() {
         if (currentStep === 1) {
             isValid = await methods.trigger(['status_santri', 'nama_lengkap', 'nik', 'tempat_lahir', 'tanggal_lahir', 'jenis_kelamin', 'unit_sekolah', 'boarding']);
         } else if (currentStep === 2) {
-            isValid = await methods.trigger(['sekolah_asal', 'alamat_sekolah', 'nisn']);
+            isValid = await methods.trigger(['sekolah_asal', 'alamat_sekolah', 'nisn', 'status_pendidikan', 'kelas_pindahan']);
         } else if (currentStep === 3) {
-            isValid = await methods.trigger(['nama_ayah', 'nik_ayah', 'pekerjaan_ayah', 'penghasilan_ayah', 'nama_ibu', 'nik_ibu', 'pekerjaan_ibu', 'penghasilan_ibu', 'no_wa']);
+            isValid = await methods.trigger(['nama_ayah', 'nik_ayah', 'pekerjaan_ayah', 'penghasilan_ayah', 'nama_ibu', 'nik_ibu', 'pekerjaan_ibu', 'penghasilan_ibu', 'no_wa', 'status_ayah', 'pendidikan_ayah', 'status_ibu', 'pendidikan_ibu']);
         } else if (currentStep === 4) {
             isValid = await methods.trigger(['alamat_lengkap', 'desa', 'kecamatan', 'kabupaten', 'provinsi']);
         } else {

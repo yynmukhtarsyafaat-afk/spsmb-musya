@@ -3,6 +3,7 @@ import { useFormContext } from 'react-hook-form';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { type RegistrationFormData } from '@/lib/validation/registrationSchema';
 
 export default function Step3ParentData() {
@@ -10,8 +11,13 @@ export default function Step3ParentData() {
 
     const pekerjaanAyah = watch('pekerjaan_ayah');
     const penghasilanAyah = watch('penghasilan_ayah');
+    const statusAyah = watch('status_ayah');
+    const pendidikanAyah = watch('pendidikan_ayah');
+
     const pekerjaanIbu = watch('pekerjaan_ibu');
     const penghasilanIbu = watch('penghasilan_ibu');
+    const statusIbu = watch('status_ibu');
+    const pendidikanIbu = watch('pendidikan_ibu');
 
     return (
         <div className="space-y-6">
@@ -19,6 +25,26 @@ export default function Step3ParentData() {
             {/* Data Ayah */}
             <div className="space-y-4 border p-4 rounded-md bg-slate-50/50">
                 <h3 className="font-semibold text-lg text-teal-950 border-b pb-2 mb-4">Data Ayah</h3>
+
+                <div className="space-y-2">
+                    <Label>Status Ayah</Label>
+                    <RadioGroup
+                        onValueChange={(val) => setValue('status_ayah', val as "Hidup" | "Meninggal", { shouldValidate: true })}
+                        value={statusAyah}
+                        className="flex space-x-4"
+                    >
+                        <div className="flex items-center space-x-2">
+                            <RadioGroupItem value="Hidup" id="sa-hidup" />
+                            <Label htmlFor="sa-hidup">Hidup</Label>
+                        </div>
+                        <div className="flex items-center space-x-2">
+                            <RadioGroupItem value="Meninggal" id="sa-mati" />
+                            <Label htmlFor="sa-mati">Meninggal</Label>
+                        </div>
+                    </RadioGroup>
+                    {errors.status_ayah && <p className="text-sm text-red-500">{errors.status_ayah.message}</p>}
+                </div>
+
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="space-y-2">
                         <Label htmlFor="nama_ayah">Nama Ayah</Label>
@@ -34,6 +60,21 @@ export default function Step3ParentData() {
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                        <Label htmlFor="pendidikan_ayah">Pendidikan Terakhir Ayah</Label>
+                        <Select onValueChange={(val) => setValue('pendidikan_ayah', val)} value={pendidikanAyah}>
+                            <SelectTrigger id="pendidikan_ayah">
+                                <SelectValue placeholder="Pilih Pendidikan" />
+                            </SelectTrigger>
+                            <SelectContent>
+                                {["SD/Sederajat", "SMP/Sederajat", "SMA/Sederajat", "Diploma", "S1", "S2", "S3", "Tidak Sekolah", "Pesantren"].map(p => (
+                                    <SelectItem key={p} value={p}>{p}</SelectItem>
+                                ))}
+                            </SelectContent>
+                        </Select>
+                        {errors.pendidikan_ayah && <p className="text-sm text-red-500">{errors.pendidikan_ayah.message}</p>}
+                    </div>
+
                     <div className="space-y-2">
                         <Label htmlFor="pekerjaan_ayah">Pekerjaan Ayah</Label>
                         <Select onValueChange={(val) => setValue('pekerjaan_ayah', val)} defaultValue={pekerjaanAyah}>
@@ -74,6 +115,26 @@ export default function Step3ParentData() {
             {/* Data Ibu */}
             <div className="space-y-4 border p-4 rounded-md bg-slate-50/50">
                 <h3 className="font-semibold text-lg text-teal-950 border-b pb-2 mb-4">Data Ibu</h3>
+
+                <div className="space-y-2">
+                    <Label>Status Ibu</Label>
+                    <RadioGroup
+                        onValueChange={(val) => setValue('status_ibu', val as "Hidup" | "Meninggal", { shouldValidate: true })}
+                        value={statusIbu}
+                        className="flex space-x-4"
+                    >
+                        <div className="flex items-center space-x-2">
+                            <RadioGroupItem value="Hidup" id="si-hidup" />
+                            <Label htmlFor="si-hidup">Hidup</Label>
+                        </div>
+                        <div className="flex items-center space-x-2">
+                            <RadioGroupItem value="Meninggal" id="si-mati" />
+                            <Label htmlFor="si-mati">Meninggal</Label>
+                        </div>
+                    </RadioGroup>
+                    {errors.status_ibu && <p className="text-sm text-red-500">{errors.status_ibu.message}</p>}
+                </div>
+
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="space-y-2">
                         <Label htmlFor="nama_ibu">Nama Ibu</Label>
@@ -89,6 +150,21 @@ export default function Step3ParentData() {
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                        <Label htmlFor="pendidikan_ibu">Pendidikan Terakhir Ibu</Label>
+                        <Select onValueChange={(val) => setValue('pendidikan_ibu', val)} value={pendidikanIbu}>
+                            <SelectTrigger id="pendidikan_ibu">
+                                <SelectValue placeholder="Pilih Pendidikan" />
+                            </SelectTrigger>
+                            <SelectContent>
+                                {["SD/Sederajat", "SMP/Sederajat", "SMA/Sederajat", "Diploma", "S1", "S2", "S3", "Tidak Sekolah", "Pesantren"].map(p => (
+                                    <SelectItem key={p} value={p}>{p}</SelectItem>
+                                ))}
+                            </SelectContent>
+                        </Select>
+                        {errors.pendidikan_ibu && <p className="text-sm text-red-500">{errors.pendidikan_ibu.message}</p>}
+                    </div>
+
                     <div className="space-y-2">
                         <Label htmlFor="pekerjaan_ibu">Pekerjaan Ibu</Label>
                         <Select onValueChange={(val) => setValue('pekerjaan_ibu', val)} defaultValue={pekerjaanIbu}>

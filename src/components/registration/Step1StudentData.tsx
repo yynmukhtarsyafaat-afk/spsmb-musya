@@ -26,6 +26,18 @@ const pesantrenUnitsPutri = [
     "PP Mukhtar Syafa'at 2 (Putri)",
 ];
 
+// Data Jurusan
+const smkMajors = [
+    "Rekayasa Perangkat Lunak (RPL)",
+    "Teknik Bisnis Sepeda Motor (TBSM)",
+    "Perbankan Syariah (PBS)",
+];
+
+const maMajors = [
+    "IPA",
+    "Agama",
+];
+
 export default function Step1StudentData() {
     const { register, formState: { errors }, watch, setValue } = useFormContext<RegistrationFormData>();
 
@@ -35,6 +47,8 @@ export default function Step1StudentData() {
     const unitPesantren = watch('unit_pesantren');
     const boarding = watch('boarding');
     const statusSantri = watch('status_santri');
+    const statusKeluarga = watch('status_keluarga');
+    const jurusan = watch('jurusan');
 
     // Reset pesantren unit selection if gender changes or boarding is disabled
     useEffect(() => {
@@ -57,6 +71,24 @@ export default function Step1StudentData() {
         }
 
     }, [jenisKelamin, unitPesantren, setValue]);
+
+    // Reset jurusan if unit_sekolah changes to something that doesn't support it
+    useEffect(() => {
+        if (unitSekolah !== "SMK Unggulan" && unitSekolah !== "MA Unggulan") {
+            setValue('jurusan', undefined);
+        } else {
+            // Reset if switching between SMK and MA to avoid invalid selection
+            const isSmk = unitSekolah === "SMK Unggulan";
+            const isMa = unitSekolah === "MA Unggulan";
+
+            if (isSmk && jurusan && !smkMajors.includes(jurusan)) {
+                setValue('jurusan', undefined);
+            }
+            if (isMa && jurusan && !maMajors.includes(jurusan)) {
+                setValue('jurusan', undefined);
+            }
+        }
+    }, [unitSekolah, jurusan, setValue]);
 
 
     return (
@@ -130,6 +162,48 @@ export default function Step1StudentData() {
                     </RadioGroup>
                     {errors.jenis_kelamin && <p className="text-sm text-red-500">{errors.jenis_kelamin.message}</p>}
                 </div>
+
+                <div className="space-y-2">
+                    <p className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">Status Dalam Keluarga</p>
+                    <RadioGroup
+                        onValueChange={(val) => setValue('status_keluarga', val as "Anak Kandung" | "Anak Tiri" | "Anak Angkat", { shouldValidate: true })}
+                        value={statusKeluarga}
+                        className="flex flex-wrap gap-4"
+                    >
+                        <div className="flex items-center space-x-2">
+                            <RadioGroupItem value="Anak Kandung" id="sk-kandung" />
+                            <Label htmlFor="sk-kandung">Anak Kandung</Label>
+                        </div>
+                        <div className="flex items-center space-x-2">
+                            <RadioGroupItem value="Anak Tiri" id="sk-tiri" />
+                            <Label htmlFor="sk-tiri">Anak Tiri</Label>
+                        </div>
+                        <div className="flex items-center space-x-2">
+                            <RadioGroupItem value="Anak Angkat" id="sk-angkat" />
+                            <Label htmlFor="sk-angkat">Anak Angkat</Label>
+                        </div>
+                    </RadioGroup>
+                    {errors.status_keluarga && <p className="text-sm text-red-500">{errors.status_keluarga.message}</p>}
+                </div>
+
+                <div className="grid grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                        <Label htmlFor="anak_ke">Anak ke-</Label>
+                        <Input id="anak_ke" type="number" min="1" placeholder="1" {...register('anak_ke')} />
+                        {errors.anak_ke && <p className="text-sm text-red-500">{errors.anak_ke.message}</p>}
+                    </div>
+                    <div className="space-y-2">
+                        <Label htmlFor="dari_bersaudara">Dari ... Bersaudara</Label>
+                        <Input id="dari_bersaudara" type="number" min="1" placeholder="3" {...register('dari_bersaudara')} />
+                        {errors.dari_bersaudara && <p className="text-sm text-red-500">{errors.dari_bersaudara.message}</p>}
+                    </div>
+                </div>
+
+                <div className="space-y-2">
+                    <Label htmlFor="saudara_pp_mukhtar">Saudara Sekandung di PP Mukhtar Syafa'at (Jika ada)</Label>
+                    <Input id="saudara_pp_mukhtar" placeholder="Tulis nama saudara" {...register('saudara_pp_mukhtar')} />
+                    {errors.saudara_pp_mukhtar && <p className="text-sm text-red-500">{errors.saudara_pp_mukhtar.message}</p>}
+                </div>
             </div>
 
             {/* Pilihan Lembaga Section */}
@@ -149,6 +223,27 @@ export default function Step1StudentData() {
                     </Select>
                     {errors.unit_sekolah && <p className="text-sm text-red-500">{errors.unit_sekolah.message}</p>}
                 </div>
+
+                {/* Conditional Jurusan Dropdown */}
+                {(unitSekolah === "SMK Unggulan" || unitSekolah === "MA Unggulan") && (
+                    <div className="space-y-2 animate-in fade-in slide-in-from-top-2 duration-300">
+                        <Label htmlFor="jurusan">Pilihan Jurusan</Label>
+                        <Select onValueChange={(val) => setValue('jurusan', val, { shouldValidate: true })} value={jurusan}>
+                            <SelectTrigger id="jurusan">
+                                <SelectValue placeholder="Pilih Jurusan" />
+                            </SelectTrigger>
+                            <SelectContent>
+                                {unitSekolah === "SMK Unggulan" && smkMajors.map((major) => (
+                                    <SelectItem key={major} value={major}>{major}</SelectItem>
+                                ))}
+                                {unitSekolah === "MA Unggulan" && maMajors.map((major) => (
+                                    <SelectItem key={major} value={major}>{major}</SelectItem>
+                                ))}
+                            </SelectContent>
+                        </Select>
+                        {errors.jurusan && <p className="text-sm text-red-500">{errors.jurusan.message}</p>}
+                    </div>
+                )}
 
                 <div className="space-y-2">
                     <p className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">Minat Tinggal di Pesantren (Boarding)</p>

@@ -7,6 +7,10 @@ export const studentDataSchema = z.object({
     tempat_lahir: z.string().min(2, "Tempat lahir harus diisi"),
     tanggal_lahir: z.string().refine((date) => new Date(date).toString() !== 'Invalid Date', { message: "Tanggal lahir tidak valid" }),
     jenis_kelamin: z.enum(["Laki-laki", "Perempuan"]),
+    status_keluarga: z.enum(["Anak Kandung", "Anak Tiri", "Anak Angkat"]),
+    anak_ke: z.coerce.number().min(1, "Wajib diisi"),
+    dari_bersaudara: z.coerce.number().min(1, "Wajib diisi"),
+    saudara_pp_mukhtar: z.string().optional(),
     unit_sekolah: z.string().min(1, "Pilih unit sekolah"),
     unit_pesantren: z.string().optional(),
     jurusan: z.string().optional(),
@@ -18,15 +22,21 @@ export const educationHistorySchema = z.object({
     alamat_sekolah: z.string().min(5, "Alamat sekolah harus diisi"),
     npsn: z.string().min(1, "NPSN harus diisi").optional().or(z.literal("")),
     nisn: z.string().length(10, "NISN harus 10 digit").regex(/^\d+$/, "NISN harus berupa angka"),
+    status_pendidikan: z.enum(["Siswa Baru", "Pindahan"]),
+    kelas_pindahan: z.string().optional(), // Validasi manual nanti berdasarkan status_pendidikan
 });
 
 export const parentDataSchema = z.object({
     nama_ayah: z.string().min(3, "Nama ayah harus diisi"),
+    status_ayah: z.enum(["Hidup", "Meninggal"]),
     nik_ayah: z.string().length(16, "NIK ayah harus 16 digit").regex(/^\d+$/, "NIK harus berupa angka"),
+    pendidikan_ayah: z.string().min(1, "Pendidikan ayah wajib dipilih"),
     pekerjaan_ayah: z.string().min(1, "Pilih pekerjaan ayah"),
     penghasilan_ayah: z.string().min(1, "Pilih kisaran penghasilan"),
     nama_ibu: z.string().min(3, "Nama ibu harus diisi"),
+    status_ibu: z.enum(["Hidup", "Meninggal"]),
     nik_ibu: z.string().length(16, "NIK ibu harus 16 digit").regex(/^\d+$/, "NIK harus berupa angka"),
+    pendidikan_ibu: z.string().min(1, "Pendidikan ibu wajib dipilih"),
     pekerjaan_ibu: z.string().min(1, "Pilih pekerjaan ibu"),
     penghasilan_ibu: z.string().min(1, "Pilih kisaran penghasilan ibu"),
     no_wa: z.string().min(10, "Nomor WA minimal 10 digit").regex(/^\d+$/, "Nomor harus berupa angka"),

@@ -42,7 +42,7 @@
 **_5.1 Form Bagian 1: Data Calon Peserta Didik_**
 
 - **_Identitas:_** _Email Aktif, Nama Lengkap, Jenis Kelamin, Tempat/Tgl Lahir, NIK._
-- **_Keluarga:_** _Saudara kandung di Yayasan Mukhtar Syafa'at (Jika ada), Status dalam keluarga, Anak ke-, Dari (jumlah saudara)._
+- **_Keluarga:_** _Status dalam keluarga (Kandung/Tiri/Angkat), Anak ke-X, Dari Y bersaudara, Saudara sekandung di PP Mukhtar Syafa'at._
 - **_Pilihan Pendidikan:_** _\* Status (Baru/Melanjutkan)._
   - _Menetap di Pesantren (Ya/Tidak)._
   - **_Unit Sekolah:_** _TK/PAUD/KB Mukhtar Syafa'at, SMP Unggulan, MTs Unggulan, SMK Unggulan, MA Unggulan, PP Mukhtar Syafa'at 1 (Putra), PP Mukhtar Syafa'at 2 (Putra), PP Mukhtar Syafa'at 1 (Putri), PP Mukhtar Syafa'at 2 (Putri)._
@@ -50,16 +50,18 @@
 
 **_5.2 Form Bagian 2: Riwayat Pendidikan_**
 
-- **_Ijazah Terakhir:_** _TK-PAUD, SD-MI, SLTP, SLTA, Diploma, Sarjana, Pasca Sarjana, Pesantren, Tidak Sekolah._
-- **_Detail:_** _Nama Sekolah Asal, Alamat Sekolah Asal, NPSN, NISN, No KIP (Jika ada)._
+- **_Status:_** _Siswa Baru / Pindahan._
+- **_Detail Pindahan (Jika ada):_** _Masuk Kelas (7, 8, 9 untuk SMP/MTs atau 10, 11, 12 untuk MA/SMK)._
+- **_Ijazah Terakhir:_** _TK-PAUD, SD-MI, SMP-MTs, Pesantren._
+- **_Detail:_** _Nama Sekolah Asal, Alamat Sekolah Asal, NPSN, NISN._
 
 **_5.3 Form Bagian 3: Identitas Orang Tua (Ayah & Ibu)_**
 
-- **_Data:_** _No KK, Nama, NIK, Kondisi (Hidup/Meninggal), Status Alumni (Ya/Tidak)._
-- **_Pendidikan Terakhir:_** _Tidak Sekolah, PAUD/TK, SD/MI, SLTP, SLTA, D1-D4, S1-S3, Pesantren, PGA._
+- **_Data:_** _No KK, Nama, NIK, Status (Hidup/Meninggal), Status Alumni (Ya/Tidak)._
+- **_Pendidikan Terakhir:_** _SD/Sederajat, SMP/Sederajat, SMA/Sederajat, Diploma, S1, S2, S3, Tidak Sekolah, Pesantren._
 - **_Pekerjaan:_** _Tidak Bekerja, PNS, Guru, Pengusaha, Petani, Pekerja Pabrik, Tukang Bangunan, Pensiunan, TNI/Polri, Wiraswasta, Pedagang, Nelayan, Supir, Mubaligh, Karyawan, Penjahit, Ibu Rumah Tangga, Lainnya._
-- **_Ekonomi:_** _Penghasilan ( &lt;500rb, 500rb-1jt, 1jt-2jt, 2jt-3jt, 3jt-5jt, &gt;5jt)._
-- **_Kontak:_** _No. Telepon & No. Telepon Alternatif._
+- **_Ekonomi:_** _Penghasilan ( &lt; 1 Juta, 1 - 3 Juta, 3 - 5 Juta, &gt; 5 Juta)._
+- **_Kontak:_** _No. Telepon (WhatsApp aktif)._
 
 **_5.4 Form Bagian 4: Alamat & Kesehatan_**
 
@@ -74,17 +76,59 @@
 - **_Validasi:_** _Zod Schema untuk pesan error yang ramah orang tua._
 - **_Deployment:_** _Vercel (Free tier di awal)._
 
-**_7\. Database Schema registrations_**
+**_7\. Database Schema (Normalized / Siap Backend)_**
 
-| **_Field_** | **_Type_** | **_Note_** |
+Schema ini dirancang agar data mudah dikelola per kolom (bukan JSONB) untuk memudahkan query dan reporting.
+
+| **_Field_** | **_Type_** | **_Description_** |
 | --- | --- | --- |
 | _id_ | _uuid_ | _Primary Key_ |
 | _reg_number_ | _text_ | _Unique (REG-YYYY-XXXX)_ |
-| _student_data_ | _jsonb_ | _Nama, NIK, TTL, dll_ |
-| _education_data_ | _jsonb_ | _Unit, Jurusan, Sekolah Asal_ |
-| _parent_data_ | _jsonb_ | _Data Ayah, Ibu, Ekonomi_ |
-| _status_ | _text_ | _pending, verified, rejected, approved_ |
-| _file_paths_ | _jsonb_ | _Link dokumen di storage_ |
+| _status_ | _text_ | _pending, verified, rejected_ |
+| **_Student Identity_** | | |
+| _full_name_ | _text_ | _Nama Lengkap_ |
+| _nik_ | _text_ | _NIK (16 digit)_ |
+| _birth_place_ | _text_ | _Tempat Lahir_ |
+| _birth_date_ | _date_ | _Tanggal Lahir_ |
+| _gender_ | _text_ | _Laki-laki / Perempuan_ |
+| _family_status_ | _text_ | _Kandung / Tiri / Angkat_ |
+| _child_order_ | _int_ | _Anak ke-_ |
+| _total_siblings_ | _int_ | _Dari ... bersaudara_ |
+| _sibling_pp_mukhtar_ | _text_ | _Nama saudara di pondok (opsional)_ |
+| **_Education Choice_** | | |
+| _school_unit_ | _text_ | _Unit Sekolah Pilihan_ |
+| _pesantren_unit_ | _text_ | _Unit Pesantren Pilihan_ |
+| _major_ | _text_ | _Jurusan (jika ada)_ |
+| _boarding_ | _text_ | _Ya / Tidak_ |
+| **_Education History_** | | |
+| _education_status_ | _text_ | _Siswa Baru / Pindahan_ |
+| _transfer_class_ | _text_ | _Kelas Pindahan (7-12)_ |
+| _origin_school_ | _text_ | _Nama Sekolah Asal_ |
+| _school_address_ | _text_ | _Alamat Sekolah Asal_ |
+| _npsn_ | _text_ | _NPSN_ |
+| _nisn_ | _text_ | _NISN_ |
+| **_Parents_** | | |
+| _father_name_ | _text_ | _Nama Ayah_ |
+| _father_nik_ | _text_ | _NIK Ayah_ |
+| _father_status_ | _text_ | _Hidup / Meninggal_ |
+| _father_education_ | _text_ | _Pendidikan Terakhir Ayah_ |
+| _father_job_ | _text_ | _Pekerjaan Ayah_ |
+| _father_income_ | _text_ | _Penghasilan Ayah_ |
+| _mother_name_ | _text_ | _Nama Ibu_ |
+| _mother_nik_ | _text_ | _NIK Ibu_ |
+| _mother_status_ | _text_ | _Hidup / Meninggal_ |
+| _mother_education_ | _text_ | _Pendidikan Terakhir Ibu_ |
+| _mother_job_ | _text_ | _Pekerjaan Ibu_ |
+| _mother_income_ | _text_ | _Penghasilan Ibu_ |
+| _phone_ | _text_ | _No WA_ |
+| **_Address_** | | |
+| _address_ | _text_ | _Alamat Lengkap_ |
+| _village_ | _text_ | _Desa_ |
+| _district_ | _text_ | _Kecamatan_ |
+| _city_ | _text_ | _Kabupaten_ |
+| _province_ | _text_ | _Provinsi_ |
+| **_Files_** | | |
+| _file_paths_ | _jsonb_ | _URL dokumen (KK, Akte, Foto)_ |
 
 **_8\. Roadmap (7 Hari)_**
 
