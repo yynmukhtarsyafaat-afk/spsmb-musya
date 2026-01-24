@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import imageCompression from 'browser-image-compression';
 import { useForm, FormProvider } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { registrationSchema, type RegistrationFormData } from '@/lib/validation/registrationSchema';
@@ -112,22 +113,46 @@ export default function RegistrationForm() {
                 return publicUrlData.publicUrl;
             };
 
+            const compressImage = async (file: File) => {
+                // Skip compression for small files (e.g. < 1MB) or non-images if any
+                if (file.size < 1024 * 1024 || !file.type.startsWith('image/')) return file;
+
+                const options = {
+                    maxSizeMB: 1, // Max 1MB
+                    maxWidthOrHeight: 1920, // Max width/height
+                    useWebWorker: true
+                };
+
+                try {
+                    console.log(`Compressing ${file.name} (${(file.size / 1024 / 1024).toFixed(2)} MB)...`);
+                    const compressedFile = await imageCompression(file, options);
+                    console.log(`Compressed to ${(compressedFile.size / 1024 / 1024).toFixed(2)} MB`);
+                    return compressedFile;
+                } catch (error) {
+                    console.warn("Image compression failed, using original file", error);
+                    return file;
+                }
+            };
+
             if (data.file_kk && data.file_kk.length > 0) {
-                const file = data.file_kk[0];
+                let file = data.file_kk[0];
+                file = await compressImage(file);
                 const ext = file.name.split('.').pop();
                 const path = `${newRegNumber}/kk.${ext}`;
                 kkUrl = await uploadFile(file, path);
             }
 
             if (data.file_akte && data.file_akte.length > 0) {
-                const file = data.file_akte[0];
+                let file = data.file_akte[0];
+                file = await compressImage(file);
                 const ext = file.name.split('.').pop();
                 const path = `${newRegNumber}/akte.${ext}`;
                 akteUrl = await uploadFile(file, path);
             }
 
             if (data.file_foto && data.file_foto.length > 0) {
-                const file = data.file_foto[0];
+                let file = data.file_foto[0];
+                file = await compressImage(file);
                 const ext = file.name.split('.').pop();
                 const path = `${newRegNumber}/foto.${ext}`;
                 fotoUrl = await uploadFile(file, path);
@@ -201,7 +226,15 @@ export default function RegistrationForm() {
 
         } catch (error: any) {
             console.error("Registration failed:", error);
-            alert(`Pendaftaran gagal: ${error.message || "Terjadi kesalahan sistem"}`);
+
+            let errorMessage = error.message || "Terjadi kesalahan sistem";
+
+            // Helpful error for "Failed to fetch"
+            if (errorMessage.includes("Failed to fetch")) {
+                errorMessage = "Gagal terhubung ke server. Kemungkinan koneksi internet tidak stabil atau file yang diupload terlalu besar. Silakan coba kompres foto manual atau gunakan koneksi WiFi.";
+            }
+
+            alert(`Pendaftaran gagal: ${errorMessage}`);
             setIsSubmitted(false); // Reset submitted state on error
         }
     };
