@@ -1,7 +1,61 @@
 import type { APIRoute } from "astro";
 import { createServerClient, parseCookieHeader } from "@supabase/ssr";
 
+// In-memory rate limiting store (Note: This resets on server restart)
+// For production, consider using Redis or database storage
+const rateLimitStore = new Map<string, { count: number; resetTime: number }>();
+
+const RATE_LIMIT_WINDOW = 5 * 60 * 1000; // 5 minutes
+const MAX_ATTEMPTS = 5;
+
+function getClientIp(request: Request): string {
+    // Try to get real IP from Cloudflare headers first
+    const cfConnectingIp = request.headers.get("cf-connecting-ip");
+    if (cfConnectingIp) return cfConnectingIp;
+    
+    // Fallback to other headers
+    const xForwardedFor = request.headers.get("x-forwarded-for");
+    if (xForwardedFor) return xForwardedFor.split(",")[0].trim();
+    
+    // Final fallback
+    return "unknown";
+}
+
+function checkRateLimit(ip: string): { allowed: boolean; message?: string } {
+    const now = Date.now();
+    const record = rateLimitStore.get(ip);
+    
+    if (!record || now > record.resetTime) {
+        // Reset or create new record
+        rateLimitStore.set(ip, {
+            count: 1,
+            resetTime: now + RATE_LIMIT_WINDOW
+        });
+        return { allowed: true };
+    }
+    
+    if (record.count >= MAX_ATTEMPTS) {
+        const remainingTime = Math.ceil((record.resetTime - now) / 1000);
+        return {
+            allowed: false,
+            message: `Terlalu banyak percobaan login. Tunggu ${remainingTime} detik.`
+        };
+    }
+    
+    // Increment counter
+    record.count++;
+    return { allowed: true };
+}
+
 export const POST: APIRoute = async ({ request, redirect }) => {
+    // Check rate limit first
+    const clientIp = getClientIp(request);
+    const rateLimitResult = checkRateLimit(clientIp);
+    
+    if (!rateLimitResult.allowed) {
+        return new Response(rateLimitResult.message, { status: 429 });
+    }
+
     const formData = await request.formData();
     const email = formData.get("email")?.toString();
     const password = formData.get("password")?.toString();

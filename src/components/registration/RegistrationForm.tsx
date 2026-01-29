@@ -13,6 +13,35 @@ import Step5Others from './Step5Others';
 import { getSupabase } from '@/lib/supabase';
 import { Loader2 } from 'lucide-react';
 
+// Encryption helper functions for sessionStorage
+const saveToStorage = (key: string, data: any) => {
+    try {
+        const encoded = btoa(JSON.stringify(data)); // Base64 encode
+        sessionStorage.setItem(key, encoded);
+    } catch (error) {
+        console.error("Failed to save to storage:", error);
+    }
+};
+
+const getFromStorage = (key: string) => {
+    try {
+        const item = sessionStorage.getItem(key);
+        if (!item) return null;
+        return JSON.parse(atob(item)); // Base64 decode
+    } catch (error) {
+        console.error("Failed to read from storage:", error);
+        return null;
+    }
+};
+
+const removeFromStorage = (key: string) => {
+    try {
+        sessionStorage.removeItem(key);
+    } catch (error) {
+        console.error("Failed to remove from storage:", error);
+    }
+};
+
 const steps = [
     { id: 1, title: 'Data Santri', description: 'Identitas Calon Peserta Didik' },
     { id: 2, title: 'Pendidikan', description: 'Riwayat Pendidikan Sebelumnya' },
@@ -35,13 +64,12 @@ export default function RegistrationForm() {
 
     // Load saved data and step from session storage on mount
     React.useEffect(() => {
-        const savedData = sessionStorage.getItem('spsmb_registration_form');
-        const savedStep = sessionStorage.getItem('spsmb_registration_step');
+        const savedData = getFromStorage('spsmb_registration_form');
+        const savedStep = getFromStorage('spsmb_registration_step');
 
         if (savedData) {
             try {
-                const parsedData = JSON.parse(savedData);
-                methods.reset(parsedData);
+                methods.reset(savedData);
             } catch (error) {
                 console.error("Failed to parse saved form data", error);
             }
@@ -56,7 +84,7 @@ export default function RegistrationForm() {
     React.useEffect(() => {
         if (!isSubmitted) {
             const subscription = methods.watch((value) => {
-                sessionStorage.setItem('spsmb_registration_form', JSON.stringify(value));
+                saveToStorage('spsmb_registration_form', value);
             });
             return () => subscription.unsubscribe();
         }
@@ -65,7 +93,7 @@ export default function RegistrationForm() {
     // Save step to session storage when it changes
     React.useEffect(() => {
         if (!isSubmitted) {
-            sessionStorage.setItem('spsmb_registration_step', currentStep.toString());
+            saveToStorage('spsmb_registration_step', currentStep.toString());
         }
     }, [currentStep, isSubmitted]);
 
@@ -246,8 +274,8 @@ export default function RegistrationForm() {
             setIsSubmitted(true);
 
             // Clear session storage
-            sessionStorage.removeItem('spsmb_registration_form');
-            sessionStorage.removeItem('spsmb_registration_step');
+            removeFromStorage('spsmb_registration_form');
+            removeFromStorage('spsmb_registration_step');
 
         } catch (error: any) {
             console.error("Registration failed:", error);
@@ -364,8 +392,8 @@ export default function RegistrationForm() {
                             size="sm"
                             onClick={() => {
                                 if (confirm('Hapus semua data yang sudah diisi?')) {
-                                    sessionStorage.removeItem('spsmb_registration_form');
-                                    sessionStorage.removeItem('spsmb_registration_step');
+                                    removeFromStorage('spsmb_registration_form');
+                                    removeFromStorage('spsmb_registration_step');
                                     window.location.reload();
                                 }
                             }}
