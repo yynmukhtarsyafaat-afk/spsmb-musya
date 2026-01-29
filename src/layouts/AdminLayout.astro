@@ -60,41 +60,8 @@ const { title = "SPSMB Admin" } = Astro.props;
         </div>
 
         <script>
-            import { supabase } from "../lib/supabase";
-
-            const supabaseUrl = import.meta.env.PUBLIC_SUPABASE_URL;
-            const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
-
-            if (!supabaseUrl || !supabaseKey) {
-                console.error("Supabase URL or Key missing in AdminLayout");
-                // We will handle this in checkAuth by checking if supabase is initialized,
-                // or just letting checkAuth fail gracefully if we can't init supabase.
-            }
-
-            // supabase is now imported from ../lib/supabase
-
-            async function checkAuth() {
-                const loader = document.getElementById("auth-loading");
-                const content = document.getElementById("admin-content");
-                const errorDiv = document.getElementById("auth-error");
-
-                // Simple Auth Check
-                const isLoggedIn =
-                    localStorage.getItem("admin_logged_in") === "true";
-                const isBypass =
-                    localStorage.getItem("admin_bypass") === "true";
-
-                if (isLoggedIn || isBypass) {
-                    if (loader) loader.classList.add("hidden");
-                    if (content) content.classList.remove("hidden");
-                    return;
-                }
-
-                // If not logged in, redirect to login
-                window.location.href = "/admin/login";
-            }
-
-            checkAuth();
+            // Client-side auth check removed in favor of Server-Side Middleware
+            console.log("Admin Layout loaded");
         </script>
     </body>
 </html>

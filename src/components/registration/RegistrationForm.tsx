@@ -33,10 +33,10 @@ export default function RegistrationForm() {
         shouldUnregister: false, // Critical for multi-step to retain values of unmounted steps
     });
 
-    // Load saved data and step from local storage on mount
+    // Load saved data and step from session storage on mount
     React.useEffect(() => {
-        const savedData = localStorage.getItem('spsmb_registration_form');
-        const savedStep = localStorage.getItem('spsmb_registration_step');
+        const savedData = sessionStorage.getItem('spsmb_registration_form');
+        const savedStep = sessionStorage.getItem('spsmb_registration_step');
 
         if (savedData) {
             try {
@@ -52,35 +52,35 @@ export default function RegistrationForm() {
         }
     }, [methods]);
 
-    // Save form data to local storage on change
+    // Save form data to session storage on change
     React.useEffect(() => {
         if (!isSubmitted) {
             const subscription = methods.watch((value) => {
-                localStorage.setItem('spsmb_registration_form', JSON.stringify(value));
+                sessionStorage.setItem('spsmb_registration_form', JSON.stringify(value));
             });
             return () => subscription.unsubscribe();
         }
     }, [methods, isSubmitted]);
 
-    // Save step to local storage when it changes
+    // Save step to session storage when it changes
     React.useEffect(() => {
         if (!isSubmitted) {
-            localStorage.setItem('spsmb_registration_step', currentStep.toString());
+            sessionStorage.setItem('spsmb_registration_step', currentStep.toString());
         }
     }, [currentStep, isSubmitted]);
 
-
-
     const onSubmit = async (data: RegistrationFormData) => {
-        console.log('=============== FORM SUBMISSION DEBUG ===============');
-        console.log('Raw Form Data:', data);
-        console.log('Address Fields:', {
-            alamat: data.alamat_lengkap,
-            desa: data.desa,
-            kec: data.kecamatan,
-            kab: data.kabupaten,
-            prov: data.provinsi
-        });
+        if (import.meta.env.DEV) {
+            console.log('=============== FORM SUBMISSION DEBUG ===============');
+            console.log('Raw Form Data:', data);
+            console.log('Address Fields:', {
+                alamat: data.alamat_lengkap,
+                desa: data.desa,
+                kec: data.kecamatan,
+                kab: data.kabupaten,
+                prov: data.provinsi
+            });
+        }
 
         // setIsSubmitted(true); // Moved to end of success block
         // actually we should probably show a loading indicator. For now let's just do the logic.
@@ -245,9 +245,9 @@ export default function RegistrationForm() {
             setRegNumber(newRegNumber);
             setIsSubmitted(true);
 
-            // Clear local storage
-            localStorage.removeItem('spsmb_registration_form');
-            localStorage.removeItem('spsmb_registration_step');
+            // Clear session storage
+            sessionStorage.removeItem('spsmb_registration_form');
+            sessionStorage.removeItem('spsmb_registration_step');
 
         } catch (error: any) {
             console.error("Registration failed:", error);
@@ -355,9 +355,24 @@ export default function RegistrationForm() {
                     </FormProvider>
                 </CardContent>
                 <CardFooter className="flex justify-between">
-                    <Button variant="outline" onClick={prevStep} disabled={currentStep === 1}>
-                        Kembali
-                    </Button>
+                    <div className="flex gap-2">
+                        <Button variant="outline" onClick={prevStep} disabled={currentStep === 1}>
+                            Kembali
+                        </Button>
+                        <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => {
+                                if (confirm('Hapus semua data yang sudah diisi?')) {
+                                    sessionStorage.removeItem('spsmb_registration_form');
+                                    sessionStorage.removeItem('spsmb_registration_step');
+                                    window.location.reload();
+                                }
+                            }}
+                        >
+                            Reset Form
+                        </Button>
+                    </div>
                     {currentStep < steps.length ? (
                         <Button onClick={nextStep}>Lanjut</Button>
                     ) : (

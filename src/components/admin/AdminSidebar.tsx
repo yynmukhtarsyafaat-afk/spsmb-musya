@@ -1,6 +1,7 @@
 import React from 'react';
 import { LayoutDashboard, Users, FileText, Settings, LogOut } from 'lucide-react';
-import { getSupabase } from '../../lib/supabase';
+
+// import { getSupabase } from '../../lib/supabase';
 
 export default function AdminSidebar() {
     const menuItems = [
@@ -8,10 +9,16 @@ export default function AdminSidebar() {
         { href: '/admin/verifikasi', label: 'Verifikasi Data', icon: Users },
     ];
 
-    const handleLogout = () => {
+    const handleLogout = async () => {
+        // Call the server-side signout route
+        try {
+            await fetch('/api/auth/signout', { method: 'POST' });
+        } catch (error) {
+            console.error('Logout error:', error);
+        }
+
         // Clear all auth flags
         localStorage.removeItem('admin_logged_in');
-        localStorage.removeItem('admin_bypass');
 
         // Redirect to login
         window.location.href = '/admin/login';
