@@ -169,13 +169,31 @@ export default function RegistrationForm() {
             const uploadPromises: Promise<void>[] = [];
             const results: { kk?: string, akte?: string, foto?: string } = {};
 
+            const sanitizeFileName = (name: string) => {
+                return name.replace(/[^a-zA-Z0-9]/g, '_').toUpperCase();
+            };
+
             const processFile = async (fileList: FileList | undefined, type: 'kk' | 'akte' | 'foto') => {
                 if (!fileList || fileList.length === 0) return;
 
                 let file = fileList[0];
                 file = await compressImage(file);
+                
                 const ext = file.name.split('.').pop();
-                const path = `${newRegNumber}/${type}.${ext}`;
+                
+                // Format: {jenis file(KK, Akte, 3x4)}_{nama siswa}.jpg/jpeg
+                const fileTypeMap = {
+                    'kk': 'KK',
+                    'akte': 'Akte',
+                    'foto': '3x4'
+                };
+                
+                const typeLabel = fileTypeMap[type];
+                const sanitizedStudentName = sanitizeFileName(data.nama_lengkap);
+                
+                // const path = `${newRegNumber}/${type}.${ext}`; // Old format
+                const path = `${newRegNumber}/${typeLabel}_${sanitizedStudentName}.${ext}`; // New format: REG-XXX/KK_NAMA.jpg
+
                 const url = await uploadFile(file, path);
                 results[type] = url;
             };
