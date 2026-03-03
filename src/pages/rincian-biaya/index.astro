@@ -1,0 +1,558 @@
+---
+import MainLayout from "../../layouts/MainLayout.astro";
+import {
+    CreditCard,
+    GraduationCap,
+    BookOpen,
+    ArrowRight,
+    AlertCircle,
+    Wallet,
+    Home,
+    CheckCircle,
+} from "lucide-react";
+import Navbar from "../../components/layout/Navbar.astro";
+import Footer from "../../components/layout/Footer.astro";
+---
+
+<MainLayout
+    title="Rincian Biaya Pembayaran"
+    description="Rincian lengkap biaya pendaftaran, syahriah, dan administrasi santri baru Yayasan Mukhtar Syafa'at."
+>
+    <!-- Navbar -->
+    <Navbar />
+
+    <!-- Header / Hero -->
+    <section class="pt-32 pb-16 bg-secondary/50">
+        <div class="max-w-7xl mx-auto px-6 lg:px-12 text-center">
+            <h1 class="text-4xl lg:text-5xl font-serif text-foreground mb-6">
+                Rincian Biaya Pembayaran
+            </h1>
+            <p class="text-muted-foreground text-lg max-w-2xl mx-auto">
+                Informasi lengkap biaya pendaftaran, administrasi, dan syahriah
+                bulanan untuk setiap unit pendidikan.
+            </p>
+        </div>
+    </section>
+
+    <!-- Catatan Penting -->
+    <section class="py-8 bg-white">
+        <div class="max-w-5xl mx-auto px-6 lg:px-12">
+            <div
+                class="bg-amber-50 border border-amber-200 rounded-2xl p-6 flex items-start gap-4"
+            >
+                <div
+                    class="w-10 h-10 bg-amber-100 rounded-xl flex items-center justify-center text-amber-600 shrink-0"
+                >
+                    <AlertCircle className="h-5 w-5" />
+                </div>
+                <div>
+                    <h3 class="font-bold text-amber-900 mb-1">
+                        Catatan Penting
+                    </h3>
+                    <p class="text-sm text-amber-700 leading-relaxed">
+                        Biaya di bawah ini dapat berubah sewaktu-waktu sesuai
+                        kebijakan yayasan. Untuk informasi terkini, silakan
+                        hubungi tim kami melalui halaman <a
+                            href="/kontak"
+                            class="underline font-bold hover:text-amber-900 transition-colors"
+                            >Kontak</a
+                        >.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 1. Biaya Registrasi Administrasi -->
+    <section class="py-12 bg-white">
+        <div class="max-w-5xl mx-auto px-6 lg:px-12">
+            <div class="flex items-center gap-4 mb-8">
+                <div
+                    class="w-12 h-12 bg-emerald-100 rounded-2xl flex items-center justify-center text-emerald-600"
+                >
+                    <CreditCard className="h-6 w-6" />
+                </div>
+                <div>
+                    <h2 class="text-2xl font-serif text-foreground">
+                        Biaya Registrasi Administrasi
+                    </h2>
+                    <p class="text-sm text-muted-foreground">
+                        Biaya pendaftaran awal per gelombang
+                    </p>
+                </div>
+            </div>
+
+            <div
+                class="bg-white rounded-[2rem] border border-border overflow-hidden shadow-sm hover:shadow-lg transition-shadow duration-300"
+            >
+                <div class="overflow-x-auto">
+                    <table class="w-full text-sm">
+                        <thead>
+                            <tr class="bg-primary text-primary-foreground">
+                                <th
+                                    class="text-left px-6 py-4 font-bold text-sm uppercase tracking-wider"
+                                    >Uraian</th
+                                >
+                                <th
+                                    class="text-right px-6 py-4 font-bold text-sm uppercase tracking-wider"
+                                    >SMP & MTS</th
+                                >
+                                <th
+                                    class="text-right px-6 py-4 font-bold text-sm uppercase tracking-wider"
+                                    >SMK & MA</th
+                                >
+                                <th
+                                    class="text-right px-6 py-4 font-bold text-sm uppercase tracking-wider"
+                                    >Pesantren</th
+                                >
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-border">
+                            <tr
+                                class="hover:bg-secondary/50 transition-colors"
+                            >
+                                <td class="px-6 py-4 text-foreground"
+                                    >Biaya Registrasi Administrasi Gel. 1</td
+                                >
+                                <td
+                                    class="px-6 py-4 text-right text-foreground font-medium"
+                                    >Rp 100.000</td
+                                >
+                                <td
+                                    class="px-6 py-4 text-right text-foreground font-medium"
+                                    >Rp 100.000</td
+                                >
+                                <td
+                                    class="px-6 py-4 text-right text-foreground font-medium"
+                                    >Rp 100.000</td
+                                >
+                            </tr>
+                            <tr
+                                class="hover:bg-secondary/50 transition-colors"
+                            >
+                                <td class="px-6 py-4 text-foreground"
+                                    >Biaya Registrasi Administrasi Gel. 2</td
+                                >
+                                <td
+                                    class="px-6 py-4 text-right text-foreground font-medium"
+                                    >Rp 200.000</td
+                                >
+                                <td
+                                    class="px-6 py-4 text-right text-foreground font-medium"
+                                    >Rp 200.000</td
+                                >
+                                <td
+                                    class="px-6 py-4 text-right text-foreground font-medium"
+                                    >Rp 100.000</td
+                                >
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 2. Biaya Pendaftaran Sekolah -->
+    <section class="py-12 bg-secondary/30">
+        <div class="max-w-5xl mx-auto px-6 lg:px-12">
+            <div class="flex items-center gap-4 mb-8">
+                <div
+                    class="w-12 h-12 bg-white rounded-2xl flex items-center justify-center text-emerald-600 shadow-sm"
+                >
+                    <GraduationCap className="h-6 w-6" />
+                </div>
+                <div>
+                    <h2 class="text-2xl font-serif text-foreground">
+                        Biaya Pendaftaran Sekolah
+                    </h2>
+                    <p class="text-sm text-muted-foreground">
+                        Biaya satu kali saat daftar ulang
+                    </p>
+                </div>
+            </div>
+
+            <div
+                class="bg-white rounded-[2rem] border border-border overflow-hidden shadow-sm hover:shadow-lg transition-shadow duration-300"
+            >
+                <div class="overflow-x-auto">
+                    <table class="w-full text-sm">
+                        <thead>
+                            <tr class="bg-primary text-primary-foreground">
+                                <th
+                                    class="text-left px-6 py-4 font-bold text-sm uppercase tracking-wider"
+                                    >Uraian</th
+                                >
+                                <th
+                                    class="text-right px-6 py-4 font-bold text-sm uppercase tracking-wider"
+                                    >SMP & MTS</th
+                                >
+                                <th
+                                    class="text-right px-6 py-4 font-bold text-sm uppercase tracking-wider"
+                                    >SMK & MA</th
+                                >
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-border">
+                            <tr
+                                class="hover:bg-secondary/50 transition-colors"
+                            >
+                                <td class="px-6 py-4 text-foreground"
+                                    >Biaya Pendaftaran Sekolah</td
+                                >
+                                <td
+                                    class="px-6 py-4 text-right text-muted-foreground"
+                                    >—</td
+                                >
+                                <td
+                                    class="px-6 py-4 text-right text-muted-foreground"
+                                    >—</td
+                                >
+                            </tr>
+                            <tr
+                                class="hover:bg-secondary/50 transition-colors"
+                            >
+                                <td class="px-6 py-4 text-foreground"
+                                    >Raport Sekolah</td
+                                >
+                                <td
+                                    class="px-6 py-4 text-right text-foreground font-medium"
+                                    >Rp 50.000</td
+                                >
+                                <td
+                                    class="px-6 py-4 text-right text-foreground font-medium"
+                                    >Rp 50.000</td
+                                >
+                            </tr>
+                            <tr
+                                class="hover:bg-secondary/50 transition-colors"
+                            >
+                                <td class="px-6 py-4 text-foreground"
+                                    >Jariyah Sarana Pendidikan</td
+                                >
+                                <td
+                                    class="px-6 py-4 text-right text-foreground font-medium"
+                                    >Rp 900.000</td
+                                >
+                                <td
+                                    class="px-6 py-4 text-right text-foreground font-medium"
+                                    >Rp 1.100.000</td
+                                >
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr
+                                class="bg-emerald-50 border-t-2 border-primary/20"
+                            >
+                                <td
+                                    class="px-6 py-4 font-bold text-foreground text-sm"
+                                    >TOTAL</td
+                                >
+                                <td
+                                    class="px-6 py-4 text-right font-bold text-primary text-base"
+                                    >Rp 950.000</td
+                                >
+                                <td
+                                    class="px-6 py-4 text-right font-bold text-primary text-base"
+                                    >Rp 1.150.000</td
+                                >
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. Biaya Syahriah Sekolah (Bulanan) -->
+    <section class="py-12 bg-white">
+        <div class="max-w-5xl mx-auto px-6 lg:px-12">
+            <div class="flex items-center gap-4 mb-8">
+                <div
+                    class="w-12 h-12 bg-emerald-100 rounded-2xl flex items-center justify-center text-emerald-600"
+                >
+                    <Wallet className="h-6 w-6" />
+                </div>
+                <div>
+                    <h2 class="text-2xl font-serif text-foreground">
+                        Biaya Syahriah Sekolah
+                    </h2>
+                    <p class="text-sm text-muted-foreground">
+                        Biaya bulanan selama masa pendidikan
+                    </p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- SMP & MTS -->
+                <div
+                    class="bg-white rounded-[2rem] border border-border p-8 text-center group hover:shadow-xl hover:border-emerald-200 transition-all duration-300"
+                >
+                    <span
+                        class="inline-block px-4 py-1.5 rounded-full bg-emerald-100 text-emerald-700 text-xs font-bold uppercase tracking-widest mb-4"
+                        >SMP & MTS</span
+                    >
+                    <p
+                        class="text-4xl font-serif font-bold text-foreground mb-2"
+                    >
+                        Rp 140.000
+                    </p>
+                    <p class="text-sm text-muted-foreground">per bulan</p>
+                </div>
+
+                <!-- SMK & MA -->
+                <div
+                    class="bg-white rounded-[2rem] border border-border p-8 text-center group hover:shadow-xl hover:border-emerald-200 transition-all duration-300"
+                >
+                    <span
+                        class="inline-block px-4 py-1.5 rounded-full bg-emerald-100 text-emerald-700 text-xs font-bold uppercase tracking-widest mb-4"
+                        >SMK & MA</span
+                    >
+                    <p
+                        class="text-4xl font-serif font-bold text-foreground mb-2"
+                    >
+                        Rp 150.000
+                    </p>
+                    <p class="text-sm text-muted-foreground">per bulan</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. Biaya Pendaftaran Pesantren & Madin -->
+    <section class="py-12 bg-secondary/30">
+        <div class="max-w-5xl mx-auto px-6 lg:px-12">
+            <div class="flex items-center gap-4 mb-8">
+                <div
+                    class="w-12 h-12 bg-white rounded-2xl flex items-center justify-center text-emerald-600 shadow-sm"
+                >
+                    <BookOpen className="h-6 w-6" />
+                </div>
+                <div>
+                    <h2 class="text-2xl font-serif text-foreground">
+                        Biaya Pendaftaran Pesantren & Madin
+                    </h2>
+                    <p class="text-sm text-muted-foreground">
+                        Biaya satu kali saat daftar ulang pesantren
+                    </p>
+                </div>
+            </div>
+
+            <div
+                class="bg-white rounded-[2rem] border border-border overflow-hidden shadow-sm hover:shadow-lg transition-shadow duration-300 max-w-2xl"
+            >
+                <div class="overflow-x-auto">
+                    <table class="w-full text-sm">
+                        <thead>
+                            <tr class="bg-primary text-primary-foreground">
+                                <th
+                                    class="text-left px-6 py-4 font-bold text-sm uppercase tracking-wider"
+                                    >Uraian</th
+                                >
+                                <th
+                                    class="text-right px-6 py-4 font-bold text-sm uppercase tracking-wider"
+                                    >Pesantren</th
+                                >
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-border">
+                            <tr
+                                class="hover:bg-secondary/50 transition-colors"
+                            >
+                                <td class="px-6 py-4 text-foreground"
+                                    >Biaya Pendaftaran Pesantren</td
+                                >
+                                <td
+                                    class="px-6 py-4 text-right text-foreground font-medium"
+                                    >Rp 100.000</td
+                                >
+                            </tr>
+                            <tr
+                                class="hover:bg-secondary/50 transition-colors"
+                            >
+                                <td class="px-6 py-4 text-foreground"
+                                    >Biaya Pendaftaran Madin</td
+                                >
+                                <td
+                                    class="px-6 py-4 text-right text-foreground font-medium"
+                                    >Rp 100.000</td
+                                >
+                            </tr>
+                            <tr
+                                class="hover:bg-secondary/50 transition-colors"
+                            >
+                                <td class="px-6 py-4 text-foreground"
+                                    >Raport Madin</td
+                                >
+                                <td
+                                    class="px-6 py-4 text-right text-foreground font-medium"
+                                    >Rp 50.000</td
+                                >
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr
+                                class="bg-emerald-50 border-t-2 border-primary/20"
+                            >
+                                <td
+                                    class="px-6 py-4 font-bold text-foreground text-sm"
+                                    >TOTAL</td
+                                >
+                                <td
+                                    class="px-6 py-4 text-right font-bold text-primary text-base"
+                                    >Rp 250.000</td
+                                >
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. Biaya Syahriah Pesantren & Madin (Bulanan) -->
+    <section class="py-12 bg-white">
+        <div class="max-w-5xl mx-auto px-6 lg:px-12">
+            <div class="flex items-center gap-4 mb-8">
+                <div
+                    class="w-12 h-12 bg-emerald-100 rounded-2xl flex items-center justify-center text-emerald-600"
+                >
+                    <Home className="h-6 w-6" />
+                </div>
+                <div>
+                    <h2 class="text-2xl font-serif text-foreground">
+                        Biaya Syahriah Pesantren & Madin
+                    </h2>
+                    <p class="text-sm text-muted-foreground">
+                        Biaya bulanan pesantren dan madrasah diniyah
+                    </p>
+                </div>
+            </div>
+
+            <div
+                class="bg-white rounded-[2rem] border border-border overflow-hidden shadow-sm hover:shadow-lg transition-shadow duration-300 max-w-2xl"
+            >
+                <div class="overflow-x-auto">
+                    <table class="w-full text-sm">
+                        <thead>
+                            <tr class="bg-primary text-primary-foreground">
+                                <th
+                                    class="text-left px-6 py-4 font-bold text-sm uppercase tracking-wider"
+                                    >Uraian</th
+                                >
+                                <th
+                                    class="text-right px-6 py-4 font-bold text-sm uppercase tracking-wider"
+                                    >Pesantren</th
+                                >
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-border">
+                            <tr
+                                class="hover:bg-secondary/50 transition-colors"
+                            >
+                                <td class="px-6 py-4 text-foreground"
+                                    >Syahriah Pesantren</td
+                                >
+                                <td
+                                    class="px-6 py-4 text-right text-foreground font-medium"
+                                    >Rp 70.000</td
+                                >
+                            </tr>
+                            <tr
+                                class="hover:bg-secondary/50 transition-colors"
+                            >
+                                <td class="px-6 py-4 text-foreground"
+                                    >Syahriah Madin</td
+                                >
+                                <td
+                                    class="px-6 py-4 text-right text-foreground font-medium"
+                                    >Rp 40.000</td
+                                >
+                            </tr>
+                            <tr
+                                class="hover:bg-secondary/50 transition-colors"
+                            >
+                                <td class="px-6 py-4 text-foreground"
+                                    >Kost Makan</td
+                                >
+                                <td
+                                    class="px-6 py-4 text-right text-foreground font-medium"
+                                    >Rp 270.000</td
+                                >
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr
+                                class="bg-emerald-50 border-t-2 border-primary/20"
+                            >
+                                <td
+                                    class="px-6 py-4 font-bold text-foreground text-sm"
+                                    >TOTAL</td
+                                >
+                                <td
+                                    class="px-6 py-4 text-right font-bold text-primary text-base"
+                                    >Rp 380.000</td
+                                >
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-16 bg-secondary/30">
+        <div class="max-w-5xl mx-auto px-6 lg:px-12">
+            <div
+                class="bg-emerald-900 rounded-[2.5rem] p-10 lg:p-14 text-center relative overflow-hidden group"
+            >
+                <div class="relative z-10">
+                    <h2 class="text-3xl font-serif text-white mb-4">
+                        Siap Bergabung?
+                    </h2>
+                    <p
+                        class="text-emerald-200 text-sm max-w-lg mx-auto mb-8 leading-relaxed"
+                    >
+                        Daftarkan diri Anda sekarang atau hubungi kami untuk
+                        informasi lebih lanjut seputar biaya dan pendaftaran.
+                    </p>
+                    <div
+                        class="flex flex-col sm:flex-row justify-center gap-4"
+                    >
+                        <a
+                            href="/daftar"
+                            class="inline-flex items-center justify-center gap-2 bg-white text-emerald-900 px-8 py-4 rounded-2xl font-bold hover:bg-emerald-50 transition-colors shadow-lg"
+                        >
+                            Daftar Sekarang
+                            <ArrowRight className="h-4 w-4" />
+                        </a>
+                        <a
+                            href="/kontak"
+                            class="inline-flex items-center justify-center gap-2 bg-white/10 backdrop-blur-sm text-white border border-white/20 px-8 py-4 rounded-2xl font-bold hover:bg-white/20 transition-colors"
+                        >
+                            Hubungi Kami
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Decorations -->
+                <div
+                    class="absolute inset-0 bg-[url('/noise.png')] opacity-20 mix-blend-overlay"
+                >
+                </div>
+                <div
+                    class="absolute -left-10 -bottom-10 w-56 h-56 bg-emerald-600/30 rounded-full blur-3xl group-hover:scale-150 transition-transform duration-700"
+                >
+                </div>
+                <div
+                    class="absolute -right-10 -top-10 w-48 h-48 bg-teal-500/20 rounded-full blur-3xl group-hover:scale-150 transition-transform duration-700"
+                >
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <Footer />
+</MainLayout>

@@ -178,19 +178,19 @@ export default function RegistrationForm() {
 
                 let file = fileList[0];
                 file = await compressImage(file);
-                
+
                 const ext = file.name.split('.').pop();
-                
+
                 // Format: {jenis file(KK, Akte, 3x4)}_{nama siswa}.jpg/jpeg
                 const fileTypeMap = {
                     'kk': 'KK',
                     'akte': 'Akte',
                     'foto': '3x4'
                 };
-                
+
                 const typeLabel = fileTypeMap[type];
                 const sanitizedStudentName = sanitizeFileName(data.nama_lengkap);
-                
+
                 // const path = `${newRegNumber}/${type}.${ext}`; // Old format
                 const path = `${newRegNumber}/${typeLabel}_${sanitizedStudentName}.${ext}`; // New format: REG-XXX/KK_NAMA.jpg
 
